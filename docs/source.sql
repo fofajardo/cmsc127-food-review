@@ -44,6 +44,7 @@ CREATE TABLE foodtype (
 
 CREATE TABLE review (
     reviewid INT NOT NULL AUTO_INCREMENT,
+    type VARCHAR(18) NOT NULL,
     note TEXT,
     date DATE,
     rating DECIMAL(4,2),
