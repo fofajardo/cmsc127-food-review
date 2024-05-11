@@ -7,8 +7,8 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    isOwner BOOLEAN DEFAULT FALSE,
-    isEndUser BOOLEAN DEFAULT TRUE,
+    is_owner BOOLEAN DEFAULT FALSE,
+    is_end_user BOOLEAN DEFAULT TRUE,
     CONSTRAINT user_userid_pk PRIMARY KEY(userid),
     CONSTRAINT user_username UNIQUE(username),
     CONSTRAINT user_email UNIQUE(email)
@@ -18,7 +18,7 @@ CREATE TABLE foodestablishment (
     foodestid INT NOT NULL AUTO_INCREMENT,
     location VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    averating DECIMAL(4,2),
+    average_rating DECIMAL(4,2),
     userid INT,
     CONSTRAINT foodestablishment_foodestid_pk PRIMARY KEY(foodestid),
     CONSTRAINT foodestablishment_userid_fk FOREIGN KEY(userid) REFERENCES user(userid)
