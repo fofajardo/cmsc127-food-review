@@ -90,11 +90,11 @@
     -- a. Get all reviews made within a month for an establishment
     SELECT * FROM review
     WHERE foodestid = 12345678900
-    AND DATEDIFF(date, '1111-11-01') <= 30; -- or 31 or 28 or 29?
+    AND date LIKE "1111-11%"
     -- b. Get all reviews made within a month for a food item
     SELECT * FROM review
     WHERE fooditemid = 12345678900
-    AND DATEDIFF(date, '1111-11-01') <= 30; -- or 31 or 28 or 29?
+    AND date LIKE "1111-11%";
 -- 6. View all establishments with a high average rating (rating >= 4). (ratings from 1-5; highest is5);
     SELECT * FROM foodestablishment
     WHERE average_rating >= 4;
