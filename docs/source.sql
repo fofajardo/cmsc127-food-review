@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS foodreview;
 CREATE DATABASE foodreview;
 USE foodreview;
 
