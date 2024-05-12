@@ -251,9 +251,9 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         NULL
     ),
     ("food_item",
-        "Pulled Pork Sandwich is a must-try at Naccao BBQ Bonanza! The pulled pork is tender and flavorful, and the sandwich is piled high with toppings. Delicious!",
+        "Pulled Pork Sandwich is NOT a must-try at Naccao BBQ Bonanza! The pulled pork is tasteless, and the sandwich is just meh.",
         "2023-07-14",
-        4.0,
+        1.0,
         (SELECT userid FROM user WHERE username = "ramonsf"),
         (SELECT foodestid FROM fooditem WHERE name = "Pulled Pork Sandwich"),
         (SELECT fooditemid FROM fooditem WHERE name = "Pulled Pork Sandwich")
