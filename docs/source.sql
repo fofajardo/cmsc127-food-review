@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS foodreview;
 CREATE DATABASE foodreview;
 USE foodreview;
 
+-- Create database tables
 CREATE TABLE user (
     userid INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -57,6 +58,7 @@ CREATE TABLE review (
     CONSTRAINT review_fooditemid_fk FOREIGN KEY(fooditemid) REFERENCES fooditem(fooditemid)
 );
 
+-- Create view/s for relations with derived attributes
 CREATE VIEW ratedfoodestablishment (foodestid, location, name, userid, average_rating) AS
     SELECT *, (
         SELECT AVG(rating)
@@ -65,7 +67,7 @@ CREATE VIEW ratedfoodestablishment (foodestid, location, name, userid, average_r
     )
     FROM foodestablishment as e;
 
--- Users
+-- Create users
 INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES
     ("Jose P. Rizal",       "password1234", "jpr1890",     "jpr@mudspring.uplb.edu.ph", 0, 1),
     ("Frank O. Wilco",      "password1234", "frankwilco",  "fow@mudspring.uplb.edu.ph", 1, 0),
@@ -73,7 +75,7 @@ INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES
     ("William M. Saunders", "password1234", "williams21",  "wms@mudspring.uplb.edu.ph", 1, 0),
     ("Jane L. Ryan",        "password1234", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
 
--- Food establishments
+-- Create food establishments
 INSERT INTO foodestablishment (location, name, userid)  VALUES
     ("123 Main Street", "Tasty Burger Joint", 2),
     ("456 Elm Avenue",  "Pizza Paradise",     2),
@@ -81,7 +83,7 @@ INSERT INTO foodestablishment (location, name, userid)  VALUES
     ("321 Maple Road",  "Naccao BBQ Bonanza", 4),
     ("654 Pine Drive",  "Mexican Fiesta",     4);
 
--- Food items and types for establishment id 1 ("123 Main Street", "Tasty Burger Joint")
+-- Create food items and types for establishment id 1 ("123 Main Street", "Tasty Burger Joint")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Classic Cheeseburger", 9.99,  2, 1),
     ("Crispy Fries",         3.49,  2, 1),
@@ -100,7 +102,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (4, "American"),
     (5, "American");
 
--- Food items and types for establishment id 2 ("456 Elm Avenue", "Pizza Paradise")
+-- Create food items and types for establishment id 2 ("456 Elm Avenue", "Pizza Paradise")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Pepperoni Pizza",  12.99, 2, 2),
     ("Garlic Knots",     5.49,  2, 2),
@@ -119,7 +121,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (9, "Italian"),
     (10, "Italian");
 
--- Food items and types for establishment id 3 ("789 Oak Lane", "Sushi Sensation")
+-- Create food items and types for establishment id 3 ("789 Oak Lane", "Sushi Sensation")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Sashimi Platter",     18.99, 2, 3),
     ("Miso Soup",           4.49,  2, 3),
@@ -138,7 +140,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (14, "Japanese"),
     (15, "Japanese");
 
--- Food items and types for establishment id 4 ("321 Maple Road", "Naccao BBQ Bonanza")
+-- Create food items and types for establishment id 4 ("321 Maple Road", "Naccao BBQ Bonanza")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Smoked Ribs",          14.99, 4, 4),
     ("BBQ Chicken Wings",    9.49,  4, 4),
@@ -157,7 +159,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (19, "American"),
     (20, "American");
 
--- Food items and types for establishment id 5 ("654 Pine Drive", "Mexican Fiesta")
+-- Create food items and types for establishment id 5 ("654 Pine Drive", "Mexican Fiesta")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Tacos al Pastor",     10.99, 4, 5),
     ("Guacamole and Chips", 6.49,  4, 5),
@@ -176,7 +178,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (24, "Mexican"),
     (25, "Mexican");
 
--- Reviews for food establishments and items
+-- Create reviews for food establishments and items
 INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VALUES
     ("food_item",
         "This burger was delicious! The patty was juicy and flavorful, and the toppings were fresh. The fries were also perfectly crispy. Highly recommend!",
