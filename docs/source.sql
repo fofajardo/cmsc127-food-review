@@ -19,7 +19,6 @@ CREATE TABLE foodestablishment (
     foodestid INT NOT NULL AUTO_INCREMENT,
     location VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    average_rating DECIMAL(4,2),
     userid INT,
     CONSTRAINT foodestablishment_foodestid_pk PRIMARY KEY(foodestid),
     CONSTRAINT foodestablishment_userid_fk FOREIGN KEY(userid) REFERENCES user(userid)
@@ -58,6 +57,14 @@ CREATE TABLE review (
     CONSTRAINT review_fooditemid_fk FOREIGN KEY(fooditemid) REFERENCES fooditem(fooditemid)
 );
 
+CREATE VIEW ratedfoodestablishment (foodestid, location, name, userid, average_rating) AS
+    SELECT *, (
+        SELECT AVG(rating)
+        FROM review AS r
+        WHERE r.foodestid=e.foodestid
+    )
+    FROM foodestablishment as e;
+
 -- Users
 INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES
     ("Jose P. Rizal",       "password1234", "jpr1890",     "jpr@mudspring.uplb.edu.ph", 0, 1),
@@ -67,12 +74,12 @@ INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES
     ("Jane L. Ryan",        "password1234", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
 
 -- Food establishments
-INSERT INTO foodestablishment (location, name, average_rating, userid)  VALUES
-    ("123 Main Street", "Tasty Burger Joint", 0, 2),
-    ("456 Elm Avenue",  "Pizza Paradise",     0, 2),
-    ("789 Oak Lane",    "Sushi Sensation",    0, 2),
-    ("321 Maple Road",  "Naccao BBQ Bonanza", 0, 4),
-    ("654 Pine Drive",  "Mexican Fiesta",     0, 4);
+INSERT INTO foodestablishment (location, name, userid)  VALUES
+    ("123 Main Street", "Tasty Burger Joint", 2),
+    ("456 Elm Avenue",  "Pizza Paradise",     2),
+    ("789 Oak Lane",    "Sushi Sensation",    2),
+    ("321 Maple Road",  "Naccao BBQ Bonanza", 4),
+    ("654 Pine Drive",  "Mexican Fiesta",     4);
 
 -- Food items and types for establishment id 1 ("123 Main Street", "Tasty Burger Joint")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
