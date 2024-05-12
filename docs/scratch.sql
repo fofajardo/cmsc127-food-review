@@ -5,15 +5,15 @@
     VALUES ('type', 'note', '1111-11-11', 1.1, 1, 1, 1);
     -- b. Update a review
     UPDATE review -- only details can be updated
-    SET type = 'type', note = 'note', date = '1111-11-11', rating = 1.1
+    SET type = 'type', note = 'note', date = '2222-12-22', rating = 1.1
     WHERE reviewid = 12345678900;
     -- c. Delete a review
     DELETE FROM review WHERE reviewid = 12345678900;
 
 -- 2. Add, delete, search, and update a food establishment;
     -- a. Add foodestablishment
-    INSERT INTO foodestablishment (location, name, average_rating, userid)
-    VALUES ('location', 'name', 1.1, 12345678900);
+    INSERT INTO foodestablishment (location, name, userid)
+    VALUES ('location', 'name', 12345678900);
     -- b. Update foodestablishment
     UPDATE foodestablishment -- only details can be updated
     SET location = 'location', name = 'name', average_rating = 1.1
@@ -29,8 +29,8 @@
         WHERE location = 'location';
         -- iii. Search by name
         SELECT foodestid
-        FROM foodestablishment;
-        WHERE name = 'name'
+        FROM foodestablishment
+        WHERE name = 'name';
         -- iv. Search by average rating (minimum)
         SELECT foodestid
         FROM foodestablishment
@@ -90,11 +90,11 @@
     -- a. Get all reviews made within a month for an establishment
     SELECT * FROM review
     WHERE foodestid = 12345678900
-    AND date LIKE "1111-11%"
+    AND date LIKE "____-11-%";
     -- b. Get all reviews made within a month for a food item
     SELECT * FROM review
     WHERE fooditemid = 12345678900
-    AND date LIKE "1111-11%";
+    AND date LIKE "____-11-%";
 -- 6. View all establishments with a high average rating (rating >= 4). (ratings from 1-5; highest is5);
     SELECT * FROM foodestablishment
     WHERE average_rating >= 4;
@@ -104,12 +104,18 @@
     ORDER BY price;
 -- 8. Search food items from any establishment based on a given price range and/or food type.
     -- a. Price range only
-    SELECT * FROM fooditem AS i NATURAL JOIN foodtype AS t
-    WHERE i.price >= 0 AND i.price <= 1000;
-    -- b. Food type only
-    SELECT * FROM fooditem AS i NATURAL JOIN foodtype AS t
-    WHERE t.type IN ('meat', 'veg', 'etc');
-    -- c. Price range and food type
-    SELECT * FROM fooditem AS i NATURAL JOIN foodtype AS t
+    SELECT *,GROUP_CONCAT(type) AS "Food types" 
+    FROM fooditem AS i RIGHT JOIN foodtype AS t ON i.fooditemid = t.fooditemid
     WHERE i.price >= 0 AND i.price <= 1000
-    AND t.type IN ('meat', 'veg', 'etc');
+    GROUP BY name ORDER BY i.fooditemid;
+    -- b. Food type only
+    SELECT *,GROUP_CONCAT(type) AS "Food types" 
+    FROM fooditem AS i RIGHT JOIN foodtype AS t ON i.fooditemid = t.fooditemid
+    WHERE t.type IN ('meat', 'veg', 'etc')
+    GROUP BY name ORDER BY i.fooditemid;
+    -- c. Price range and food type
+    SELECT *,GROUP_CONCAT(type) AS "Food types"
+    FROM fooditem AS i RIGHT JOIN foodtype AS t ON i.fooditemid = t.fooditemid
+    WHERE i.price >= 0 AND i.price <= 1000
+    AND t.type IN ('meat', 'veg', 'etc')
+    GROUP BY name ORDER BY i.fooditemid;;
