@@ -37,8 +37,8 @@ CREATE TABLE fooditem (
 );
 
 CREATE TABLE foodtype (
-    fooditemid INT,
-    type VARCHAR(255),
+    fooditemid INT NOT NULL,
+    type VARCHAR(255) NOT NULL,
     CONSTRAINT fooditem_fooditemid_foodtype_pk PRIMARY KEY(fooditemid, type),
     CONSTRAINT fooditem_fooditemid_fk FOREIGN KEY(fooditemid) REFERENCES fooditem(fooditemid)
 );
