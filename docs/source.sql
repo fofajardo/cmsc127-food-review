@@ -83,10 +83,15 @@ INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("BBQ Bacon Burger",     11.99, 2, 1);
 INSERT INTO foodtype (fooditemid, type) VALUES
     (1, "Burger"),
-    (2, "American"),
+    (2, "Fries"),
     (3, "Side Dish"),
     (4, "Beverage"),
-    (5, "BBQ");
+    (5, "BBQ"),
+    (1, "American"),
+    (2, "American"),
+    (3, "American"),
+    (4, "American"),
+    (5, "American");
 
 -- Food items and types for establishment id 2 ("456 Elm Avenue", "Pizza Paradise")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
@@ -97,10 +102,15 @@ INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Margherita Pizza", 10.99, 2, 2);
 INSERT INTO foodtype (fooditemid, type) VALUES
     (6,  "Pizza"),
-    (7,  "Italian"),
+    (7,  "Side Dish"),
     (8,  "Appetizer"),
     (9,  "Dessert"),
-    (10, "Salad");
+    (10, "Salad"),
+    (6, "Italian"),
+    (7, "Italian"),
+    (8, "Italian"),
+    (9, "Italian"),
+    (10, "Italian");
 
 -- Food items and types for establishment id 3 ("789 Oak Lane", "Sushi Sensation")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
@@ -111,10 +121,15 @@ INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Dragon Roll",         16.99, 2, 3);
 INSERT INTO foodtype (fooditemid, type) VALUES
     (11, "Sushi"),
-    (12, "Japanese"),
-    (13, "Soup"),
+    (12, "Soup"),
+    (13, "Ice Cream"),
     (14, "Dessert"),
-    (15, "Seafood");
+    (15, "Seafood"),
+    (11, "Japanese"),
+    (12, "Japanese"),
+    (13, "Japanese"),
+    (14, "Japanese"),
+    (15, "Japanese");
 
 -- Food items and types for establishment id 4 ("321 Maple Road", "Naccao BBQ Bonanza")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
@@ -125,10 +140,15 @@ INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Brisket Platter",      16.99, 4, 4);
 INSERT INTO foodtype (fooditemid, type) VALUES
     (16, "BBQ"),
-    (17, "American"),
+    (17, "BBQ"),
     (18, "Side Dish"),
     (19, "Sandwich"),
-    (20, "Brisket");
+    (20, "Brisket"),
+    (16, "American"),
+    (17, "American"),
+    (18, "American"),
+    (19, "American"),
+    (20, "American");
 
 -- Food items and types for establishment id 5 ("654 Pine Drive", "Mexican Fiesta")
 INSERT INTO fooditem (name, price, userid, foodestid) VALUES
@@ -139,10 +159,15 @@ INSERT INTO fooditem (name, price, userid, foodestid) VALUES
     ("Carne Asada Burrito", 11.99, 4, 5);
 INSERT INTO foodtype (fooditemid, type) VALUES
     (21, "Taco"),
-    (22, "Mexican"),
+    (22, "Chips"),
     (23, "Appetizer"),
     (24, "Dessert"),
-    (25, "Burrito");
+    (25, "Burrito"),
+    (21, "Mexican"),
+    (22, "Mexican"),
+    (23, "Mexican"),
+    (24, "Mexican"),
+    (25, "Mexican");
 
 -- Reviews for food establishments and items
 INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VALUES
