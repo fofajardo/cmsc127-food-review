@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 import { HomePage } from "./pages/HomePage.tsx";
-import { EstablishmentFeedPage } from "./pages/EstablishmentFeedPage.tsx";
+import { EstablishmentFeedPage } from "./pages/FeedPage.tsx";
 
 function App() {
   return (

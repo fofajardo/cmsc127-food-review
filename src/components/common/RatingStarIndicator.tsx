@@ -8,16 +8,18 @@ export const RatingStarIndicator = ({ rating }: { rating: number }) => {
     <input
       type="radio"
       name={"rating-" + randomString}
-      className="bg-primary mask mask-star-2 mask-half-1"
+      className="bg-primary mask mask-star-2 mask-half-1 hover:cursor-default"
       checked={checked}
+      disabled
     />
   );
   const starSecondHalf = (checked) => (
     <input
       type="radio"
       name={"rating-" + randomString}
-      className="bg-primary mask mask-star-2 mask-half-2"
+      className="bg-primary mask mask-star-2 mask-half-2 hover:cursor-default"
       checked={checked}
+      disabled
     />
   );
 
@@ -27,7 +29,7 @@ export const RatingStarIndicator = ({ rating }: { rating: number }) => {
     <div className="flex flex-row justify-start items-center text-2xl text-gray-700">
       <h2>{rating}</h2>
       <div
-        className="rating rating-md rating-half"
+        className="rating rating-md rating-half hover:cursor-default"
         id={"rating" + roundedRating.toString()}
       >
         <input
