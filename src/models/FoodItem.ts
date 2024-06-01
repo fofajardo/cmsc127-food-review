@@ -25,9 +25,44 @@ export class FoodItem {
 
 export const sampleFoodItem = new FoodItem(
   "1",
-  "Sample Food Item",
+  "Vegan Adobo",
   100,
   "1",
   4.5,
-  ["Sample Food Type"]
+  ["Vegetarian", "Vegan", "Gluten-Free"]
 );
+
+export const sampleFoodItems = [
+  sampleFoodItem,
+  new FoodItem(
+    "2",
+    "Sinigang",
+    120,
+    "1",
+    4.9,
+    ["Filipino", "Soup"]
+  ),
+  new FoodItem(
+    "3",
+    "Kare-Kare",
+    150,
+    "1",
+    2.7,
+    ["Filipino", "Peanut Sauce"]
+  ),
+  new FoodItem(
+    "4",
+    "Burger",
+    120,
+    "1",
+    3.8,
+    ["American", "Fast Food"]
+  ),
+  new FoodItem(
+    "5",
+    "Spaghetti",
+    100,
+    "1",
+    2.5,
+    ["Italian", "Pasta"]
+  )];
