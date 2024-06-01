@@ -3,12 +3,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 import { HomePage } from "./pages/HomePage.tsx";
+import { EstablishmentFeedPage } from "./pages/EstablishmentFeedPage.tsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/feed" element={<EstablishmentFeedPage />} />
       </Routes>
     </BrowserRouter>
   );
