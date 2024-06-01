@@ -15,14 +15,14 @@ export function EFExpandModal() {
 
           {/* close button */}
           <form method="dialog">
-            <button className="btnstyle1 btn btn-neutral h-max min-h-0 p-3 text-white ">
+            <button className=" btn btn-neutral h-max min-h-0 p-3 text-white ">
               Close
             </button>
           </form>
         </div>
 
         {/* establishment details */}
-        <div className={"card-body gap-0 pt-5"}>
+        <div className={"card-body gap-0 pt-6"}>
           <div className="flex flex-row justify-between items-start">
             <div
               className="flex-row flex items-center text-lg gap-1 text-primary-content
@@ -48,7 +48,7 @@ export function EFExpandModal() {
             <button
               onClick={() => {}}
               className={
-                "btn btn-secondary bg-primary-content border-primary-content w-2/3 mt-2 text-base text-white shadow-md "
+                "btn text-base font-bold bg-primary-content border-0 text-white w-2/3 mt-2 shadow-md hover:bg-primary hover:shadow-lg"
               }
             >
               View Details

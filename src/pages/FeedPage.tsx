@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { EFMockCard } from "../components/estab_feed/EFMockCard.tsx";
@@ -7,8 +7,16 @@ import { EFEstablishmentCard } from "../components/estab_feed/EFEstablishmentCar
 import { FoodItemFeedFilterCard } from "../components/food_feed/FFFilterCard.tsx";
 import { FFFoodCard } from "../components/food_feed/FFFoodCard.tsx";
 import { EFExpandModal } from "../components/estab_feed/EFExpandModal.tsx";
-import { Establishment, sampleEstablishment } from "../models/Establishment.ts";
-import { sampleFoodItem } from "../models/FoodItem.ts";
+import {
+  Establishment,
+  sampleEstablishment,
+  sampleEstablishments,
+} from "../models/Establishment.ts";
+import {
+  FoodItem,
+  sampleFoodItem,
+  sampleFoodItems,
+} from "../models/FoodItem.ts";
 
 export const FeedContext = React.createContext({
   modalEstablishment: sampleEstablishment,
@@ -16,6 +24,18 @@ export const FeedContext = React.createContext({
 });
 
 export function EstablishmentFeedPage() {
+  const [establishments, setEstablishments] = useState([] as Establishment[]);
+  const [foodItems, setFoodItems] = useState([] as FoodItem[]);
+
+  // upon render, fetch establishments and food items
+  useEffect(() => {}, [
+    // @TODO: fetch establishments and food items; remove the timeout, this is just simulated delay hehe
+    setTimeout(() => {
+      setEstablishments(sampleEstablishments);
+      setFoodItems(sampleFoodItems);
+    }, 500),
+  ]);
+
   // @ TODO: implement filter logic
   const applyFilter = () => {};
 
@@ -41,7 +61,7 @@ export function EstablishmentFeedPage() {
             </div>
             <div className="line-clamp-1 w-max text-base font-normal text-neutral">
               {/* @TODO: make this conditional */}
-              {10 ? 10 + " results available." : "Fetching results..."}
+              {toggle ? "Showing all food items" : "Showing all establishments"}
             </div>
           </div>
           <div className="flex h-max flex-row">
@@ -53,14 +73,15 @@ export function EstablishmentFeedPage() {
                   (toggle ? "hidden" : "")
                 }
               >
-                {/* @TODO: change this to a mapping function of fetched establishments */}
-                {true ? (
+                {/* map the establishments into preview cards */}
+                {establishments.length ? (
                   <>
-                    <EFEstablishmentCard />
-                    <EFEstablishmentCard />
-                    <EFEstablishmentCard />
-                    <EFEstablishmentCard />
-                    <EFEstablishmentCard />
+                    {establishments.map((establishment, index) => (
+                      <EFEstablishmentCard
+                        key={index + establishment.name}
+                        establishment={establishment}
+                      />
+                    ))}
                   </>
                 ) : (
                   // display mock cards to signify loading
@@ -78,10 +99,14 @@ export function EstablishmentFeedPage() {
                   (!toggle ? "hidden" : "")
                 }
               >
-                {/* @TODO: change this to a mapping function of fetched establishments */}
-                {true ? (
+                {foodItems ? (
                   <>
-                    <FFFoodCard foodItem={sampleFoodItem} />
+                    {foodItems.map((foodItem, index) => (
+                      <FFFoodCard
+                        key={index + foodItem.name}
+                        foodItem={foodItem}
+                      />
+                    ))}
                   </>
                 ) : (
                   // display mock cards to signify loading
