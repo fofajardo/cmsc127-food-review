@@ -4,6 +4,7 @@ import { Footer } from "../components/common/Footer.tsx";
 import { EFMockCard } from "../components/estab_feed/EFMockCard.tsx";
 import { EstablishmentFeedFilterCard } from "../components/estab_feed/EFFilterCard.tsx";
 import { EFEstablishmentCard } from "../components/estab_feed/EFEstablishmentCard.tsx";
+import { FoodItemFeedFilterCard } from "../components/food_feed/FFFilterCard.tsx";
 
 export function EstablishmentFeedPage() {
   // @ TODO: implement filter logic
@@ -77,7 +78,11 @@ export function EstablishmentFeedPage() {
               </div>
             </div>
             {/* Filter card */}
-            <EstablishmentFeedFilterCard applyFilter={applyFilter} />
+            {toggle ? (
+              <FoodItemFeedFilterCard applyFilter={applyFilter} />
+            ) : (
+              <EstablishmentFeedFilterCard applyFilter={applyFilter} />
+            )}
           </aside>
         </div>
       </div>

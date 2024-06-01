@@ -1,7 +1,7 @@
 import React from "react";
 import { FiFilter } from "react-icons/fi";
 
-export function EstablishmentFeedFilterCard({
+export function FoodItemFeedFilterCard({
   applyFilter,
 }: {
   applyFilter: (searchString: string, rating: number, sortType: number) => void;
@@ -9,12 +9,14 @@ export function EstablishmentFeedFilterCard({
   const handleFilterClick = () => {
     // get the values from the input fields
     let searchString = (
-      document.getElementById("searchInput") as HTMLInputElement
+      document.getElementById("foodSearchInput") as HTMLInputElement
     ).value;
-    let rating = (document.getElementById("ratingSelect") as HTMLSelectElement)
-      .value;
-    let sortInput = (document.getElementById("sortSelect") as HTMLSelectElement)
-      .value;
+    let rating = (
+      document.getElementById("foodRatingSelect") as HTMLSelectElement
+    ).value;
+    let sortInput = (
+      document.getElementById("foodSortSelect") as HTMLSelectElement
+    ).value;
     // if default, set to empty string
     if (sortInput === "Sort by") sortInput = "";
     // process the rating input
@@ -24,10 +26,11 @@ export function EstablishmentFeedFilterCard({
   };
   const handleClearClick = () => {
     // clear the input fields
-    (document.getElementById("searchInput") as HTMLInputElement)!.value = "";
-    (document.getElementById("ratingSelect") as HTMLInputElement)!.value =
+    (document.getElementById("foodSearchInput") as HTMLInputElement)!.value =
+      "";
+    (document.getElementById("foodRatingSelect") as HTMLInputElement)!.value =
       "All (0-5 stars)";
-    (document.getElementById("sortSelect") as HTMLInputElement)!.value =
+    (document.getElementById("foodSortSelect") as HTMLInputElement)!.value =
       "Sort by";
     applyFilter("", 0, 0);
   };
@@ -46,27 +49,29 @@ export function EstablishmentFeedFilterCard({
             </h2>
             <label className="input input-bordered flex items-center gap-2 bg-white">
               <input
-                id="searchInput"
+                id="foodSearchInput"
                 type="text"
                 className="grow "
                 placeholder="Search"
               />
             </label>
-            <select
+            {/* <select
               defaultValue={"Sort by"}
               className="select select-bordered w-full max-w-xs bg-white"
-              id="ratingSelect"
+              id="foodRatingSelect"
             >
               <option disabled>Average Rating</option>
               <option>All (0-5 stars)</option>
               <option>High (4 stars or higher)</option>
-            </select>
+            </select> */}
             <select
               defaultValue={"Sort by"}
               className="select select-bordered w-full max-w-xs bg-white"
-              id="sortSelect"
+              id="foodSortSelect"
             >
               <option disabled>Sort by</option>
+              <option>Ascending Price</option>
+              <option>Descending Price</option>
               <option>Alphabetical A-Z</option>
               <option>Alphabetical Z-A</option>
             </select>
