@@ -17,13 +17,17 @@ export function EFEstablishmentCard({}: {}) {
           <div className="card-actions justify-end">
             <p className="flex h-full flex-1 flex-col justify-center ">
               <span className="rounded-lg">Establishment Rating</span>
-              <RatingStarIndicator rating={3.2} />
+              <div className="ml-2">
+                <RatingStarIndicator rating={3.9} />
+              </div>
             </p>
           </div>
           <div className="card-actions justify-end">
             <p className="flex h-full flex-1 flex-col justify-center ">
               <span className="rounded-lg">Food Rating</span>
-              <RatingStarIndicator rating={3.2} />
+              <div className="ml-2">
+                <RatingStarIndicator rating={3.2} />
+              </div>
             </p>
           </div>
           <button className="mt-2 btn rounded-lg font-normal">View Menu</button>
