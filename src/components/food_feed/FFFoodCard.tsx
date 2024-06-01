@@ -1,8 +1,9 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
+import { FoodItem } from "../../models/FoodItem";
 
 // @todo: pass props to the component to display the food item name, food description, and food rating
-export function FFFoodCard({}: {}) {
+export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
   return (
     <>
       <div className="bounce-in productCard card w-[20.5rem] border-0 bg-white text-left shadow-xl transition-all duration-300 hover:cursor-pointer xl:hover:-translate-y-2">
@@ -24,16 +25,20 @@ export function FFFoodCard({}: {}) {
             </p>
           </div>
           <hr className="py-1" />
-          {/* Food description preview */}
+          {/* Food type tags */}
           <div className="card-actions justify-end">
-            <p className="flex h-full flex-1 flex-col justify-center px-2 pb-1">
-              <span className="line-clamp-3">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
-                ipsa tempora tempore asperiores aspernatur laboriosam voluptatem
-                recusandae quas. Alias ea omnis nisi optio blanditiis, delectus
-                ratione necessitatibus accusantium cumque recusandae!
-              </span>
-            </p>
+            <div className="flex h-full flex-1 flex-row justify-end flex-wrap px-2 pb-1">
+              {foodItem.food_types.map((foodType, index) => {
+                return (
+                  <div
+                    className="badge badge-primary p-3"
+                    id={foodItem.food_item_id + index.toString()}
+                  >
+                    {foodType}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
