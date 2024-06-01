@@ -41,12 +41,20 @@ export function FoodItemFeedFilterCard({
           <div className="z-50 flex flex-col justify-between gap-3 p-6">
             <h2 className="text-elbitgreen w-full text-left text-2xl font-bold">
               <span className="flex flex-row items-center justify-start">
-                <span>Filter Results</span>
+                <span>Filter Food Items</span>
                 <span className="flex flex-1 flex-row justify-end">
                   <FiFilter className="text-2xl" />
                 </span>
               </span>
             </h2>
+            <label className="input input-bordered flex items-center gap-2 bg-white">
+              <input
+                id="foodEstablishmentIDInput"
+                type="text"
+                className="grow "
+                placeholder="Enter Establishment ID"
+              />
+            </label>
             <label className="input input-bordered flex items-center gap-2 bg-white">
               <input
                 id="foodSearchInput"
