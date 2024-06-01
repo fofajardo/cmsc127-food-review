@@ -5,6 +5,7 @@ import { EFMockCard } from "../components/estab_feed/EFMockCard.tsx";
 import { EstablishmentFeedFilterCard } from "../components/estab_feed/EFFilterCard.tsx";
 import { EFEstablishmentCard } from "../components/estab_feed/EFEstablishmentCard.tsx";
 import { FoodItemFeedFilterCard } from "../components/food_feed/FFFilterCard.tsx";
+import { FFFoodCard } from "../components/food_feed/FFFoodCard.tsx";
 
 export function EstablishmentFeedPage() {
   // @ TODO: implement filter logic
@@ -30,9 +31,14 @@ export function EstablishmentFeedPage() {
           </div>
         </div>
         <div className="flex h-max flex-row">
-          {/* Main section containing cards of previewed establishments */}
+          {/* MAIN SECTION */}
           <main className="flex min-h-[100vh] max-w-[1080px] flex-[2] basis-[2fr] flex-col items-stretch bg-base-100 p-4 px-0 lg:basis-[3fr]">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 ">
+            <div
+              className={
+                "grid grid-cols-1 gap-6 lg:grid-cols-2 " +
+                (toggle ? "hidden" : "")
+              }
+            >
               {/* @TODO: change this to a mapping function of fetched establishments */}
               {true ? (
                 <>
@@ -41,6 +47,28 @@ export function EstablishmentFeedPage() {
                   <EFEstablishmentCard />
                   <EFEstablishmentCard />
                   <EFEstablishmentCard />
+                </>
+              ) : (
+                // display mock cards to signify loading
+                <>
+                  <EFMockCard />
+                  <EFMockCard />
+                  <EFMockCard />
+                  <EFMockCard />
+                </>
+              )}
+            </div>
+            <div
+              className={
+                "grid grid-cols-1 gap-6 lg:grid-cols-2 " +
+                (!toggle ? "hidden" : "")
+              }
+            >
+              {/* @TODO: change this to a mapping function of fetched establishments */}
+              {true ? (
+                <>
+                  <FFFoodCard />
+                  <FFFoodCard />
                 </>
               ) : (
                 // display mock cards to signify loading
