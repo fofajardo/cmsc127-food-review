@@ -4,23 +4,32 @@ import { FiFilter } from "react-icons/fi";
 export function EstablishmentFeedFilterCard({
   applyFilter,
 }: {
-  applyFilter: (rating: number, sortType: number) => void;
+  applyFilter: (searchString: string, rating: number, sortType: number) => void;
 }) {
   const handleFilterClick = () => {
+    // get the values from the input fields
+    let searchString = (
+      document.getElementById("searchInput") as HTMLInputElement
+    ).value;
     let rating = (document.getElementById("ratingSelect") as HTMLSelectElement)
       .value;
     let sortInput = (document.getElementById("sortSelect") as HTMLSelectElement)
       .value;
     // if default, set to empty string
     if (sortInput === "Sort by") sortInput = "";
-    applyFilter(parseInt(rating), parseInt(sortInput));
+    // process the rating input
+    if (rating === "All (0-5 stars)") rating = "0";
+    else if (rating === "High (4 stars or higher)") rating = "4";
+    applyFilter(searchString, parseInt(rating), parseInt(sortInput));
   };
   const handleClearClick = () => {
+    // clear the input fields
+    (document.getElementById("searchInput") as HTMLInputElement)!.value = "";
     (document.getElementById("ratingSelect") as HTMLInputElement)!.value =
       "All (0-5 stars)";
     (document.getElementById("sortSelect") as HTMLInputElement)!.value =
       "Sort by";
-    applyFilter(0, 0);
+    applyFilter("", 0, 0);
   };
   return (
     <>
@@ -35,6 +44,14 @@ export function EstablishmentFeedFilterCard({
                 </span>
               </span>
             </h2>
+            <label className="input input-bordered flex items-center gap-2 bg-white">
+              <input
+                id="searchInput"
+                type="text"
+                className="grow "
+                placeholder="Search"
+              />
+            </label>
             <select
               defaultValue={"Sort by"}
               className="select select-bordered w-full max-w-xs bg-white"

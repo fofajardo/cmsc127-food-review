@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import {
-  NavigationBar,
-  openShoppingCartModal,
-} from "../components/common/NavigationBar.tsx";
+import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
-import { FiFilter } from "react-icons/fi";
 import { EFMockCard } from "../components/estab_feed/EFMockCard.tsx";
 import { EstablishmentFeedFilterCard } from "../components/estab_feed/EFFilterCard.tsx";
+import { EFEstablishmentCard } from "../components/estab_feed/EFEstablishmentCard.tsx";
 
 export function EstablishmentFeedPage() {
   // PAGINATION LOGIC
@@ -72,7 +69,7 @@ export function EstablishmentFeedPage() {
               ) : (
                 // display mock cards to signify loading
                 <>
-                  <EFMockCard />
+                  <EFEstablishmentCard />
                   <EFMockCard />
                   <EFMockCard />
                   <EFMockCard />
@@ -115,7 +112,7 @@ export function EstablishmentFeedPage() {
             </div>
           </main>
           {/* (this section is hidden when screen is narrow (mobile)) */}
-          <aside className=" sticky top-[5.5rem] mt-4 hidden h-max max-h-[90vh] flex-col self-start overflow-y-scroll rounded-xl pb-10 sm:flex">
+          <aside className=" sticky top-[5.5rem] hidden h-max max-h-[90vh] flex-col self-start overflow-y-scroll rounded-xl pb-10 sm:flex">
             {/* Filter card */}
             <EstablishmentFeedFilterCard applyFilter={applyFilter} />
           </aside>
