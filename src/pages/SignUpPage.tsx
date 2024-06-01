@@ -1,6 +1,4 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { NavigationBar } from "../components/common/NavigationBar";
-import { Footer } from "../components/common/Footer";
 import { FaUtensils } from "react-icons/fa6";
 
 interface FormData {
