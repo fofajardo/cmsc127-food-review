@@ -119,8 +119,7 @@ export function EstablishmentFeedPage() {
                 )}
               </div>
             </main>
-            {/* (this section is hidden when screen is narrow (mobile)) */}
-            <aside className=" sticky top-[5.5rem] hidden h-max max-h-[90vh] flex-col self-start overflow-y-scroll rounded-xl pb-10 sm:flex">
+            <aside className=" sticky top-[5.5rem] h-max max-h-[90vh] flex-col self-start overflow-y-scroll rounded-xl pb-10 flex">
               <div className="card ml-4 mt-4">
                 <div className="join">
                   <button
@@ -147,7 +146,22 @@ export function EstablishmentFeedPage() {
               {toggle ? (
                 <FoodItemFeedFilterCard applyFilter={applyFilter} />
               ) : (
-                <EstablishmentFeedFilterCard applyFilter={applyFilter} />
+                <>
+                  <EstablishmentFeedFilterCard applyFilter={applyFilter} />
+                  <div className="bounce-in flex flex-col ml-4 mt-4 card bg-white p-6 shadow-xl gap-2">
+                    <h2 className="text-elbitgreen w-full text-left text-2xl font-bold">
+                      <span className="flex flex-row items-center justify-start">
+                        <span>Didn't find it?</span>
+                      </span>
+                    </h2>
+                    <button
+                      className="btn btn-neutral h-max min-h-0 p-3 text-white "
+                      onClick={() => {}}
+                    >
+                      Add establishment
+                    </button>
+                  </div>
+                </>
               )}
             </aside>
           </div>

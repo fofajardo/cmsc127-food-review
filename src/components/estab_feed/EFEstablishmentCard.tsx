@@ -55,7 +55,7 @@ export function EFEstablishmentCard({
           <div className="flex flex-row justify-end mt-3">
             <div className="flex-row flex items-center text-lg gap-1 text-primary-content badge-primary rounded-full px-2 py-1 w-max">
               <IoLocationSharp className="text-sm" />
-              <p className="text-sm">{establishment.location}</p>
+              <p className="text-sm line-clamp-1">{establishment.location}</p>
             </div>
           </div>
         </div>
