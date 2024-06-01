@@ -6,6 +6,7 @@ import { EstablishmentFeedFilterCard } from "../components/estab_feed/EFFilterCa
 import { EFEstablishmentCard } from "../components/estab_feed/EFEstablishmentCard.tsx";
 import { FoodItemFeedFilterCard } from "../components/food_feed/FFFilterCard.tsx";
 import { FFFoodCard } from "../components/food_feed/FFFoodCard.tsx";
+import { EFExpandModal } from "../components/estab_feed/EFExpandModal.tsx";
 
 export function EstablishmentFeedPage() {
   // @ TODO: implement filter logic
@@ -16,6 +17,7 @@ export function EstablishmentFeedPage() {
 
   return (
     <div className="flex flex-col items-center">
+      <EFExpandModal />
       <NavigationBar />
       {/* MAIN CONTAINER*/}
       <div className="flex min-h-[86vh] w-full max-w-[1080px] flex-1 flex-col items-stretch p-8">
