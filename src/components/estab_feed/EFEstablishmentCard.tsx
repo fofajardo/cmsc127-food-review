@@ -2,6 +2,7 @@ import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { Establishment } from "../../models/Establishment";
 import { FeedContext } from "../../pages/FeedPage";
+import { IoLocationSharp } from "react-icons/io5";
 
 // @todo: pass props to the component to display the establishment name, establishment rating, and food rating
 export function EFEstablishmentCard({
@@ -51,6 +52,12 @@ export function EFEstablishmentCard({
           >
             View Food Items
           </button>
+          <div className="flex flex-row justify-end mt-3">
+            <div className="flex-row flex items-center text-lg gap-1 text-primary-content badge-primary rounded-full px-2 py-1 w-max">
+              <IoLocationSharp className="text-sm" />
+              <p className="text-sm">{establishment.location}</p>
+            </div>
+          </div>
         </div>
       </div>
     </>
