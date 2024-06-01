@@ -2,7 +2,6 @@ import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { FoodItem } from "../../models/FoodItem";
 
-// @todo: pass props to the component to display the food item name, food description, and food rating
 export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
   return (
     <>

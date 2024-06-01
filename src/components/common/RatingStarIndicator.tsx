@@ -26,7 +26,7 @@ export const RatingStarIndicator = ({ rating }: { rating: number }) => {
   // round the rating to the nearest 0.5
   const roundedRating = Math.round(rating * 2) / 2;
   return (
-    <div className="flex flex-row justify-start items-center text-2xl text-gray-700">
+    <div className="flex flex-row justify-center items-center text-2xl text-gray-700 min-w-0 ">
       <h2>{rating}</h2>
       <div
         className="rating rating-md rating-half hover:cursor-default"
