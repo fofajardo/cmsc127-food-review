@@ -1,5 +1,5 @@
 import React from "react";
-import { Establishment } from "../../models/Establishment";
+import { IoLocationSharp } from "react-icons/io5";
 import { FeedContext } from "../../pages/FeedPage.tsx";
 import { RatingStarIndicator } from "../common/RatingStarIndicator.tsx";
 
@@ -9,7 +9,7 @@ export function EFExpandModal() {
     <dialog className="modal border-0 " id="establishmentExpandModal">
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
-          <h2 className="text-elbitgreen  text-left text-2xl font-bold">
+          <h2 className="text-left text-2xl font-bold">
             {context.modalEstablishment.name}
           </h2>
 
@@ -23,28 +23,32 @@ export function EFExpandModal() {
 
         {/* establishment details */}
         <div className={"card-body gap-0 pt-5"}>
-          <div className="flex flex-row justify-between">
-            <div className="card-actions justify-end w-full">
-              <p className="flex h-full flex-col justify-center card bg-content shadow-xl p-2 py-4">
-                <span className="text-center">Establishment Rating</span>
+          <div className="flex flex-row justify-between items-start">
+            <div
+              className="flex-row flex items-center text-lg gap-1 text-primary-content
+            "
+            >
+              <IoLocationSharp className="text-lg" />
+              <p className=" ">{context.modalEstablishment.location}</p>
+            </div>
+            <div className="flex flex-col justify-between">
+              <div className="card-actions flex-col">
                 <RatingStarIndicator
                   rating={context.modalEstablishment.average_rating}
                 />
-              </p>
-              <p className="flex h-full flex-col justify-center card bg-content shadow-xl p-2 py-4">
-                <span className="text-center">Food Rating</span>
-                <RatingStarIndicator
-                  rating={context.modalEstablishment.average_rating}
-                />
-              </p>
+              </div>
             </div>
           </div>
+
+          <p className="indent-8 pt-4 ">
+            {context.modalEstablishment.description}
+          </p>
 
           <div className="flex flex-row justify-center pt-4">
             <button
               onClick={() => {}}
               className={
-                "btn btn-secondary w-2/3 mt-2 text-base text-white shadow-md "
+                "btn btn-secondary bg-primary-content border-primary-content w-2/3 mt-2 text-base text-white shadow-md "
               }
             >
               View Details

@@ -23,11 +23,14 @@ export class Establishment {
   }
 }
 
+// sample with comprehensive details
 export const sampleEstablishment = new Establishment(
   "1",
-  "Sample Location",
+  "Los Baños, Laguna",
   "Sample Establishment",
   4.5,
   "1",
-  "Sample Description"
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim."
 );
+
+ 
