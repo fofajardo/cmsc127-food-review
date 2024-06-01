@@ -4,35 +4,23 @@ import { FiFilter } from "react-icons/fi";
 export function EstablishmentFeedFilterCard({
   applyFilter,
 }: {
-  applyFilter: (
-    searchString: string,
-    minPrice: number,
-    maxPrice: number,
-    sortType: string
-  ) => void;
+  applyFilter: (rating: number, sortType: number) => void;
 }) {
   const handleFilterClick = () => {
-    const searchInput = (
-      document.getElementById("searchInput") as HTMLInputElement
-    ).value;
-    const minPriceInput = parseInt(
-      (document.getElementById("minPriceInput") as HTMLInputElement).value
-    );
-    const maxPriceInput = parseInt(
-      (document.getElementById("maxPriceInput") as HTMLInputElement).value
-    );
-    let sortInput = (document.querySelector(".select") as HTMLSelectElement)
+    let rating = (document.getElementById("ratingSelect") as HTMLSelectElement)
+      .value;
+    let sortInput = (document.getElementById("sortSelect") as HTMLSelectElement)
       .value;
     // if default, set to empty string
     if (sortInput === "Sort by") sortInput = "";
-    applyFilter(searchInput, minPriceInput, maxPriceInput, sortInput);
+    applyFilter(parseInt(rating), parseInt(sortInput));
   };
   const handleClearClick = () => {
-    (document.getElementById("searchInput") as HTMLInputElement).value = "";
-    (document.getElementById("minPriceInput") as HTMLInputElement).value = "";
-    (document.getElementById("maxPriceInput") as HTMLInputElement).value = "";
-    (document.querySelector(".select") as HTMLSelectElement).value = "Sort by";
-    applyFilter("", 0, 0, "Sort by");
+    (document.getElementById("ratingSelect") as HTMLInputElement)!.value =
+      "All (0-5 stars)";
+    (document.getElementById("sortSelect") as HTMLInputElement)!.value =
+      "Sort by";
+    applyFilter(0, 0);
   };
   return (
     <>
@@ -50,6 +38,7 @@ export function EstablishmentFeedFilterCard({
             <select
               defaultValue={"Sort by"}
               className="select select-bordered w-full max-w-xs bg-white"
+              id="ratingSelect"
             >
               <option disabled>Average Rating</option>
               <option>All (0-5 stars)</option>
@@ -58,6 +47,7 @@ export function EstablishmentFeedFilterCard({
             <select
               defaultValue={"Sort by"}
               className="select select-bordered w-full max-w-xs bg-white"
+              id="sortSelect"
             >
               <option disabled>Sort by</option>
               <option>Alphabetical A-Z</option>

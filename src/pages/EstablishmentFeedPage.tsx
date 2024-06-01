@@ -5,8 +5,8 @@ import {
 } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { FiFilter } from "react-icons/fi";
-import { MockEstablishmentCard } from "../components/estab_feed/MockEstablishmentCard.tsx";
-import { EstablishmentFeedFilterCard } from "../components/estab_feed/EstablishmentFeedFilterCard.tsx";
+import { EFMockCard } from "../components/estab_feed/EFMockCard.tsx";
+import { EstablishmentFeedFilterCard } from "../components/estab_feed/EFFilterCard.tsx";
 
 export function EstablishmentFeedPage() {
   // PAGINATION LOGIC
@@ -66,16 +66,16 @@ export function EstablishmentFeedPage() {
                     //   openExpandedProductModal={openExpandedProductModal}
                     //   setUserChangedProductCart={setUserChangedProductCart}
                     // />
-                    <MockEstablishmentCard />
+                    <EFMockCard />
                   );
                 })
               ) : (
                 // display mock cards to signify loading
                 <>
-                  <MockEstablishmentCard />
-                  <MockEstablishmentCard />
-                  <MockEstablishmentCard />
-                  <MockEstablishmentCard />
+                  <EFMockCard />
+                  <EFMockCard />
+                  <EFMockCard />
+                  <EFMockCard />
                 </>
               )}
             </div>

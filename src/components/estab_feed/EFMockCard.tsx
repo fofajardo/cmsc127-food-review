@@ -1,7 +1,7 @@
 import React from "react";
 
 // Mock product card for the customer feed; shown when the product data is loading
-export function MockEstablishmentCard({}: {}) {
+export function EFMockCard({}: {}) {
   return (
     <>
       <div className="bounce-in productCard card w-[20.5rem] border-0 bg-white text-left shadow-xl transition-all duration-300 hover:cursor-pointer 2xl:hover:-translate-y-2">
