@@ -5,17 +5,12 @@ const kTableName = "`fooditem`";
 
 export async function getAllFoodItems(aProperties) {
     let append = null;
-    let orderKeys = aProperties.sort;
     if (aProperties.establishmentName) {
-        append = " NATURAL JOIN `foodestablishment`";
+        append = "NATURAL JOIN `foodestablishment`";
+        aProperties["foodestname"] = aProperties.establishmentName;
+        delete aProperties.establishmentName;
     }
-    if (aProperties.foodType) {
-        append = " NATURAL JOIN `foodtype`";
-    }
-    if (orderKeys != null) {
-        delete aProperties.sort;
-    }
-    const queryResults = await selectAll(kTableName, aProperties, false, append, orderKeys);
+    const queryResults = await selectAll(kTableName, aProperties, false, append);
     const result = FoodItem.fromRows(queryResults);
     return result;
 }

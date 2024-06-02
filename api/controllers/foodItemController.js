@@ -6,11 +6,11 @@ import {
 import {
     FoodItemService
 } from "../services/services.js";
-import { hasValue } from "../utils.js";
+import { hasValue, parseBool } from "../utils.js";
 
 export async function getAllFoodItems(aRequest, aResponse) {
     const properties = {};
-    const { id, priceMin, priceMax, establishmentName, establishmentId, name } = aRequest.query;
+    const { id, priceMin, priceMax, establishmentName, establishmentId, name, foodType, foodTypeIsExact, sortCol, sortOrder } = aRequest.query;
     if (id) {
         if (!validator.isNumeric(id)) {
             return aResponse.sendErrorClient("ID must be a number");
@@ -41,7 +41,19 @@ export async function getAllFoodItems(aRequest, aResponse) {
         properties.establishmentName = {
             operator: "LIKE",
             value: `%${establishmentName}%`,
+            colName: "foodestname",
         };
+    }
+    if (foodType) {
+        properties.foodType = {
+            operator: "LIKE",
+            value: `%${foodType}%`,
+            colName: "type",
+        };
+        if (parseBool(foodTypeIsExact)) {
+            properties.foodType.operator = "=";
+            properties.foodType.value = foodType;
+        }
     }
     if (name) {
         properties.fooditemname = {
@@ -54,6 +66,15 @@ export async function getAllFoodItems(aRequest, aResponse) {
             return aResponse.sendErrorClient("Food establishment ID must be a number");
         }
         properties.foodestid = establishmentId;
+    }
+    if (sortCol) {
+        if (sortOrder != "ASC" && sortOrder != "DESC") {
+            return aResponse.sendErrorClient("Unknown sort order");
+        }
+        if (sortCol != "name" && sortCol != "price") {
+            return aResponse.sendErrorClient("Unknown sort column");
+        }
+        properties.sort = [`${sortCol} ${sortOrder}`];
     }
 
     try {
