@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FeedContext } from "../../pages/FeedPage.tsx";
-import { Establishment } from "../../models/Establishment.ts";
+import { FoodItem } from "../../models/FoodItem.ts";
 
-export function EAddReviewModal({
-  establishment,
-}: {
-  establishment: Establishment;
-}) {
+export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [starRating, setStarRating] = useState(5);
 
@@ -43,20 +38,27 @@ export function EAddReviewModal({
 
   const handleSubmit = () => {
     if (validate()) {
-      //@TODO: implement add establishment review
-      // id from establishment.food_establishment_id
+      //@TODO: implement add food item review
       // use formData and starRating to get the review details
+      // use foodItem.food_item_id to get the food item id
       setSubmitComplete(true); // simulate successful submission
     }
   };
 
   return (
-    <dialog className="modal" id="addEstablishmentReviewModal">
+    <dialog className="modal" id="addFoodReviewModal">
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
-          <h2 className="text-left text-2xl font-bold">Review Establishment</h2>
+          <h2 className="text-left text-2xl font-bold line-clamp-1">
+            Review {foodItem.name}
+          </h2>
           <form method="dialog">
-            <button className="btn btn-neutral h-max min-h-0 p-3 text-white">
+            <button
+              className={
+                "btn btn-neutral h-max min-h-0 p-3 text-white " +
+                (submitComplete ? "hidden" : "")
+              }
+            >
               Close
             </button>
           </form>
@@ -174,8 +176,8 @@ export function EAddReviewModal({
           }
         >
           <div className="flex flex-col items-center">
-            <FaCheckCircle className="mb-4 text-6xl text-primary" />
-            <span className="text-xl font-bold text-primary">
+            <FaCheckCircle className="mb-4 text-6xl text-success" />
+            <span className="text-xl font-bold text-success">
               Submission complete!
             </span>
             <span className="text-lg font-normal">
@@ -185,7 +187,7 @@ export function EAddReviewModal({
           <form className="flex w-1/2" method="dialog">
             <button
               onClick={() => location.reload()}
-              className="btn btn-primary w-full text-white"
+              className="btn btn-success w-full text-white"
             >
               Done
             </button>

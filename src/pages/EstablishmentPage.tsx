@@ -71,7 +71,7 @@ export function EstablishmentPage() {
   return (
     <>
       {/* modals */}
-      <EAddReviewModal />
+      <EAddReviewModal establishment={establishment} />
       <EAddFoodItemModal />
       <EEditModal establishment={establishment} />
       <EDeleteModal establishment={establishment} />
