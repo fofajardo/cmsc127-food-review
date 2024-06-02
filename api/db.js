@@ -26,11 +26,14 @@ export async function selectAll(aTableName, aProperties, aUseOr = false) {
         query += " WHERE";
         for (let i = 0; i < keys.length; i++) {
             const operator = values[i]?.operator;
-            if (operator) {
+            if (operator != null) {
                 query += ` ${keys[i]} ${operator} ?`
-                values[i] = values[i].value;
             } else {
                 query += ` ${keys[i]}=?`;
+            }
+            const realValue = values[i].value;
+            if (realValue != null) {
+                values[i] = values[i].value;
             }
             if (i < keys.length - 1) {
                 query += aUseOr ? " OR" : " AND";
@@ -62,12 +65,15 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
     if (filterKeys.length > 0) {
         query += " WHERE";
         for (let i = 0; i < filterKeys.length; i++) {
-            const operator = values[i]?.operator;
-            if (operator) {
-                query += ` ${keys[i]} ${operator} ?`
-                filterValues[i] = filterValues[i].value;
+            const operator = filterValues[i]?.operator;
+            if (operator != null) {
+                query += ` ${filterKeys[i]} ${operator} ?`
             } else {
                 query += ` ${filterKeys[i]}=?`;
+            }
+            const realValue = filterValues[i].value;
+            if (realValue != null) {
+                filterValues[i] = filterValues[i].value;
             }
             if (i < filterKeys.length - 1) {
                 query += aUseOr ? " OR" : " AND";
@@ -119,11 +125,14 @@ export async function deleteAll(aTableName, aProperties, aUseOr = false) {
         query += " WHERE";
         for (let i = 0; i < keys.length; i++) {
             const operator = values[i]?.operator;
-            if (operator) {
+            if (operator != null) {
                 query += ` ${keys[i]} ${operator} ?`
-                values[i] = values[i].value;
             } else {
                 query += ` ${keys[i]}=?`;
+            }
+            const realValue = values[i].value;
+            if (realValue != null) {
+                values[i] = values[i].value;
             }
             if (i < keys.length - 1) {
                 query += aUseOr ? " OR" : " AND";
