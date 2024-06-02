@@ -14,17 +14,23 @@ export function EReviewCard({
       }
     >
       <div className="flex flex-row justify-between">
-        {/* format date into Month 00, 0000 */}
-        <h2 className="text-xl font-bold">
-          {establishmentReview.date_written}
-        </h2>
+        <h2 className="text-xl font-bold">@{establishmentReview.username}</h2>
         <div className="flex flex-col justify-between">
           <RatingStarIndicator rating={establishmentReview.rating} />
         </div>
       </div>
       <div className="flex flex-row justify-between">
         <span className="font-normal text-xs text-gray-400">
-          Review ID: {establishmentReview.review_id}
+          Review ID: {establishmentReview.review_id} |{" "}
+          {/* format date into Month 00, 0000 */}
+          {new Date(establishmentReview.date_written).toLocaleDateString(
+            "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          )}
         </span>
         <span className="text-right text-xs text-gray-400">
           User ID: {establishmentReview.user_id}

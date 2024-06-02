@@ -3,6 +3,7 @@ export class FoodItem {
   name: string;
   price: number;
   establishment_id: string;
+  establishment_name: string;
   average_rating: number;
   food_types: string[];
 
@@ -11,6 +12,7 @@ export class FoodItem {
     name: string,
     price: number,
     establishment_id: string,
+    establishment_name: string,
     average_rating: number,
     food_types: string[]
   ) {
@@ -18,6 +20,7 @@ export class FoodItem {
     this.name = name;
     this.price = price;
     this.establishment_id = establishment_id;
+    this.establishment_name = establishment_name;
     this.average_rating = average_rating;
     this.food_types = food_types;
   }
@@ -28,6 +31,7 @@ export const sampleFoodItem = new FoodItem(
   "Vegan Adobo",
   100,
   "1",
+  "Let's Eat",
   4.5,
   ["Vegetarian", "Vegan", "Gluten-Free"]
 );
@@ -39,6 +43,7 @@ export const sampleFoodItems = [
     "Sinigang",
     120,
     "1",
+    "Let's Eat Again",
     4.9,
     ["Filipino", "Soup"]
   ),
@@ -47,6 +52,7 @@ export const sampleFoodItems = [
     "Kare-Kare",
     150,
     "1",
+    "Let's Eat Some More",
     2.7,
     ["Filipino", "Peanut Sauce"]
   ),
@@ -55,6 +61,7 @@ export const sampleFoodItems = [
     "Burger",
     120,
     "1",
+    "Let's Eat Again and Again",
     3.8,
     ["American", "Fast Food"]
   ),
@@ -63,6 +70,7 @@ export const sampleFoodItems = [
     "Spaghetti",
     100,
     "1",
+    "Let's Eat",
     2.5,
     ["Italian", "Pasta"]
   )];

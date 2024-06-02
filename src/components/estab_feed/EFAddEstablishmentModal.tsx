@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
 import { FaCheckCircle } from "react-icons/fa";
-import { FeedContext } from "../../pages/FeedPage.tsx";
 
 export function EFAddEstablishmentModal() {
-  const context = React.useContext(FeedContext);
   const [submitComplete, setSubmitComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -17,7 +15,9 @@ export function EFAddEstablishmentModal() {
     description: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -69,7 +69,7 @@ export function EFAddEstablishmentModal() {
           <div className="flex flex-col gap-1">
             <input
               name="name"
-              className="input input-bordered w-full text-left font-bold"
+              className="input input-bordered w-full text-left"
               placeholder="Name"
               value={formData.name}
               onChange={handleChange}
@@ -92,9 +92,9 @@ export function EFAddEstablishmentModal() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <input
+            <textarea
               name="description"
-              className="input input-bordered w-full resize"
+              className="input input-bordered w-full resize-y pt-2"
               placeholder="Description"
               value={formData.description}
               onChange={handleChange}
@@ -125,7 +125,14 @@ export function EFAddEstablishmentModal() {
             </span>
           </div>
           <form className="flex w-1/2" method="dialog">
-            <button className="btn btn-primary w-full text-white">Done</button>
+            <button
+              onClick={() => {
+                location.reload();
+              }}
+              className="btn btn-primary w-full text-white"
+            >
+              Done
+            </button>
           </form>
         </div>
       </div>

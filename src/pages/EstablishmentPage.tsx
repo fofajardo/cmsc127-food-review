@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { IoLocationSharp } from "react-icons/io5";
@@ -7,16 +7,17 @@ import { sampleEstablishment } from "../models/Establishment.ts";
 import { MdCheckCircleOutline, MdOutlineContentCopy } from "react-icons/md";
 import { EReviewCard } from "../components/estab/EReviewCard.tsx";
 import { sampleEstablishmentReviews } from "../models/Review.ts";
-import { FoodItem } from "../models/FoodItem.ts";
+import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EAddReviewModal } from "../components/estab/EAddReviewModal.tsx";
+import { EFoodCard } from "../components/estab/EFoodCard.tsx";
 
 export function EstablishmentPage() {
   const [establishment, setEstablishments] = useState(sampleEstablishment);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(0); // 0: establishment reviews, 1: food items
   const [establishmentReviews, setEstablishmentReviews] = useState(
     sampleEstablishmentReviews
   );
-  const [foodItems, setFoodItems] = useState([] as FoodItem[]);
+  const [foodItems, setFoodItems] = useState(sampleFoodItems);
 
   // upon render, fetch establishment details, all of its reviews, and food items
   useEffect(() => {
@@ -119,12 +120,8 @@ export function EstablishmentPage() {
                         </li>
                       </ul>
                     </li>
-                    <div
-                      className={
-                        "w-full py-8 pl-4 pr-2 " +
-                        (activeTab == 0 ? "" : "hidden")
-                      }
-                    >
+                    {/* hide button if all review tab is selected */}
+                    <div className={"w-full py-8 pl-4 pr-2 "}>
                       <button
                         className="btn btn-primary w-full"
                         onClick={() => {
@@ -137,7 +134,7 @@ export function EstablishmentPage() {
                           }
                         }}
                       >
-                        Add review
+                        {activeTab == 0 ? "Add review" : "Add food item"}
                       </button>
                     </div>
                   </ul>
@@ -165,6 +162,15 @@ export function EstablishmentPage() {
                     </>
                   ) : (
                     <>
+                      {/* FOOD ITEM CARDS */}
+                      {foodItems.map((foodItem, index) => {
+                        return (
+                          <EFoodCard
+                            foodItem={foodItem}
+                            key={foodItem.food_item_id + index.toString()}
+                          />
+                        );
+                      })}
                       {foodItems.length === 0 ? (
                         <div className="flex flex-row justify-center items-center text-gray-500 text-sm h-full">
                           Uh-oh, there's nothing to see here yet.
