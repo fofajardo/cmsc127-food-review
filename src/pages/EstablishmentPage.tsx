@@ -91,7 +91,7 @@ export function EstablishmentPage() {
                 )}
               </p>
               {/* BOTTOM PANEL */}
-              <div className="card flex min-h-[60vh] w-full flex-row rounded-xl shadow-lg mt-4">
+              <div className="card flex min-h-[60vh] w-full flex-row rounded-xl shadow-lg mt-4 border-[0.1px]">
                 <aside className="flex-1">
                   {/* SIDE TABS */}
                   <ul className="menu h-full rounded-l-xl border-b-[0.01rem] border-r-[.01rem] py-4 pr-4 sm:border-b-0">
