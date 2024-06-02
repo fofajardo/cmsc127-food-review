@@ -20,3 +20,12 @@ FoodItem.prototype.toValues = function() {
         this.foodEstablishmentId,
     ];
 };
+
+/** @param {Array} aRows */
+FoodItem.fromRows = function(aRows) {
+    const foodItems = [];
+    for (let i = 0; i < aRows.length; i++) {
+        foodItems.push(new FoodItem(aRows[i]));
+    }
+    return foodItems;
+};

@@ -29,3 +29,12 @@ Review.prototype.toValues = function() {
         this.foodItemId,
     ];
 };
+
+/** @param {Array} aRows */
+Review.fromRows = function(aRows) {
+    const reviews = [];
+    for (let i = 0; i < aRows.length; i++) {
+        reviews.push(new Review(aRows[i]));
+    }
+    return reviews;
+};

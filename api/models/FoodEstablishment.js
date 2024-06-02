@@ -17,3 +17,12 @@ FoodEstablishment.prototype.toValues = function() {
         this.location,
     ];
 };
+
+/** @param {Array} aRows */
+FoodEstablishment.fromRows = function(aRows) {
+    const foodEstablishments = [];
+    for (let i = 0; i < aRows.length; i++) {
+        foodEstablishments.push(new FoodEstablishment(aRows[i]));
+    }
+    return foodEstablishments;
+};

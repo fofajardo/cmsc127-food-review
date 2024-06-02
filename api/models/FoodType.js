@@ -11,3 +11,12 @@ FoodType.prototype.toValues = function() {
         this.type,
     ];
 };
+
+/** @param {Array} aRows */
+FoodType.fromRows = function(aRows) {
+    const foodTypes = [];
+    for (let i = 0; i < aRows.length; i++) {
+        foodTypes.push(new FoodType(aRows[i]));
+    }
+    return foodTypes;
+};
