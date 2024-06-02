@@ -2,6 +2,7 @@ import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { FoodItem } from "../../models/FoodItem";
 import { useNavigate } from "react-router-dom";
+import { YoursBadge } from "../common/YoursBadge";
 
 export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
   const navigate = useNavigate();
@@ -56,8 +57,19 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
             </div>
           </div>
         </div>
-        <div className="text-lg font-bold bg-yellow-50 rounded-b-2xl p-4 px-8 text-secondary-content text-end">
-          Php {foodItem.price.toLocaleString()}
+
+        <div
+          className={
+            "text-lg font-bold bg-yellow-50 rounded-b-2xl items-center p-4 px-8 text-secondary-content text-end flex flex-row " +
+            (window.localStorage.getItem("is_admin") ? "justify-between" : "")
+          }
+        >
+          <div className="font-normal">
+            {window.localStorage.getItem("is_admin") == "true"
+              ? YoursBadge()
+              : null}
+          </div>
+          <p>Php {foodItem.price.toLocaleString()}</p>
         </div>
       </div>
     </a>

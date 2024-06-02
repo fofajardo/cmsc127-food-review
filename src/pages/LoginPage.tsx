@@ -48,6 +48,7 @@ export function Login() {
       localStorage.setItem("email", formData.email);
       localStorage.setItem("name", "Juan Dela Cruz");
       localStorage.setItem("username", "juandelacruz");
+      localStorage.setItem("is_admin", "true");
 
       // navigate to feed page
       navigate("/feed");

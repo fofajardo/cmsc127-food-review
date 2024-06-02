@@ -64,12 +64,14 @@ export function EFEstablishmentCard({
         <div
           className={
             "flex flex-row bg-amber-50 rounded-b-2xl p-4 " +
-            (window.localStorage.getItem("user_id") === establishment.user_id
+            (window.localStorage.getItem("user_id") === establishment.user_id ||
+            window.localStorage.getItem("is_admin")
               ? "justify-between"
               : "justify-end")
           }
         >
-          {window.localStorage.getItem("user_id") === establishment.user_id ? (
+          {window.localStorage.getItem("user_id") === establishment.user_id ||
+          window.localStorage.getItem("is_admin") ? (
             <YoursBadge />
           ) : null}
 

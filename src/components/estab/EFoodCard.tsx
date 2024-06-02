@@ -7,9 +7,9 @@ export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
   const navigate = useNavigate();
   return (
     <a
-      onClick={() => navigate(`/fooditem?fooditemid=${foodItem.food_item_id}`)}
+      onClick={() => navigate(`/fooditem?id=${foodItem.food_item_id}`)}
       className={
-        "bounce-in card flex flex-col bg-white p-8 py-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-2 hover:translate-x-2 "
+        "bounce-in card flex flex-col bg-white p-8 py-6 shadow-sm transition-all hover:shadow-lg hover:cursor-pointer hover:-translate-y-2 hover:translate-x-2 "
       }
     >
       <div className="flex flex-row justify-between">

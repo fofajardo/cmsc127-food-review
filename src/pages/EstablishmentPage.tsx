@@ -11,6 +11,8 @@ import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EAddReviewModal } from "../components/estab/EAddReviewModal.tsx";
 import { EFoodCard } from "../components/estab/EFoodCard.tsx";
 import { EAddFoodItemModal } from "../components/estab/EAddFoodItemModal.tsx";
+import { EDeleteModal } from "../components/estab/EDeleteModal.tsx";
+import { EEditModal } from "../components/estab/EEditModal.tsx";
 
 export function EstablishmentPage() {
   const [establishment, setEstablishments] = useState(sampleEstablishment);
@@ -68,8 +70,11 @@ export function EstablishmentPage() {
   const [copied, setCopied] = React.useState(false);
   return (
     <>
+      {/* modals */}
       <EAddReviewModal />
       <EAddFoodItemModal />
+      <EEditModal establishment={establishment} />
+      <EDeleteModal establishment={establishment} />
       <div className="flex flex-col items-center bg-slate-100">
         <NavigationBar />
         <div className="flex min-h-[86vh] w-full max-w-[1080px] flex-1 flex-col items-stretch p-8">
@@ -123,6 +128,41 @@ export function EstablishmentPage() {
                   />
                 )}
               </p>
+              {/* Manage establishment section for Admin and Owner */}
+              <div className="card bg-accent w-full px-8 py-4 mt-4 shadow-lg flex flex-row items-center">
+                <h2 className="text-2xl font-bold text-white flex-1">
+                  Manage this Establishment
+                </h2>
+                <div className="flex flex-row gap-2">
+                  <button
+                    onClick={() => {
+                      const modal = document.getElementById(
+                        "deleteEstablishmentModal"
+                      );
+                      if (modal) {
+                        (modal as HTMLDialogElement).showModal();
+                      }
+                    }}
+                    className="btn btn-error text-white"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => {
+                      // open edit establishment modal
+                      const modal = document.getElementById(
+                        "editEstablishmentModal"
+                      );
+                      if (modal) {
+                        (modal as HTMLDialogElement).showModal();
+                      }
+                    }}
+                    className="btn btn-success text-white px-8"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
               {/* BOTTOM PANEL */}
               <div className="card flex min-h-[60vh] w-full flex-row rounded-xl shadow-lg mt-4 border-[0.1px]">
                 <aside className="flex-1">
