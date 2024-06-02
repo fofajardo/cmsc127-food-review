@@ -7,11 +7,13 @@ import { Signup } from "./pages/SignUpPage.tsx";
 import { Login } from "./pages/LoginPage.tsx";
 import { EstablishmentPage } from "./pages/EstablishmentPage.tsx";
 import { FoodItemPage } from "./pages/FoodItemPage.tsx";
+import { HomePage } from "./pages/HomePage.tsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/feed" element={<EstablishmentFeedPage />} />
         <Route path="/establishment" element={<EstablishmentPage />} />
         <Route path="/fooditem" element={<FoodItemPage />} />
