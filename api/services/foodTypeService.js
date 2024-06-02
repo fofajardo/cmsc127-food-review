@@ -1,56 +1,63 @@
-import { FoodItem } from "../models/_models.js";
-import { selectAll, insert, updateAll, deleteAll } from "../db.js";
+import { FoodType } from "../models/_models.js";
+import { selectAll, insert, deleteAll } from "../db.js";
 
-const kTableName = "`fooditem`";
+const kTableName = "`foodtype`";
 
-export async function getAllFoodItems(aProperties) {
-    let append = null;
-    if (aProperties.establishmentName) {
-        append = "NATURAL JOIN `foodestablishment`";
-        aProperties["foodestname"] = aProperties.establishmentName;
-        delete aProperties.establishmentName;
+export async function getAllFoodTypes(aProperties) {
+    const orderKeys = aProperties.sort;
+    if (orderKeys != null) {
+        delete aProperties.sort;
     }
-    const queryResults = await selectAll(
-        kTableName, aProperties, false, append);
-    const result = FoodItem.fromRows(queryResults);
+    let isDistinct = !aProperties["fooditemid"];
+    const queryResults = await selectAll(kTableName, aProperties, false,
+        null, orderKeys, isDistinct, isDistinct ? "type" : "*");
+    const result = FoodType.fromRows(queryResults);
     return result;
 }
 
-export async function getOneFoodItem(aId) {
-    const queryResults = await selectAll(kTableName, {
-        fooditemid: aId
-    });
-    if (queryResults.length === 0) {
-        return null;
-    }
-    const result = new FoodItem(queryResults[0]);
-    return result;
-}
-
-export async function hasFoodItemWithId(aId) {
+export async function hasFoodTypeWithType(aId, aType) {
     const queryResults = await selectAll(kTableName, {
         fooditemid: aId,
+        type: aType,
     });
     return queryResults.length > 0;
 }
 
-export async function createNewFoodItem(aFoodItem) {
-    const queryResults = await insert(kTableName, aFoodItem);
+export async function createNewFoodType(aFoodType) {
+    const queryResults = await insert(kTableName, aFoodType);
     return queryResults.affectedRows === 1;
 }
 
-export async function updateOneFoodItem(aId, aProperties) {
-    const queryResults = await updateAll(
-        kTableName,
-        aProperties,
-        { fooditemid: aId }
-    );
-    return queryResults.affectedRows > 0;
-}
-
-export async function deleteOneFoodItem(aId) {
+export async function deleteOneFoodType(aId, aType) {
     const queryResults = await deleteAll(kTableName, {
-        fooditemid: aId
+        fooditemid: aId,
+        type: aType
     });
     return queryResults.affectedRows === 1;
+}
+
+export async function deleteAllFoodTypes(aId) {
+    const properties = {
+        fooditemid: aId
+    };
+    const selectResults = await selectAll(kTableName, properties);
+    if (selectResults.length == 0) {
+        return true;
+    }
+    const queryResults = await deleteAll(kTableName, properties);
+    return queryResults.affectedRows == selectResults.length;
+}
+
+export async function replaceAllFoodTypesForItem(aId, aTypes) {
+    const isCleared = await deleteAllFoodTypes(aId);
+    if (isCleared) {
+        const queryResults = await insert(kTableName,
+            ["fooditemid", "type"],
+            aTypes.map(function(aValue) {
+                return [aId, aValue.trim()];
+            })
+        );
+        return queryResults.affectedRows == aTypes.length;
+    }
+    return false;
 }

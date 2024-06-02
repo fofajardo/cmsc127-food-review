@@ -229,6 +229,8 @@ export async function deleteOneFoodItem(aRequest, aResponse) {
             return aResponse.sendErrorForbidden();
         }
 
+        // TODO: delete food types.
+
         const foodItemExists = await FoodItemService.hasFoodItemWithId(
             foodItemId);
         if (!foodItemExists) {
