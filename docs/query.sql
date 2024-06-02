@@ -59,13 +59,26 @@ CREATE TABLE review (
 );
 
 -- Create view/s for relations with derived attributes
-CREATE VIEW ratedfoodestablishment (foodestid, location, name, userid, average_rating) AS
-    SELECT *, (
-        SELECT AVG(rating)
-        FROM review AS r
-        WHERE r.foodestid=e.foodestid
-    )
-    FROM foodestablishment as e;
+CREATE VIEW ratedfoodestablishment AS
+SELECT foodestid,
+       location,
+       name,
+       userid,
+       ROUND(COALESCE(foodest_average_rating, 0), 2) AS foodest_average_rating,
+       ROUND(COALESCE(fooditem_average_rating, 0), 2) AS fooditem_average_rating,
+       ROUND((COALESCE(foodest_average_rating, 0) * 0.3 + COALESCE(fooditem_average_rating, 0) * 0.7), 2) AS average_rating
+FROM (
+    SELECT e.foodestid,
+           e.location,
+           e.name,
+           e.userid,
+           AVG(r1.rating) AS foodest_average_rating,
+           AVG(r2.rating) AS fooditem_average_rating
+    FROM foodestablishment AS e
+    LEFT JOIN review AS r1 ON e.foodestid = r1.foodestid AND r1.type = 'food_establishment'
+    LEFT JOIN review AS r2 ON r2.foodestid = e.foodestid AND r2.fooditemid IS NOT NULL
+    GROUP BY e.foodestid, e.location, e.name, e.userid
+) AS foodest_rating;
 
 -- Create users
 INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES (?, ?, ?, ?, ?, ?);
