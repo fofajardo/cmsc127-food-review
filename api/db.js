@@ -25,8 +25,9 @@ export async function selectAll(aTableName, aProperties, aUseOr = false) {
     if (keys.length > 0) {
         query += " WHERE";
         for (let i = 0; i < keys.length; i++) {
-            if (values[i].useLike) {
-                query += ` ${keys[i]} LIKE ?`
+            const operator = values[i]?.operator;
+            if (operator) {
+                query += ` ${keys[i]} ${operator} ?`
                 values[i] = values[i].value;
             } else {
                 query += ` ${keys[i]}=?`;
@@ -61,8 +62,9 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
     if (filterKeys.length > 0) {
         query += " WHERE";
         for (let i = 0; i < filterKeys.length; i++) {
-            if (filterValues[i].useLike) {
-                query += ` ${filterKeys[i]} LIKE ?`
+            const operator = values[i]?.operator;
+            if (operator) {
+                query += ` ${keys[i]} ${operator} ?`
                 filterValues[i] = filterValues[i].value;
             } else {
                 query += ` ${filterKeys[i]}=?`;
@@ -116,8 +118,9 @@ export async function deleteAll(aTableName, aProperties, aUseOr = false) {
     if (keys.length > 0) {
         query += " WHERE";
         for (let i = 0; i < keys.length; i++) {
-            if (values[i].useLike) {
-                query += ` ${keys[i]} LIKE ?`
+            const operator = values[i]?.operator;
+            if (operator) {
+                query += ` ${keys[i]} ${operator} ?`
                 values[i] = values[i].value;
             } else {
                 query += ` ${keys[i]}=?`;

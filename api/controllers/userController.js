@@ -24,7 +24,7 @@ export async function getAllUsers(aRequest, aResponse) {
                 "Only alphanumeric characters are allowed in the name field");
         }
         properties.name = {
-            useLike: true,
+            operator: "LIKE",
             value: `%${name}%`,
         };
     }
