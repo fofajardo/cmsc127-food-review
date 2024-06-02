@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IoLocationSharp } from "react-icons/io5";
+
 import { FaCheckCircle } from "react-icons/fa";
 import { FeedContext } from "../../pages/FeedPage.tsx";
 
