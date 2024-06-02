@@ -14,12 +14,15 @@ export function FIMainPreview({ foodItem }: { foodItem: FoodItem }) {
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          <p className="text-secondary line-clamp-1">
+          <a
+            href={`establishment?id=${foodItem.establishment_id}`}
+            className="text-secondary line-clamp-1"
+          >
             From {foodItem.establishment_name}
-          </p>
-          <span className="text-xs font-normal text-gray-400">
+          </a>
+          <div className="text-xs font-normal text-gray-400">
             Establishment ID: {foodItem.establishment_id}
-          </span>
+          </div>
         </div>
         <span className="text-right text-xs text-gray-400 mt-2 mr-4">
           Food Item ID: {foodItem.food_item_id}

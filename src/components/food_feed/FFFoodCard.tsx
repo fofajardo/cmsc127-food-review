@@ -10,9 +10,12 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
           <div className="flex flex-row w-full px-6 font-bold text-xl ">
             <p className="line-clamp-1">{foodItem.name}</p>
           </div>
-          <p className="text-white px-6 line-clamp-1">
+          <a
+            href={`establishment?id=${foodItem.establishment_id}`}
+            className="text-white px-6 line-clamp-1 underline"
+          >
             by: {foodItem.establishment_name}
-          </p>
+          </a>
         </div>
 
         <div className="card-body gap-1 p-8 py-4 text-sm">

@@ -60,7 +60,7 @@ export const sampleFoodItems = [
     "4",
     "Burger",
     120,
-    "1",
+    "3",
     "Let's Eat Again and Again",
     3.8,
     ["American", "Fast Food"]
@@ -69,7 +69,7 @@ export const sampleFoodItems = [
     "5",
     "Spaghetti",
     100,
-    "1",
+    "2",
     "Let's Eat",
     2.5,
     ["Italian", "Pasta"]
