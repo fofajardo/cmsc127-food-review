@@ -6,6 +6,7 @@ import { HomePage } from "./pages/HomePage.tsx";
 import { EstablishmentFeedPage } from "./pages/FeedPage.tsx";
 import { Signup } from "./pages/SignUpPage.tsx";
 import { Login } from "./pages/LoginPage.tsx";
+import { EstablishmentPage } from "./pages/EstablishmentPage.tsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/feed" element={<EstablishmentFeedPage />} />
+        <Route path="/establishment" element={<EstablishmentPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
