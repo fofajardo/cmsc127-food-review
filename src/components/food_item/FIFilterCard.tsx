@@ -2,23 +2,12 @@ import React from "react";
 import { FiFilter } from "react-icons/fi";
 
 export function FIFilterCard({
-  applyFilter,
+  applyFoodReviewFilter,
 }: {
-  applyFilter: (
-    searchString: string,
-    searchFoodType: string,
-    year: string,
-    sortInput: string
-  ) => void;
+  applyFoodReviewFilter: (month: string, sortInput: string) => void;
 }) {
   const handleFilterClick = () => {
     // get the values from the input fields
-    let searchString = (
-      document.getElementById("foodSearchNameInput") as HTMLInputElement
-    ).value;
-    let searchFoodType = (
-      document.getElementById("foodSearchTypeInput") as HTMLInputElement
-    ).value;
     let year = (document.getElementById("foodYearInput") as HTMLInputElement)
       .value;
     let month = (
@@ -34,22 +23,17 @@ export function FIFilterCard({
     // // process the rating input
     // if (rating === "All (0-5 stars)") rating = "0";
     // else if (rating === "High (4 stars or higher)") rating = "1";
-    applyFilter(searchString, searchFoodType, year, sortInput);
+    applyFoodReviewFilter(year, sortInput);
   };
   const handleClearClick = () => {
     // clear the input fields
-    (document.getElementById(
-      "foodSearchNameInput"
-    ) as HTMLInputElement)!.value = "";
-    (document.getElementById(
-      "foodSearchTypeInput"
-    ) as HTMLInputElement)!.value = "";
+
     (document.getElementById("foodYearInput") as HTMLInputElement)!.value = "";
     (document.getElementById("foodMonthSelect") as HTMLSelectElement)!.value =
       "Month";
     (document.getElementById("foodSortSelect") as HTMLSelectElement)!.value =
       "Sort by";
-    applyFilter("", "", "", "");
+    applyFoodReviewFilter("", "");
   };
   return (
     <>
@@ -58,28 +42,13 @@ export function FIFilterCard({
           <div className="z-50 flex flex-col justify-between gap-3 p-6">
             <h2 className="text-elbitgreen w-full text-left text-2xl font-bold">
               <span className="flex flex-row items-center justify-start">
-                <span>Filter Food Items</span>
+                <span>Filter Reviews Items</span>
                 <span className="flex flex-1 flex-row justify-end">
                   <FiFilter className="text-2xl" />
                 </span>
               </span>
             </h2>
-            <label className="input input-bordered flex items-center gap-2 bg-white">
-              <input
-                id="foodSearchNameInput"
-                type="text"
-                className="grow "
-                placeholder="Search Name"
-              />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-white">
-              <input
-                id="foodSearchTypeInput"
-                type="text"
-                className="grow "
-                placeholder="Search Type"
-              />
-            </label>
+
             <div className="flex flex-row gap-2">
               <label className="input input-bordered flex items-center bg-white">
                 <input

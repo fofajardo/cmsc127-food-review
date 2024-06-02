@@ -11,13 +11,7 @@ export function FoodItemPage() {
   const [foodItem, setFoodItem] = useState(sampleFoodItems[0]);
   const [foodItemReviews, setFoodItemReviews] = useState(sampleFoodItemReviews);
 
-  const applyFilter = (
-    // no more establishmentID for this filter
-    searchString: string,
-    searchFoodType: string,
-    year: string,
-    sortInput: string
-  ) => {
+  const applyFoodReviewFilter = (month: string, sortInput: string) => {
     //@TODO: implement this
   };
 
@@ -43,7 +37,7 @@ export function FoodItemPage() {
               <div className="card bg-white flex min-h-[60vh] w-full flex-row rounded-2xl shadow-lg mt-4 border-[0.1px] bbg-white">
                 <aside className="flex-1 border-r-[0.1px] p-4">
                   {/* SIDE SECTION */}
-                  <FIFilterCard applyFilter={applyFilter} />
+                  <FIFilterCard applyFoodReviewFilter={applyFoodReviewFilter} />
                 </aside>
                 {/* SECTION SHOWING REVIEW PREVIEW CARDS */}
                 <main className="flex flex-[2] flex-col gap-[.1rem]">

@@ -31,6 +31,39 @@ export function EstablishmentPage() {
     ); // use this to fetch establishment details
   }, []);
 
+  const [applyFilterEnabled, setApplyFilterEnabled] = useState(false);
+  const checkIfFilterInputsNotEmpty = () => {
+    const yearInput = (document.getElementById("yearInput") as HTMLInputElement)
+      .value;
+    const monthSelect = (
+      document.getElementById("monthSelect") as HTMLSelectElement
+    ).value;
+    if (yearInput && monthSelect !== "Month") {
+      setApplyFilterEnabled(true);
+    } else {
+      setApplyFilterEnabled(false);
+    }
+  };
+
+  const handleFilter = () => {
+    // get filter inputs
+    const yearInput = (document.getElementById("yearInput") as HTMLInputElement)
+      .value;
+    const monthSelect = (
+      document.getElementById("monthSelect") as HTMLSelectElement
+    ).value;
+    // @TODO: implement filter logic with setEstablishmentReviews()
+  };
+
+  const handleClear = () => {
+    // clear filter inputs
+    (document.getElementById("yearInput") as HTMLInputElement).value = "";
+    (document.getElementById("monthSelect") as HTMLSelectElement).value =
+      "Month";
+    setApplyFilterEnabled(false);
+    // @TODO: implement filter logic with setEstablishmentReviews()
+  };
+
   // this is for keeping track of the copy id state
   const [copied, setCopied] = React.useState(false);
   return (
@@ -123,7 +156,7 @@ export function EstablishmentPage() {
                       </ul>
                     </li>
                     {/* hide button if all review tab is selected */}
-                    <div className={"w-full py-8 pl-4 pr-2 "}>
+                    <div className={"w-full pt-8 pb-4 pl-4 pr-2 "}>
                       <button
                         className="btn btn-primary w-full"
                         onClick={() => {
@@ -140,6 +173,76 @@ export function EstablishmentPage() {
                       >
                         {activeTab == 0 ? "Add review" : "Add food item"}
                       </button>
+                    </div>
+                    <div
+                      className={
+                        "pr-4 pb-4 pl-6 " + (activeTab == 0 ? "" : "hidden")
+                      }
+                    >
+                      <hr />
+                    </div>
+
+                    <div
+                      className={
+                        "flex flex-row gap-2 px-2 pl-4 bounce-in " +
+                        (activeTab == 0 ? "" : "hidden")
+                      }
+                    >
+                      <label className="input input-bordered flex items-center bg-white">
+                        <input
+                          id="yearInput"
+                          type="text"
+                          className="w-1/2"
+                          placeholder="Year"
+                          maxLength={4}
+                          onKeyPress={(e) => {
+                            if (isNaN(parseInt(e.key))) e.preventDefault();
+                          }}
+                          onChange={checkIfFilterInputsNotEmpty}
+                        />
+                      </label>
+
+                      <select
+                        defaultValue={"Month"}
+                        className="select select-bordered w-full max-w-xs bg-white"
+                        id="monthSelect"
+                        onChange={checkIfFilterInputsNotEmpty}
+                      >
+                        <option disabled>Month</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                      </select>
+                    </div>
+                    <div
+                      className={"p-2 pl-4 " + (activeTab == 0 ? "" : "hidden")}
+                    >
+                      <button
+                        onClick={handleFilter}
+                        className={
+                          "btn text-gray-600 w-full " +
+                          (applyFilterEnabled ? "" : "btn-disabled")
+                        }
+                      >
+                        Apply Filter
+                      </button>
+                      <div className="flex flex-row justify-center">
+                        <button
+                          onClick={handleClear}
+                          className="btn w-2/3 font-normal mt-2  text-gray-500"
+                        >
+                          Clear
+                        </button>
+                      </div>
                     </div>
                   </ul>
                 </aside>

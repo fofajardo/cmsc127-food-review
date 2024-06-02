@@ -4,7 +4,8 @@ import { FoodItem } from "../../models/FoodItem";
 
 export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
   return (
-    <div
+    <a
+      href={"/fooditem?id=" + foodItem.food_item_id}
       className={
         "bounce-in card flex flex-col bg-white p-8 py-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-2 hover:translate-x-2 "
       }
@@ -46,6 +47,6 @@ export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
           Php {foodItem.price}
         </p>
       </div>
-    </div>
+    </a>
   );
 }
