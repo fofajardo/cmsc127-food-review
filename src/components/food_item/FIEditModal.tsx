@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
+import { FoodItem } from "../../models/FoodItem";
 
-export function EAddFoodItemModal() {
+export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -52,16 +53,27 @@ export function EAddFoodItemModal() {
         ...formData,
         foodTypes: foodTypesArray,
       });
-      //@TODO: implement create food item
+      //@TODO: implement edit food item
       setSubmitComplete(true); // simulate successful submission
     }
   };
 
+  useEffect(() => {
+    // set the food item data to the form data
+    setFormData({
+      name: foodItem.name,
+      price: foodItem.price.toString(),
+      foodTypes: foodItem.food_types.join(", "),
+    });
+  }, []);
+
   return (
-    <dialog className="modal" id="addFoodItemModal">
+    <dialog className="modal" id="editFoodItemModal">
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
-          <h2 className="text-left text-2xl font-bold">Add Food Item</h2>
+          <h2 className="text-left text-2xl font-bold line-clamp-1">
+            Edit {foodItem.name}
+          </h2>
           <form method="dialog">
             <button
               className={
