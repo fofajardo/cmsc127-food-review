@@ -13,6 +13,7 @@ import {
   sampleEstablishments,
 } from "../models/Establishment.ts";
 import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
+import { EFAddEstablishmentModal } from "../components/estab_feed/EFAddEstablishmentModal.tsx";
 
 export const FeedContext = React.createContext({
   modalEstablishment: sampleEstablishment,
@@ -81,6 +82,7 @@ export function EstablishmentFeedPage() {
     >
       <div className="flex flex-col items-center">
         <EFExpandModal />
+        <EFAddEstablishmentModal />
         <NavigationBar />
         {/* MAIN CONTAINER*/}
         <div className="flex min-h-[86vh] w-full max-w-[1080px] flex-1 flex-col items-stretch p-8">
@@ -187,7 +189,15 @@ export function EstablishmentFeedPage() {
                     </h2>
                     <button
                       className="btn btn-neutral h-max min-h-0 p-3 text-white "
-                      onClick={() => {}}
+                      onClick={() => {
+                        // open add establishment modal
+                        const modal = document.getElementById(
+                          "addEstablishmentModal"
+                        );
+                        if (modal) {
+                          (modal as HTMLDialogElement).showModal();
+                        }
+                      }}
                     >
                       Add establishment
                     </button>
