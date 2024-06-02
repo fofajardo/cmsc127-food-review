@@ -6,9 +6,10 @@ const kTableName = "`fooditem`";
 export async function getAllFoodItems(aProperties) {
     let append = null;
     if (aProperties.establishmentName) {
-        append = "NATURAL JOIN `foodestablishment`";
-        aProperties["foodestname"] = aProperties.establishmentName;
-        delete aProperties.establishmentName;
+        append = " NATURAL JOIN `foodestablishment`";
+    }
+    if (aProperties.foodType) {
+        append = " NATURAL JOIN `foodtype`";
     }
     const queryResults = await selectAll(kTableName, aProperties, false, append);
     const result = FoodItem.fromRows(queryResults);

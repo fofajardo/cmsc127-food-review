@@ -21,7 +21,7 @@ export function getPool() {
 export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend = null) {
     let query = `SELECT * FROM ${aTableName}`;
     if (aAppend) {
-        query += ` ${aAppend}`;
+        query += aAppend;
     }
     let keys = Object.keys(aProperties);
     let values = Object.values(aProperties);
