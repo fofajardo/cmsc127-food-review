@@ -4,7 +4,7 @@ export function FoodEstablishment(aRow) {
     /** @type {Number} */
     this.userId = aRow.userid;
     /** @type {String} */
-    this.name = aRow.name;
+    this.name = aRow.foodestname;
     /** @type {String} */
     this.location = aRow.location;
 }

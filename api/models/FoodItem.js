@@ -2,7 +2,7 @@ export function FoodItem(aRow) {
     /** @type {Number} */
     this.id = aRow.fooditemid;
     /** @type {String} */
-    this.name = aRow.name;
+    this.name = aRow.fooditemname;
     /** @type {Number} */
     this.price = aRow.price;
     /** @type {Number} */

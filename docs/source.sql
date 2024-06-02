@@ -19,7 +19,7 @@ CREATE TABLE user (
 CREATE TABLE foodestablishment (
     foodestid INT NOT NULL AUTO_INCREMENT,
     location VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    foodestname VARCHAR(255) NOT NULL,
     userid INT,
     CONSTRAINT foodestablishment_foodestid_pk PRIMARY KEY(foodestid),
     CONSTRAINT foodestablishment_userid_fk FOREIGN KEY(userid) REFERENCES user(userid)
@@ -27,7 +27,7 @@ CREATE TABLE foodestablishment (
 
 CREATE TABLE fooditem (
     fooditemid INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
+    fooditemname VARCHAR(255) NOT NULL,
     price DECIMAL(10,2),
     userid INT,
     foodestid INT,
@@ -76,7 +76,7 @@ INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES
     ("Jane L. Ryan",        "password1234", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
 
 -- Create food establishments
-INSERT INTO foodestablishment (location, name, userid)  VALUES
+INSERT INTO foodestablishment (location, foodestname, userid)  VALUES
     ("123 Main Street", "Tasty Burger Joint", 2),
     ("456 Elm Avenue",  "Pizza Paradise",     2),
     ("789 Oak Lane",    "Sushi Sensation",    2),
@@ -84,7 +84,7 @@ INSERT INTO foodestablishment (location, name, userid)  VALUES
     ("654 Pine Drive",  "Mexican Fiesta",     4);
 
 -- Create food items and types for establishment id 1 ("123 Main Street", "Tasty Burger Joint")
-INSERT INTO fooditem (name, price, userid, foodestid) VALUES
+INSERT INTO fooditem (fooditemname, price, userid, foodestid) VALUES
     ("Classic Cheeseburger", 9.99,  2, 1),
     ("Crispy Fries",         3.49,  2, 1),
     ("Milkshake",            4.99,  2, 1),
@@ -103,7 +103,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (5, "American");
 
 -- Create food items and types for establishment id 2 ("456 Elm Avenue", "Pizza Paradise")
-INSERT INTO fooditem (name, price, userid, foodestid) VALUES
+INSERT INTO fooditem (fooditemname, price, userid, foodestid) VALUES
     ("Pepperoni Pizza",  12.99, 2, 2),
     ("Garlic Knots",     5.49,  2, 2),
     ("Tiramisu",         6.99,  2, 2),
@@ -122,7 +122,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (10, "Italian");
 
 -- Create food items and types for establishment id 3 ("789 Oak Lane", "Sushi Sensation")
-INSERT INTO fooditem (name, price, userid, foodestid) VALUES
+INSERT INTO fooditem (fooditemname, price, userid, foodestid) VALUES
     ("Sashimi Platter",     18.99, 2, 3),
     ("Miso Soup",           4.49,  2, 3),
     ("Green Tea Ice Cream", 5.99,  2, 3),
@@ -141,7 +141,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (15, "Japanese");
 
 -- Create food items and types for establishment id 4 ("321 Maple Road", "Naccao BBQ Bonanza")
-INSERT INTO fooditem (name, price, userid, foodestid) VALUES
+INSERT INTO fooditem (fooditemname, price, userid, foodestid) VALUES
     ("Smoked Ribs",          14.99, 4, 4),
     ("BBQ Chicken Wings",    9.49,  4, 4),
     ("Cornbread",            3.99,  4, 4),
@@ -160,7 +160,7 @@ INSERT INTO foodtype (fooditemid, type) VALUES
     (20, "American");
 
 -- Create food items and types for establishment id 5 ("654 Pine Drive", "Mexican Fiesta")
-INSERT INTO fooditem (name, price, userid, foodestid) VALUES
+INSERT INTO fooditem (fooditemname, price, userid, foodestid) VALUES
     ("Tacos al Pastor",     10.99, 4, 5),
     ("Guacamole and Chips", 6.49,  4, 5),
     ("Churros",             4.99,  4, 5),
@@ -185,15 +185,15 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2024-05-10",
         5.0,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM fooditem WHERE name = "Classic Cheeseburger"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Classic Cheeseburger")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Classic Cheeseburger"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Classic Cheeseburger")
     ),
     ("food_establishment",
         "This place is a hidden gem! The tacos are authentic and delicious, and the guacamole is some of the best I've ever had. The service was friendly and attentive. Will definitely be back!",
         "2024-04-20",
         5.0,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM foodestablishment WHERE name = "Mexican Fiesta"),
+        (SELECT foodestid FROM foodestablishment WHERE foodestname = "Mexican Fiesta"),
         NULL
     ),
     ("food_item",
@@ -201,15 +201,15 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2024-05-03",
         4.0,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM fooditem WHERE name = "Sashimi Platter"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Sashimi Platter")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Sashimi Platter"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Sashimi Platter")
     ),
     ("food_establishment",
         "Great pizza place! The crust is thin and crispy, and the toppings are generous. We also tried the garlic knots, which were amazing. Definitely coming back!",
         "2024-05-08",
         4.5,
         (SELECT userid FROM user WHERE username = "ramonsf"),
-        (SELECT foodestid FROM foodestablishment WHERE name = "Pizza Paradise"),
+        (SELECT foodestid FROM foodestablishment WHERE foodestname = "Pizza Paradise"),
         NULL
     ),
     ("food_item",
@@ -217,23 +217,23 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2024-04-27",
         4.5,
         (SELECT userid FROM user WHERE username = "ramonsf"),
-        (SELECT foodestid FROM fooditem WHERE name = "Smoked Ribs"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Smoked Ribs")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Smoked Ribs"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Smoked Ribs")
     ),
     ("food_item",
         "A great burger option! The BBQ Bacon Burger is juicy and flavorful, with a delicious combination of BBQ sauce and bacon. The fries are crispy and perfect for dipping.",
         "2023-11-18",
         4.5,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM fooditem WHERE name = "BBQ Bacon Burger"),
-        (SELECT fooditemid FROM fooditem WHERE name = "BBQ Bacon Burger")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "BBQ Bacon Burger"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "BBQ Bacon Burger")
     ),
     ("food_establishment",
         "This place is a favorite for wings! The BBQ Chicken Wings are always perfectly cooked and flavorful. The staff is friendly and the service is fast. Highly recommend!",
         "2023-10-21",
         5.0,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM foodestablishment WHERE name = "Naccao BBQ Bonanza"),
+        (SELECT foodestid FROM foodestablishment WHERE foodestname = "Naccao BBQ Bonanza"),
         NULL
     ),
     ("food_item",
@@ -241,15 +241,15 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2023-09-09",
         4.0,
         (SELECT userid FROM user WHERE username = "ramonsf"),
-        (SELECT foodestid FROM fooditem WHERE name = "Green Tea Ice Cream"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Green Tea Ice Cream")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Green Tea Ice Cream"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Green Tea Ice Cream")
     ),
     ("food_establishment",
         "Great spot for Mexican food! The tacos are delicious and authentic, and the service is friendly. A bit on the crowded side, but definitely worth the wait.",
         "2023-08-05",
         4.5,
         (SELECT userid FROM user WHERE username = "ramonsf"),
-        (SELECT foodestid FROM foodestablishment WHERE name = "Mexican Fiesta"),
+        (SELECT foodestid FROM foodestablishment WHERE foodestname = "Mexican Fiesta"),
         NULL
     ),
     ("food_item",
@@ -257,23 +257,23 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2023-07-14",
         1.0,
         (SELECT userid FROM user WHERE username = "ramonsf"),
-        (SELECT foodestid FROM fooditem WHERE name = "Pulled Pork Sandwich"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Pulled Pork Sandwich")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Pulled Pork Sandwich"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Pulled Pork Sandwich")
     ),
     ("food_item",
         "This Tiramisu is delicious! Light and flavorful, a perfect ending to a great meal.",
         "2024-03-12",
         4.5,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM fooditem WHERE name = "Tiramisu"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Tiramisu")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Tiramisu"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Tiramisu")
     ),
     ("food_establishment",
         "Had a great experience at Sushi Sensation! The staff was friendly and helpful, and the sushi was delicious. A bit on the pricey side, but definitely worth it.",
         "2024-02-10",
         4.0,
         (SELECT userid FROM user WHERE username = "janeryan"),
-        (SELECT foodestid FROM foodestablishment WHERE name = "Sushi Sensation"),
+        (SELECT foodestid FROM foodestablishment WHERE foodestname = "Sushi Sensation"),
         NULL
     ),
     ("food_item",
@@ -281,15 +281,15 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2024-03-05",
         4.0,
         (SELECT userid FROM user WHERE username = "jpr1890"),
-        (SELECT foodestid FROM fooditem WHERE name = "Miso Soup"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Miso Soup")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Miso Soup"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Miso Soup")
     ),
     ("food_establishment",
         "I dislike this BBQ place! The staff is unfriendly and unhelpful.",
         "2024-01-25",
         1.0,
         (SELECT userid FROM user WHERE username = "jpr1890"),
-        (SELECT foodestid FROM foodestablishment WHERE name = "Naccao BBQ Bonanza"),
+        (SELECT foodestid FROM foodestablishment WHERE foodestname = "Naccao BBQ Bonanza"),
         NULL
     ),
     ("food_item",
@@ -297,8 +297,8 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2023-12-10",
         4.0,
         (SELECT userid FROM user WHERE username = "jpr1890"),
-        (SELECT foodestid FROM fooditem WHERE name = "Caesar Salad"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Caesar Salad")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Caesar Salad"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Caesar Salad")
     );
 
 -- FEATURES
@@ -311,8 +311,8 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         "2024-01-25",
         1.0,
         (SELECT userid FROM user WHERE username = "jpr1890"),
-        (SELECT foodestid FROM fooditem WHERE name = "Caesar Salad"),
-        (SELECT fooditemid FROM fooditem WHERE name = "Caesar Salad")
+        (SELECT foodestid FROM fooditem WHERE fooditemname = "Caesar Salad"),
+        (SELECT fooditemid FROM fooditem WHERE fooditemname = "Caesar Salad")
     );
     -- b. Update a review
     UPDATE review -- only details can be updated
@@ -323,11 +323,11 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
 
 -- 2. Add, delete, search, and update a food establishment;
     -- a. Add foodestablishment
-    INSERT INTO foodestablishment (location, name, userid)
+    INSERT INTO foodestablishment (location, foodestname, userid)
     VALUES ("location", "name", 2);
     -- b. Update foodestablishment
     UPDATE foodestablishment -- only details can be updated
-    SET location = "location", name = "unnamed restaurant"
+    SET location = "location", foodestname = "unnamed restaurant"
     WHERE foodestid = 6;
     -- c. Search foodestablishment
         -- i. Get all details of food establishment given id
@@ -341,7 +341,7 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         -- iii. Search by name
         SELECT foodestid
         FROM foodestablishment
-        WHERE name LIKE "%name%";
+        WHERE foodestname LIKE "%name%";
         -- iv. Search by average rating (minimum)
         SELECT foodestid
         FROM ratedfoodestablishment
@@ -355,11 +355,11 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
 
 -- 3. Add, delete, search, and update a food item.
     -- a. Add fooditem
-    INSERT INTO fooditem (name, price, userid, foodestid)
+    INSERT INTO fooditem (fooditemname, price, userid, foodestid)
     VALUES ("name", 1.1, 2, 2);
     -- b. Update fooditem
     UPDATE fooditem -- only details can be updated
-    SET name = "unnamed food item", price = 1.1
+    SET fooditemname = "unnamed food item", price = 1.1
     WHERE fooditemid = 26;
     -- c. Search fooditem
         -- i. Get all details of food item given id
@@ -369,7 +369,7 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
         -- ii. Search by name
         SELECT fooditemid
         FROM fooditem
-        WHERE name LIKE "%name%";
+        WHERE fooditemname LIKE "%name%";
         -- iii. Search by price (minimum)
         SELECT fooditemid
         FROM fooditem
@@ -403,7 +403,7 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
     AND date LIKE "____-10-%";
     -- b. Get all reviews made within a month for a food item
     SELECT * FROM review
-    WHERE fooditemid = (SELECT fooditemid FROM fooditem WHERE name = "Caesar Salad")
+    WHERE fooditemid = (SELECT fooditemid FROM fooditem WHERE fooditemname = "Caesar Salad")
     AND date LIKE "____-12-%";
 -- 6. View all establishments with a high average rating (rating >= 4). (ratings from 1-5; highest is5);
     SELECT * FROM ratedfoodestablishment
@@ -417,15 +417,15 @@ INSERT INTO review (type, note, date, rating, userid, foodestid, fooditemid) VAL
     SELECT *, GROUP_CONCAT(type) AS "Food types"
     FROM fooditem AS i RIGHT JOIN foodtype AS t ON i.fooditemid = t.fooditemid
     WHERE i.price >= 0 AND i.price <= 1000
-    GROUP BY name ORDER BY i.fooditemid;
+    GROUP BY fooditemname ORDER BY i.fooditemid;
     -- b. Food type only
     SELECT *, GROUP_CONCAT(type) AS "Food types"
     FROM fooditem AS i RIGHT JOIN foodtype AS t ON i.fooditemid = t.fooditemid
     WHERE t.type IN ("American", "Side Dish")
-    GROUP BY name ORDER BY i.fooditemid;
+    GROUP BY fooditemname ORDER BY i.fooditemid;
     -- c. Price range and food type
     SELECT *, GROUP_CONCAT(type) AS "Food types"
     FROM fooditem AS i RIGHT JOIN foodtype AS t ON i.fooditemid = t.fooditemid
     WHERE i.price >= 0 AND i.price <= 1000
     AND t.type IN ("American", "Side Dish")
-    GROUP BY name ORDER BY i.fooditemid;
+    GROUP BY fooditemname ORDER BY i.fooditemid;
