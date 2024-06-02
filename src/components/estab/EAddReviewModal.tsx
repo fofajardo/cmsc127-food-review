@@ -40,6 +40,7 @@ export function EAddReviewModal() {
   const handleSubmit = () => {
     if (validate()) {
       //@TODO: implement create establishment
+      // use formData and starRating to get the review details
       setSubmitComplete(true); // simulate successful submission
     }
   };

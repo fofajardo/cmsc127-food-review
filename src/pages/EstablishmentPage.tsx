@@ -10,6 +10,7 @@ import { sampleEstablishmentReviews } from "../models/Review.ts";
 import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EAddReviewModal } from "../components/estab/EAddReviewModal.tsx";
 import { EFoodCard } from "../components/estab/EFoodCard.tsx";
+import { EAddFoodItemModal } from "../components/estab/EAddFoodItemModal.tsx";
 
 export function EstablishmentPage() {
   const [establishment, setEstablishments] = useState(sampleEstablishment);
@@ -35,6 +36,7 @@ export function EstablishmentPage() {
   return (
     <>
       <EAddReviewModal />
+      <EAddFoodItemModal />
       <div className="flex flex-col items-center bg-slate-100">
         <NavigationBar />
         <div className="flex min-h-[86vh] w-full max-w-[1080px] flex-1 flex-col items-stretch p-8">
@@ -127,7 +129,9 @@ export function EstablishmentPage() {
                         onClick={() => {
                           // open add review modal
                           const modal = document.getElementById(
-                            "addEstablishmentReviewModal"
+                            activeTab == 0
+                              ? "addEstablishmentReviewModal"
+                              : "addFoodItemModal"
                           );
                           if (modal) {
                             (modal as HTMLDialogElement).showModal();

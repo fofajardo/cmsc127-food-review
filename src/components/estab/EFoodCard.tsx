@@ -16,19 +16,31 @@ export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
         </div>
       </div>
       <div className="flex flex-row justify-between">
-        <span className="font-normal text-xs text-gray-400">
-          Food Item ID: {foodItem.food_item_id}
-        </span>
+        <div className="flex flex-col">
+          <p className="text-sm text-secondary line-clamp-1">
+            From {foodItem.establishment_name}
+          </p>
+          <span className="font-normal text-xs text-gray-400">
+            Food Item ID: {foodItem.food_item_id}
+          </span>
+        </div>
         <span className="text-right text-xs text-gray-400">
           Establishment ID: {foodItem.establishment_id}
         </span>
       </div>
       <div className="flex flex-row justify-between items-end">
-        <p className="text-sm text-secondary line-clamp-1">
-          From {foodItem.establishment_name}
-        </p>
+        <div className="flex flex-row flex-wrap">
+          {foodItem.food_types.map((tag, index) => (
+            <p
+              key={index + tag}
+              className="text-xs text-primary-content bg-primary px-2 py-1 rounded-full mr-2"
+            >
+              {tag}
+            </p>
+          ))}
+        </div>
         <p
-          className="text-clamp-1 text-primary-content bg-primary max-w-max px-2 py-1 rounded-full text-xl mt-2
+          className="text-clamp-1 text-primary-content bg-primary max-w-max px-4 py-1 rounded-full text-xl mt-2
           "
         >
           Php {foodItem.price}
