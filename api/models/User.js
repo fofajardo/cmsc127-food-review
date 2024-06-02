@@ -1,4 +1,4 @@
-function User(aRow) {
+export function User(aRow) {
     /** @type {Number} */
     this.id = aRow.userid;
     /** @type {String} */
@@ -38,5 +38,3 @@ User.fromRows = function(aRows) {
     }
     return users;
 };
-
-export { User };

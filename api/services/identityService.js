@@ -6,7 +6,7 @@ const KEY_ITERATIONS = 310000;
 const KEY_LENGTH = 32;
 const KEY_DIGEST = "sha256";
 
-function deriveKeyFromPassword(aPassword, aSalt) {
+export function deriveKeyFromPassword(aPassword, aSalt) {
     if (!aSalt) {
         aSalt = randomBytes(16);
     } else if (typeof aSalt === "string") {
@@ -34,7 +34,7 @@ function deriveKeyFromPassword(aPassword, aSalt) {
     });
 }
 
-function matchesPassword(aPassword, aSalt, aPrevKey) {
+export function matchesPassword(aPassword, aSalt, aPrevKey) {
     if (typeof aSalt === "string") {
         aSalt = Buffer.from(aSalt, "hex");
     }
@@ -51,10 +51,3 @@ function matchesPassword(aPassword, aSalt, aPrevKey) {
             });
     });
 }
-
-const exports = {
-    deriveKeyFromPassword,
-    matchesPassword,
-};
-
-export default exports;

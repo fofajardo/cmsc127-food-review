@@ -9,16 +9,16 @@ async function signInGate(aRequest, aResponse, aNext) {
 
 const signInPassportLocal = passport.authenticate("local");
 
-async function signedInUser(aRequest, aResponse) {
+export async function signedInUser(aRequest, aResponse) {
     if (aRequest.user) {
         return aResponse.sendOk(aRequest.user);
     }
     return aResponse.sendOk(false);
 }
 
-const signIn = [signInGate, signInPassportLocal, signedInUser];
+export const signIn = [signInGate, signInPassportLocal, signedInUser];
 
-async function signOut(aRequest, aResponse) {
+export async function signOut(aRequest, aResponse) {
     if (aRequest.isUnauthenticated()) {
         return aResponse.sendOk(false);
     }
@@ -30,10 +30,8 @@ async function signOut(aRequest, aResponse) {
     });
 }
 
-async function dumpSession(aRequest, aResponse) {
+export async function dumpSession(aRequest, aResponse) {
     console.log(aRequest.session);
     console.log("Dumping session.");
     return aResponse.sendOk(aRequest.session);
 }
-
-export default { signIn, signOut, signedInUser, dumpSession };

@@ -1,4 +1,4 @@
-function Review(aRow) {
+export function Review(aRow) {
     /** @type {Number} */
     this.id = aRow.reviewid;
     /** @type {String} */
@@ -29,5 +29,3 @@ Review.prototype.toValues = function() {
         this.foodItemId,
     ];
 };
-
-export { Review };

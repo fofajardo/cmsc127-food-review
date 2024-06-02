@@ -1,4 +1,4 @@
-import IdentityService from "./identityService.js";
+import * as IdentityService from "./identityService.js";
 import * as UserService from "./userService.js";
 
 export {

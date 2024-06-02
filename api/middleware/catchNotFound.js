@@ -1,5 +1,3 @@
-function CatchNotFound(aRequest, aResponse) {
+export function CatchNotFound(aRequest, aResponse) {
     return aResponse.sendErrorNotFound();
 }
-
-export { CatchNotFound };

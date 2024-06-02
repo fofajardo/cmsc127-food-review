@@ -9,7 +9,7 @@ const kInvalidUsernameOrEmail = {
     message: "Incorrect username or email"
 };
 
-function registerStrategies() {
+export function registerStrategies() {
     passport.use(new LocalStrategy(async function (aUsernameOrEmail, aPassword, aCallback) {
         let user = null;
         try {
@@ -40,5 +40,3 @@ function registerStrategies() {
         });
     });
 }
-
-export { registerStrategies };

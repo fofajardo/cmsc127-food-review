@@ -1,4 +1,4 @@
-function FoodEstablishment(aRow) {
+export function FoodEstablishment(aRow) {
     /** @type {Number} */
     this.id = aRow.foodestid;
     /** @type {Number} */
@@ -17,5 +17,3 @@ FoodEstablishment.prototype.toValues = function() {
         this.location,
     ];
 };
-
-export { FoodEstablishment };

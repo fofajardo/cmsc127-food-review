@@ -14,7 +14,7 @@ const TRACE_BAD_REQUEST = false;
 const TRACE_FORBIDDEN = false;
 const TRACE_ALL = false;
 
-function ResponseHelper(aRequest, aResponse, aNext) {
+export function ResponseHelper(aRequest, aResponse, aNext) {
     aResponse.sendOne = function(aStatusCode, aStatusText, aData) {
         const body = {
             status: aStatusText,
@@ -130,5 +130,3 @@ function ResponseHelper(aRequest, aResponse, aNext) {
 
     return aNext();
 }
-
-export { ResponseHelper };

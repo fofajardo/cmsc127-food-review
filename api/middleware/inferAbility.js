@@ -2,7 +2,7 @@ import { IdentityService } from "../services/services.js";
 import { FixedRole, Actions, Subjects } from "../enums.js";
 import { can, cannot } from "../CaslShim.js";
 
-async function InferAbility(aRequest, aResponse, aNext) {
+export async function InferAbility(aRequest, aResponse, aNext) {
     let roleName = FixedRole.UNSPECIFIED;
     if (aRequest.user != null) {
         if (aRequest?.user.isOwner) {
@@ -21,5 +21,3 @@ async function InferAbility(aRequest, aResponse, aNext) {
 
     aNext();
 }
-
-export { InferAbility };

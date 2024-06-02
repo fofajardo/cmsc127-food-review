@@ -1,4 +1,4 @@
-function FoodType(aRow) {
+export function FoodType(aRow) {
     /** @type {Number} */
     this.foodItemId = aRow.fooditemid;
     /** @type {String} */
@@ -11,5 +11,3 @@ FoodType.prototype.toValues = function() {
         this.type,
     ];
 };
-
-export { FoodType };
