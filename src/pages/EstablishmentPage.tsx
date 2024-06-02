@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { IoLocationSharp } from "react-icons/io5";
 import { RatingStarIndicator } from "../components/common/RatingStarIndicator.tsx";
 import { sampleEstablishment } from "../models/Establishment.ts";
 import { MdCheckCircleOutline, MdOutlineContentCopy } from "react-icons/md";
+import { EReviewCard } from "../components/estab/EReviewCard.tsx";
+import { sampleEstablishmentReviews } from "../models/Review.ts";
 
 export function EstablishmentPage() {
   const [establishment, setEstablishments] = useState(sampleEstablishment);
   const [activeTab, setActiveTab] = useState(0);
+  const [establishmentReviews, setEstablishmentReviews] = useState(
+    sampleEstablishmentReviews
+  );
+
+  // upon render, fetch establishment details, all of its reviews, and food items
+  useEffect(() => {
+    //@TODO: implement this
+    // use setEstablishment, setEstablishmentReviews, and setFoodItems
+
+    // get the establishment ID from the query string
+    const establishmentId = new URLSearchParams(window.location.search).get(
+      "id"
+    ); // use this to fetch establishment details
+  }, []);
 
   // this is for keeping track of the copy id state
   const [copied, setCopied] = React.useState(false);
@@ -26,12 +42,13 @@ export function EstablishmentPage() {
               <IoLocationSharp className="text-xs" />
               <p className="text-sm">{establishment.location}</p>
             </div>
-            <div className="flex flex-row justify-between items-start">
+            <div className="flex flex-row justify-between items-center">
               <h2 className="text-left text-3xl font-bold">
                 {establishment.name}
               </h2>
-              <div className="flex flex-col justify-between">
-                <div className="card-actions flex-col">
+              <div className="flex flex-col justify-between card bg-yellow-50 px-4 py-2 rounded-lg shadow-md">
+                <div className="card-actions flex-row items-center">
+                  <p className="text-lg font-bold">Overall Average: </p>
                   <RatingStarIndicator rating={establishment.average_rating} />
                 </div>
               </div>
@@ -64,14 +81,12 @@ export function EstablishmentPage() {
               )}
             </p>
             {/* BOTTOM PANEL */}
-            <div className="card flex min-h-[60vh] w-full flex-row rounded-xl bg-yellow-50 shadow-lg mt-4">
+            <div className="card flex min-h-[60vh] w-full flex-row rounded-xl shadow-lg mt-4">
               <aside className="flex-1">
                 {/* SIDE TABS */}
-                <ul className="menu h-full rounded-l-xl border-b-[0.01rem] border-r-[.01rem] border-extragray4 py-4 pr-4 sm:border-b-0">
+                <ul className="menu h-full rounded-l-xl border-b-[0.01rem] border-r-[.01rem] py-4 pr-4 sm:border-b-0">
                   <li>
-                    <h2 className="menu-title text-xl text-neutral">
-                      Your orders
-                    </h2>
+                    <h2 className="menu-title text-xl text-neutral">Browse</h2>
                     <ul>
                       <li>
                         <button
@@ -95,26 +110,37 @@ export function EstablishmentPage() {
                       </li>
                     </ul>
                   </li>
+                  <div
+                    className={
+                      "w-full py-8 pl-4 pr-2 " +
+                      (activeTab == 0 ? "" : "hidden")
+                    }
+                  >
+                    <button
+                      className="btn btn-primary w-full"
+                      onClick={() => {}}
+                    >
+                      Add review
+                    </button>
+                  </div>
                 </ul>
               </aside>
               {/* SECTION SHOWING REVIEW PREVIEW CARDS */}
-              <main className="flex flex-[2] flex-col gap-[.1rem]"></main>
+              <main className="flex flex-[2] flex-col gap-[.1rem]">
+                {activeTab === 0 ? (
+                  <>
+                    {/* ESTABLISHMENT REVIEW CARDS */}
+                    {establishmentReviews.map((review, index) => {
+                      return (
+                        <EReviewCard key={index} establishmentReview={review} />
+                      );
+                    })}
+                  </>
+                ) : (
+                  "Food Items"
+                )}
+              </main>
             </div>
-            {/*!!! REMOVE THIS BEFORE SUBMISSION this is just for testing */}
-            <button
-              className="btn btn-primary mt-8"
-              onClick={() => {
-                // get the query string from the URL
-                const queryString = window.location.search;
-                // get the establishment ID from the query string
-                const urlParams = new URLSearchParams(queryString);
-                const establishmentId = urlParams.get("id");
-                // print the establishment ID
-                alert(establishmentId);
-              }}
-            >
-              Print establishment ID from URL
-            </button>
           </div>
         </div>
       </div>
