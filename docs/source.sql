@@ -7,6 +7,7 @@ CREATE TABLE user (
     userid INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    salt VARCHAR(255) NOT NULL,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(255) NOT NULL,
     is_owner BOOLEAN DEFAULT FALSE,
@@ -68,12 +69,12 @@ CREATE VIEW ratedfoodestablishment (foodestid, location, name, userid, average_r
     FROM foodestablishment as e;
 
 -- Create users
-INSERT INTO user (name, password, username, email, is_owner, is_end_user) VALUES
-    ("Jose P. Rizal",       "password1234", "jpr1890",     "jpr@mudspring.uplb.edu.ph", 0, 1),
-    ("Frank O. Wilco",      "password1234", "frankwilco",  "fow@mudspring.uplb.edu.ph", 1, 0),
-    ("Saysay F. Ramon",     "password1234", "ramonsf",     "sfr@mudspring.uplb.edu.ph", 0, 1),
-    ("William M. Saunders", "password1234", "williams21",  "wms@mudspring.uplb.edu.ph", 1, 0),
-    ("Jane L. Ryan",        "password1234", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
+INSERT INTO user (name, password, salt, username, email, is_owner, is_end_user) VALUES
+    ("Jose P. Rizal",       "password1234", "", "jpr1890",     "jpr@mudspring.uplb.edu.ph", 0, 1),
+    ("Frank O. Wilco",      "password1234", "", "frankwilco",  "fow@mudspring.uplb.edu.ph", 1, 0),
+    ("Saysay F. Ramon",     "password1234", "", "ramonsf",     "sfr@mudspring.uplb.edu.ph", 0, 1),
+    ("William M. Saunders", "password1234", "", "williams21",  "wms@mudspring.uplb.edu.ph", 1, 0),
+    ("Jane L. Ryan",        "password1234", "", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
 
 -- Create food establishments
 INSERT INTO foodestablishment (location, foodestname, userid)  VALUES
