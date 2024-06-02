@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    @media (prefers-reduced-motion: no-preference) {
+        .bounce-in {
+            animation: button-pop var(--animation-btn, 0.25s) ease-out;
+        }
+    }
+
+}
