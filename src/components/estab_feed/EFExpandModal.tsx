@@ -4,11 +4,13 @@ import { FeedContext } from "../../pages/FeedPage.tsx";
 import { RatingStarIndicator } from "../common/RatingStarIndicator.tsx";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { MdCheckCircleOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export function EFExpandModal() {
   // this is for keeping track of the copy id state
   const [copied, setCopied] = React.useState(false);
   const context = React.useContext(FeedContext);
+  const navigate = useNavigate();
   return (
     <dialog className="modal border-0 " id="establishmentExpandModal">
       <div className="modal-box bg-base-100 p-0">
@@ -74,10 +76,13 @@ export function EFExpandModal() {
 
           <div className="flex flex-row justify-center pt-2">
             <a
-              href={
-                "/establishment?id=" +
-                context.modalEstablishment.food_establishment_id
-              }
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(
+                  "/establishment?id=" +
+                    context.modalEstablishment.food_establishment_id
+                );
+              }}
               className={
                 "btn text-base font-bold bg-primary-content border-0 text-white w-2/3 mt-2 shadow-md hover:bg-primary hover:shadow-lg"
               }

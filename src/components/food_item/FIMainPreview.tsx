@@ -1,7 +1,9 @@
 import React from "react";
 import { FoodItem } from "../../models/FoodItem";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
+import { useNavigate } from "react-router-dom";
 export function FIMainPreview({ foodItem }: { foodItem: FoodItem }) {
+  const navigate = useNavigate();
   return (
     <div className="bounce-in flex flex-col card bg-white p-8 shadow-lg border-[0.1px]">
       {/* DETAILS OF THE FOOD ITEM */}
@@ -15,7 +17,10 @@ export function FIMainPreview({ foodItem }: { foodItem: FoodItem }) {
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
           <a
-            href={`establishment?id=${foodItem.establishment_id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/establishment?id=${foodItem.establishment_id}`);
+            }}
             className="text-secondary line-clamp-1"
           >
             From {foodItem.establishment_name}

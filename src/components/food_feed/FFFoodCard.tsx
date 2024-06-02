@@ -1,17 +1,27 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { FoodItem } from "../../models/FoodItem";
+import { useNavigate } from "react-router-dom";
 
 export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
+  const navigate = useNavigate();
   return (
-    <a href={`/fooditem?id=${foodItem.food_item_id}`}>
+    <a
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate(`/fooditem?id=${foodItem.food_item_id}`);
+      }}
+    >
       <div className="bounce-in productCard h-full card w-[20.5rem] border-0 bg-white text-left shadow-xl transition-all duration-300 hover:cursor-pointer xl:hover:-translate-y-2">
         <div className="bg-secondary  w-full rounded-none flex flex-col justify-center items-start text-white py-4 rounded-t-2xl ">
           <div className="flex flex-row w-full px-6 font-bold text-xl ">
             <p className="line-clamp-1">{foodItem.name}</p>
           </div>
           <a
-            href={`establishment?id=${foodItem.establishment_id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/establishment?id=${foodItem.establishment_id}`);
+            }}
             className="text-white px-6 line-clamp-1 underline"
           >
             by: {foodItem.establishment_name}

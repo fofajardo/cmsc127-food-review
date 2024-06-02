@@ -1,5 +1,7 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
+import { UserContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   name: string;
@@ -16,6 +18,7 @@ interface Errors {
 }
 
 export function Signup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     username: "",
@@ -43,10 +46,20 @@ export function Signup() {
   };
 
   const handleSubmit = (e: FormEvent) => {
+    const userContext = useContext(UserContext);
     e.preventDefault();
     if (validate()) {
       console.log("Signup successful", formData);
       // @TODO: implement nio signup logic dito; siguro store nio yung username, name, email sa browser local storage or sa cookies
+
+      // @TODO: replace this
+      userContext.setUser({
+        user_id: "1234567890",
+        email: formData.email,
+        name: "Juan Dela Cruz",
+        username: "juandelacruz",
+      });
+      // @TODO: after signup, call login method, then redirect to feed page
     }
   };
 
@@ -125,7 +138,10 @@ export function Signup() {
             </button>
             <div className="flex flex-row gap-2 text-gray-600 mt-2 justify-end">
               <p>Already have an account?</p>
-              <a href="/signup" className="text-primary underline">
+              <a
+                onClick={() => navigate("/login")}
+                className="text-primary underline"
+              >
                 {" "}
                 Login
               </a>

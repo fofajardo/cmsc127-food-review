@@ -1,11 +1,13 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { FoodItem } from "../../models/FoodItem";
+import { useNavigate } from "react-router-dom";
 
 export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
+  const navigate = useNavigate();
   return (
     <a
-      href={"/fooditem?id=" + foodItem.food_item_id}
+      onClick={() => navigate(`/fooditem?fooditemid=${foodItem.food_item_id}`)}
       className={
         "bounce-in card flex flex-col bg-white p-8 py-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-2 hover:translate-x-2 "
       }

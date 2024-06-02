@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi";
 import { FaUtensils } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export const openShoppingCartModal = () => {
   const dialog = document.getElementById("shoppingCartModal");
@@ -10,6 +11,7 @@ export const openShoppingCartModal = () => {
 };
 
 export function NavigationBar() {
+  const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = React.useState<boolean>(true);
 
   // SCROLL EFFECT FOR NAVBAR
@@ -47,7 +49,7 @@ export function NavigationBar() {
           {/* TITLE SECTION */}
           <div className="flex-1 py-1">
             <a
-              href="/feed"
+              onClick={() => navigate("/feed")}
               className={
                 "btnstyle1 flex flex-row flex-nowrap items-center rounded-full  px-4 py-2 text-2xl font-bold text-neutral hover:cursor-pointer " +
                 (scrollPosition > 0
@@ -78,7 +80,10 @@ export function NavigationBar() {
                   className="menu dropdown-content menu-lg top-14 z-[1] mt-5 w-52 rounded-box bg-base-100 bg-opacity-95 p-2 text-black shadow-xl"
                 >
                   <li>
-                    <a className="justify-between" href="/feed">
+                    <a
+                      className="justify-between"
+                      onClick={() => navigate("/feed")}
+                    >
                       Back to feed
                     </a>
                   </li>
