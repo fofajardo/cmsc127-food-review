@@ -25,8 +25,8 @@ export function FoodItemPage() {
       <div className="flex flex-col items-center bg-yellow-100">
         <NavigationBar />
         <div className="flex min-h-[86vh] w-full max-w-[1080px] flex-1 flex-col items-stretch p-8">
-          <div className="card bg-white shadow-xl my-8 flex flex-col p-4 px-2">
-            <div className="card-body gap-0 pt-6">
+          <div className="flex flex-col">
+            <div className="card-body gap-0 pt-2">
               <div className="flex flex-col card bg-white p-6 shadow-lg border-[0.1px]">
                 {/* DETAILS OF THE FOOD ITEM */}
                 <div className="flex flex-row justify-between">
@@ -42,11 +42,11 @@ export function FoodItemPage() {
                       From {foodItem.establishment_name}
                     </p>
                     <span className="text-xs font-normal text-gray-400">
-                      Food Item ID: {foodItem.food_item_id}
+                      Establishment ID: {foodItem.establishment_id}
                     </span>
                   </div>
-                  <span className="text-right text-xs text-gray-400 mt-2">
-                    Establishment ID: {foodItem.establishment_id}
+                  <span className="text-right text-xs text-gray-400 mt-2 mr-4">
+                    Food Item ID: {foodItem.food_item_id}
                   </span>
                 </div>
                 <div className="flex flex-row justify-between items-end">
@@ -69,7 +69,7 @@ export function FoodItemPage() {
                 </div>
               </div>
               {/* BOTTOM PANEL */}
-              <div className="card flex min-h-[60vh] w-full flex-row rounded-2xl shadow-lg mt-4 border-[0.1px] bbg-white">
+              <div className="card bg-white flex min-h-[60vh] w-full flex-row rounded-2xl shadow-lg mt-4 border-[0.1px] bbg-white">
                 <aside className="flex-1 border-r-[0.1px]">
                   {/* SIDE SECTION */}
                 </aside>
