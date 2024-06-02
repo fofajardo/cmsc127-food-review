@@ -12,15 +12,23 @@ import {
   sampleEstablishment,
   sampleEstablishments,
 } from "../models/Establishment.ts";
-import {
-  FoodItem,
-  sampleFoodItem,
-  sampleFoodItems,
-} from "../models/FoodItem.ts";
+import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 
 export const FeedContext = React.createContext({
   modalEstablishment: sampleEstablishment,
   setModalEstablishment: (establishment: Establishment) => {},
+  setToggle: (toggle: boolean) => {},
+  applyEstablishmentFilter: (
+    search: string,
+    rating: number,
+    sort: string
+  ) => {},
+  applyFoodItemFilter: (
+    establishment: string,
+    search: string,
+    month: string,
+    sort: string
+  ) => {},
 });
 
 export function EstablishmentFeedPage() {
@@ -36,8 +44,23 @@ export function EstablishmentFeedPage() {
     }, 500),
   ]);
 
-  // @ TODO: implement filter logic
-  const applyFilter = () => {};
+  // @TODO: implement filter logic
+  const applyEstablishmentFilter = (
+    search: string,
+    rating: number, // 0:all or 1:high rating (4 above)
+    sort: string // what kind of sort?
+  ) => {
+    // use setEstablishments()
+  };
+  // @TODO: implement filter logic
+  const applyFoodItemFilter = (
+    establishmentId: string,
+    search: string,
+    month: string, // "YYYY-MM"
+    sort: string // what kind of sort?
+  ) => {
+    // use setFoodItems()
+  };
 
   // toggle for showing establishment (false) or food items (true)
   const [toggle, setToggle] = useState(false);
@@ -47,7 +70,15 @@ export function EstablishmentFeedPage() {
     useState(sampleEstablishment); // temporary
 
   return (
-    <FeedContext.Provider value={{ modalEstablishment, setModalEstablishment }}>
+    <FeedContext.Provider
+      value={{
+        modalEstablishment,
+        setModalEstablishment,
+        setToggle,
+        applyEstablishmentFilter,
+        applyFoodItemFilter,
+      }}
+    >
       <div className="flex flex-col items-center">
         <EFExpandModal />
         <NavigationBar />
@@ -144,10 +175,10 @@ export function EstablishmentFeedPage() {
               </div>
               {/* Filter card */}
               {toggle ? (
-                <FoodItemFeedFilterCard applyFilter={applyFilter} />
+                <FoodItemFeedFilterCard />
               ) : (
                 <>
-                  <EstablishmentFeedFilterCard applyFilter={applyFilter} />
+                  <EstablishmentFeedFilterCard />
                   <div className="bounce-in flex flex-col ml-4 mt-4 card bg-white p-6 shadow-xl gap-2">
                     <h2 className="text-elbitgreen w-full text-left text-2xl font-bold">
                       <span className="flex flex-row items-center justify-start">

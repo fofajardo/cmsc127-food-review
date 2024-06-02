@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiFilter } from "react-icons/fi";
+import { FeedContext } from "../../pages/FeedPage";
 
-export function EstablishmentFeedFilterCard({
-  applyFilter,
-}: {
-  applyFilter: (searchString: string, rating: number, sortType: number) => void;
-}) {
+export function EstablishmentFeedFilterCard() {
+  const applyFilter = useContext(FeedContext).applyEstablishmentFilter;
   const handleFilterClick = () => {
     // get the values from the input fields
     let searchString = (
@@ -19,8 +17,8 @@ export function EstablishmentFeedFilterCard({
     if (sortInput === "Sort by") sortInput = "";
     // process the rating input
     if (rating === "All (0-5 stars)") rating = "0";
-    else if (rating === "High (4 stars or higher)") rating = "4";
-    applyFilter(searchString, parseInt(rating), parseInt(sortInput));
+    else if (rating === "High (4 stars or higher)") rating = "1";
+    applyFilter(searchString, parseInt(rating), sortInput);
   };
   const handleClearClick = () => {
     // clear the input fields
@@ -29,7 +27,7 @@ export function EstablishmentFeedFilterCard({
       "All (0-5 stars)";
     (document.getElementById("sortSelect") as HTMLInputElement)!.value =
       "Sort by";
-    applyFilter("", 0, 0);
+    applyFilter("", 0, "");
   };
   return (
     <>

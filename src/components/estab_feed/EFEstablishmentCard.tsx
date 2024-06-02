@@ -3,6 +3,7 @@ import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { Establishment } from "../../models/Establishment";
 import { FeedContext } from "../../pages/FeedPage";
 import { IoLocationSharp } from "react-icons/io5";
+import { useParams, useNavigate } from "react-router-dom";
 
 // @todo: pass props to the component to display the establishment name, establishment rating, and food rating
 export function EFEstablishmentCard({
@@ -11,6 +12,9 @@ export function EFEstablishmentCard({
   establishment: Establishment;
 }) {
   const context = React.useContext(FeedContext);
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   return (
     <>
       <div
@@ -48,15 +52,19 @@ export function EFEstablishmentCard({
             className="mt-2 btn rounded-lg font-normal"
             onClick={(e) => {
               e.stopPropagation();
+              navigate(
+                `/feed?establishmentid=${establishment.food_establishment_id}`
+              ); // update URL with new "id"
+              context.setToggle(true);
             }}
           >
             View Food Items
           </button>
-          <div className="flex flex-row justify-end mt-3">
-            <div className="flex-row flex items-center text-lg gap-1 text-primary-content badge-primary rounded-full px-2 py-1 w-max">
-              <IoLocationSharp className="text-sm" />
-              <p className="text-sm line-clamp-1">{establishment.location}</p>
-            </div>
+        </div>
+        <div className="flex flex-row justify-end bg-amber-50 rounded-b-2xl p-4">
+          <div className="flex-row flex items-center text-lg gap-1 text-primary-content badge-primary rounded-full px-2 py-1 w-max">
+            <IoLocationSharp className="text-sm" />
+            <p className="text-sm line-clamp-1">{establishment.location}</p>
           </div>
         </div>
       </div>

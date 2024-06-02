@@ -3,11 +3,13 @@ import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { FoodItem } from "../../models/FoodItem";
 
 export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
-  let establishmentName = "Establishment Name";
+  const [establishmentName, setEstablishmentName] =
+    React.useState("Establishment Name");
 
   // upon render, fetch establishment name
   useEffect(() => {
     // @TODO: fetch establishment name
+    // use setEstablishmentName()
   }, []);
 
   return (

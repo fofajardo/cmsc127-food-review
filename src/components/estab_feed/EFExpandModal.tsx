@@ -73,14 +73,17 @@ export function EFExpandModal() {
           </p>
 
           <div className="flex flex-row justify-center pt-2">
-            <button
-              onClick={() => {}}
+            <a
+              href={
+                "/establishment?id=" +
+                context.modalEstablishment.food_establishment_id
+              }
               className={
                 "btn text-base font-bold bg-primary-content border-0 text-white w-2/3 mt-2 shadow-md hover:bg-primary hover:shadow-lg"
               }
             >
               View Details
-            </button>
+            </a>
           </div>
         </div>
       </div>

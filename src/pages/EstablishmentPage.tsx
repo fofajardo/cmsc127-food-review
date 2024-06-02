@@ -7,6 +7,7 @@ import { sampleEstablishment } from "../models/Establishment.ts";
 import { MdCheckCircleOutline, MdOutlineContentCopy } from "react-icons/md";
 import { EReviewCard } from "../components/estab/EReviewCard.tsx";
 import { sampleEstablishmentReviews } from "../models/Review.ts";
+import { FoodItem } from "../models/FoodItem.ts";
 
 export function EstablishmentPage() {
   const [establishment, setEstablishments] = useState(sampleEstablishment);
@@ -14,6 +15,7 @@ export function EstablishmentPage() {
   const [establishmentReviews, setEstablishmentReviews] = useState(
     sampleEstablishmentReviews
   );
+  const [foodItems, setFoodItems] = useState([] as FoodItem[]);
 
   // upon render, fetch establishment details, all of its reviews, and food items
   useEffect(() => {
@@ -135,9 +137,24 @@ export function EstablishmentPage() {
                         <EReviewCard key={index} establishmentReview={review} />
                       );
                     })}
+                    {establishmentReviews.length === 0 ? (
+                      <div className="flex flex-row justify-center items-center text-gray-500 text-sm h-full">
+                        Uh-oh, there's nothing to see here yet.
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </>
                 ) : (
-                  "Food Items"
+                  <>
+                    {foodItems.length === 0 ? (
+                      <div className="flex flex-row justify-center items-center text-gray-500 text-sm h-full">
+                        Uh-oh, there's nothing to see here yet.
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </>
                 )}
               </main>
             </div>
