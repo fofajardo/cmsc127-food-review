@@ -18,7 +18,7 @@ export function getPool() {
     return _pool;
 }
 
-export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend = null) {
+export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend = null, aOrderKeys = []) {
     let query = `SELECT * FROM ${aTableName}`;
     if (aAppend) {
         query += aAppend;
@@ -46,6 +46,10 @@ export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend
                 query += aUseOr ? " OR" : " AND";
             }
         }
+    }
+    if (aOrderKeys.length > 0) {
+        query += " ORDER BY ";
+        query += aOrderKeys.join(", ");
     }
     const [queryResults] = await getPool().execute(query, values);
     return queryResults;
