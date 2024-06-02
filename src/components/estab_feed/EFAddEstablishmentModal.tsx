@@ -57,7 +57,12 @@ export function EFAddEstablishmentModal() {
             Add New Establishment
           </h2>
           <form method="dialog">
-            <button className="btn btn-neutral h-max min-h-0 p-3 text-white">
+            <button
+              className={
+                "btn btn-neutral h-max min-h-0 p-3 text-white " +
+                (submitComplete ? "hidden" : "")
+              }
+            >
               Close
             </button>
           </form>
@@ -116,8 +121,8 @@ export function EFAddEstablishmentModal() {
           }
         >
           <div className="flex flex-col items-center">
-            <FaCheckCircle className="mb-4 text-6xl text-primary" />
-            <span className="text-xl font-bold text-primary">
+            <FaCheckCircle className="mb-4 text-6xl text-success" />
+            <span className="text-xl font-bold text-success">
               Submission complete!
             </span>
             <span className="text-lg font-normal">
@@ -129,7 +134,7 @@ export function EFAddEstablishmentModal() {
               onClick={() => {
                 location.reload();
               }}
-              className="btn btn-primary w-full text-white"
+              className="btn btn-success w-full text-white"
             >
               Done
             </button>

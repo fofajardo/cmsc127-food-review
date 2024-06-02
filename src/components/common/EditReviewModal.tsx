@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FoodItem } from "../../models/FoodItem.ts";
+import { Review } from "../../models/Review";
 
-export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
+export function EditReviewModal({
+  review,
+  modalID,
+}: {
+  review: Review;
+  modalID: string;
+}) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [starRating, setStarRating] = useState(5);
 
@@ -37,19 +43,28 @@ export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
 
   const handleSubmit = () => {
     if (validate()) {
-      //@TODO: implement add food item review
+      //@TODO: implement edit review
+      // same delete review for establishment and food item?
       // use formData and starRating to get the review details
-      // use foodItem.food_item_id to get the food item id
+      // use review.review_id to get the review id
       setSubmitComplete(true); // simulate successful submission
     }
   };
 
+  useEffect(() => {
+    // set the review data to the form data
+    setFormData({
+      description: review.notes,
+    });
+    setStarRating(review.rating);
+  }, []);
+
   return (
-    <dialog className="modal" id="addFoodReviewModal">
+    <dialog className="modal" id={modalID}>
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
           <h2 className="text-left text-2xl font-bold line-clamp-1">
-            Review {foodItem.name}
+            Edit Review {review.review_id}
           </h2>
           <form method="dialog">
             <button
@@ -177,10 +192,10 @@ export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
           <div className="flex flex-col items-center">
             <FaCheckCircle className="mb-4 text-6xl text-success" />
             <span className="text-xl font-bold text-success">
-              Submission complete!
+              Review Updated!
             </span>
             <span className="text-lg font-normal">
-              Your review has been submitted successfully.
+              Your changes have been saved successfully.
             </span>
           </div>
           <form className="flex w-1/2" method="dialog">

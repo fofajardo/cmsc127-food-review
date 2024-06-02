@@ -2,16 +2,19 @@ import React from "react";
 import { Review } from "../../models/Review";
 import { RatingStarIndicator } from "./RatingStarIndicator";
 import { DeleteReviewModal } from "./DeleteReviewModal";
+import { EditReviewModal } from "./EditReviewModal";
 
 export function ReviewCard({
   review: establishmentReview,
 }: {
   review: Review;
 }) {
-  const modalID = `deleteReviewModal${establishmentReview.review_id}`;
+  const deleteModalID = `deleteReviewModal${establishmentReview.review_id}`;
+  const editModalID = `editReviewModal${establishmentReview.review_id}`;
   return (
     <>
-      <DeleteReviewModal review={establishmentReview} modalID={modalID} />
+      <DeleteReviewModal review={establishmentReview} modalID={deleteModalID} />
+      <EditReviewModal review={establishmentReview} modalID={editModalID} />
       <div
         className={
           "bounce-in card flex flex-col bg-white p-8 py-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-2 hover:translate-x-2 "
@@ -61,7 +64,7 @@ export function ReviewCard({
           <div className="flex flex-row gap-2 items-center">
             <button
               onClick={() => {
-                const modal = document.getElementById(modalID);
+                const modal = document.getElementById(deleteModalID);
                 if (modal) {
                   (modal as HTMLDialogElement).showModal();
                 }
@@ -73,7 +76,7 @@ export function ReviewCard({
             <button
               onClick={() => {
                 // open edit establishment modal
-                const modal = document.getElementById("editEstablishmentModal");
+                const modal = document.getElementById(editModalID);
                 if (modal) {
                   (modal as HTMLDialogElement).showModal();
                 }
