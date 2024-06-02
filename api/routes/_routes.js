@@ -5,6 +5,7 @@ import { ResponseHelper } from "../middleware/responseHelper.js";
 
 import UserRouter from "./userRoutes.js";
 import AuthRouter from "./authRoutes.js";
+import FoodItemRouter from "./foodItemRoutes.js";
 
 function useFor(aServer) {
     registerStrategies();
@@ -13,6 +14,7 @@ function useFor(aServer) {
     aServer.use(InferAbility);
 
     aServer.use("/api/users", UserRouter);
+    aServer.use("/api/food-items", FoodItemRouter);
     aServer.use("/api/auth", AuthRouter);
     aServer.use(CatchNotFound);
 }
