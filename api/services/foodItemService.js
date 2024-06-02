@@ -15,7 +15,8 @@ export async function getAllFoodItems(aProperties) {
     if (orderKeys != null) {
         delete aProperties.sort;
     }
-    const queryResults = await selectAll(kTableName, aProperties, false, append, orderKeys);
+    const queryResults = await selectAll(
+        kTableName, aProperties, false, append, orderKeys);
     const result = FoodItem.fromRows(queryResults);
     return result;
 }

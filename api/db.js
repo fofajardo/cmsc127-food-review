@@ -18,7 +18,13 @@ export function getPool() {
     return _pool;
 }
 
-export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend = null, aOrderKeys = []) {
+export async function selectAll(
+    aTableName,
+    aProperties,
+    aUseOr = false,
+    aAppend = null,
+    aOrderKeys = []
+) {
     let query = `SELECT * FROM ${aTableName}`;
     if (aAppend) {
         query += aAppend;
@@ -34,7 +40,7 @@ export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend
             }
             const operator = values[i]?.operator;
             if (operator != null) {
-                query += ` ${keys[i]} ${operator} ?`
+                query += ` ${keys[i]} ${operator} ?`;
             } else {
                 query += ` ${keys[i]}=?`;
             }
@@ -78,7 +84,7 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
         for (let i = 0; i < filterKeys.length; i++) {
             const operator = filterValues[i]?.operator;
             if (operator != null) {
-                query += ` ${filterKeys[i]} ${operator} ?`
+                query += ` ${filterKeys[i]} ${operator} ?`;
             } else {
                 query += ` ${filterKeys[i]}=?`;
             }
@@ -137,7 +143,7 @@ export async function deleteAll(aTableName, aProperties, aUseOr = false) {
         for (let i = 0; i < keys.length; i++) {
             const operator = values[i]?.operator;
             if (operator != null) {
-                query += ` ${keys[i]} ${operator} ?`
+                query += ` ${keys[i]} ${operator} ?`;
             } else {
                 query += ` ${keys[i]}=?`;
             }

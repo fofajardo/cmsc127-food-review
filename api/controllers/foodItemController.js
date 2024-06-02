@@ -10,7 +10,10 @@ import { hasValue, parseBool } from "../utils.js";
 
 export async function getAllFoodItems(aRequest, aResponse) {
     const properties = {};
-    const { id, priceMin, priceMax, establishmentName, establishmentId, name, foodType, foodTypeIsExact, sortCol, sortOrder } = aRequest.query;
+    const {
+        id, priceMin, priceMax, establishmentName, establishmentId, name,
+        foodType, foodTypeIsExact, sortCol, sortOrder
+    } = aRequest.query;
     if (id) {
         if (!validator.isNumeric(id)) {
             return aResponse.sendErrorClient("ID must be a number");
@@ -19,7 +22,8 @@ export async function getAllFoodItems(aRequest, aResponse) {
     }
     if (priceMin) {
         if (!validator.isNumeric(priceMin)) {
-            return aResponse.sendErrorClient("Price min range must be a number");
+            return aResponse.sendErrorClient(
+                "Price min range must be a number");
         }
         properties.priceMin = {
             operator: ">=",
@@ -29,7 +33,8 @@ export async function getAllFoodItems(aRequest, aResponse) {
     }
     if (priceMax) {
         if (!validator.isNumeric(priceMax)) {
-            return aResponse.sendErrorClient("Price max range must be a number");
+            return aResponse.sendErrorClient(
+                "Price max range must be a number");
         }
         properties.priceMax = {
             operator: "<=",
@@ -63,7 +68,8 @@ export async function getAllFoodItems(aRequest, aResponse) {
     }
     if (establishmentId) {
         if (!validator.isNumeric(id)) {
-            return aResponse.sendErrorClient("Food establishment ID must be a number");
+            return aResponse.sendErrorClient(
+                "Food establishment ID must be a number");
         }
         properties.foodestid = establishmentId;
     }
@@ -124,13 +130,15 @@ export async function createNewFoodItem(aRequest, aResponse) {
 
     try {
         // FIXME: add existence check of target establishment.
-        // FIXME: add ownership check before adding food items to target establishment.
+        // FIXME: add ownership check before adding food items to target
+        //        establishment.
 
         if (!validator.isNumeric(body.price)) {
             return aResponse.sendErrorClient("Price must be a number");
         }
         if (!validator.isNumeric(body.foodEstablishmentId)) {
-            return aResponse.sendErrorClient("Food establishment ID must be a number");
+            return aResponse.sendErrorClient(
+                "Food establishment ID must be a number");
         }
 
         const foodItem = {
@@ -163,11 +171,9 @@ export async function updateOneFoodItem(aRequest, aResponse) {
 
     try {
         // FIXME: add ownership check before updating food items.
-        // if (aRequest.you.cannotAs(Actions.MANAGE, Subjects.FOOD_ITEM, { id: userId })) {
-        //     return aResponse.sendErrorForbidden();
-        // }
 
-        const foodItemExists = await FoodItemService.hasFoodItemWithId(foodItemId);
+        const foodItemExists = await FoodItemService.hasFoodItemWithId(
+            foodItemId);
         if (!foodItemExists) {
             return aResponse.sendErrorClient("Food item does not exist");
         }
@@ -175,10 +181,12 @@ export async function updateOneFoodItem(aRequest, aResponse) {
         let properties = {};
         const { body } = aRequest;
         if ("userId" in body) {
-            return aResponse.sendErrorClient("Changing the owner user is not allowed");
+            return aResponse.sendErrorClient(
+                "Changing the owner user is not allowed");
         }
         if ("foodEstablishmentId" in body) {
-            return aResponse.sendErrorClient("Changing the parent establishment is not allowed");
+            return aResponse.sendErrorClient(
+                "Changing the parent establishment is not allowed");
         }
         if (hasValue(body, "name")) {
             properties.fooditemname = body.name;
@@ -188,12 +196,14 @@ export async function updateOneFoodItem(aRequest, aResponse) {
                 return aResponse.sendErrorClient("Price must be a number");
             }
             if (parseFloat(body.price) < 0) {
-                return aResponse.sendErrorClient("Price must be a non-negative number");
+                return aResponse.sendErrorClient(
+                    "Price must be a non-negative number");
             }
             properties.price = body.price;
         }
 
-        const result = await FoodItemService.updateOneFoodItem(foodItemId, properties);
+        const result = await FoodItemService.updateOneFoodItem(
+            foodItemId, properties);
         if (result) {
             return aResponse.sendOk(result);
         }
@@ -219,7 +229,8 @@ export async function deleteOneFoodItem(aRequest, aResponse) {
             return aResponse.sendErrorForbidden();
         }
 
-        const foodItemExists = await FoodItemService.hasFoodItemWithId(foodItemId);
+        const foodItemExists = await FoodItemService.hasFoodItemWithId(
+            foodItemId);
         if (!foodItemExists) {
             return aResponse.sendErrorClient("Food item does not exist");
         }

@@ -10,7 +10,8 @@ export async function getAllFoodItems(aProperties) {
         aProperties["foodestname"] = aProperties.establishmentName;
         delete aProperties.establishmentName;
     }
-    const queryResults = await selectAll(kTableName, aProperties, false, append);
+    const queryResults = await selectAll(
+        kTableName, aProperties, false, append);
     const result = FoodItem.fromRows(queryResults);
     return result;
 }

@@ -86,20 +86,25 @@ export async function createNewUser(aRequest, aResponse) {
         }
 
         if (!validator.isAlphanumeric(body.username)) {
-            return aResponse.sendErrorClient("Only alphanumeric characters are allowed in the username field");
+            return aResponse.sendErrorClient(
+                "Only alphanumeric characters are allowed in the" +
+                " username field");
         }
 
         const userExists = await UserService.hasUserWithUsername(body.username);
         if (userExists) {
-            return aResponse.sendErrorClient("Please use a different username");
+            return aResponse.sendErrorClient(
+                "Please use a different username");
         }
         const emailExists = await UserService.hasUserWithEmail(body.email);
         if (emailExists) {
-            return aResponse.sendErrorClient("Please use a different email address");
+            return aResponse.sendErrorClient(
+                "Please use a different email address");
         }
         const emailInvalid = !emailValidator.validate(body.email);
         if (emailInvalid) {
-            return aResponse.sendErrorClient("Please use a valid email address");
+            return aResponse.sendErrorClient(
+                "Please use a valid email address");
         }
 
         let isEndUser = false;
@@ -107,25 +112,28 @@ export async function createNewUser(aRequest, aResponse) {
         // Find ID from role name if specified.
         if (hasValue(body, "roleName")) {
             switch (body.roleName) {
-                case FixedRole.END_USER:
-                    isEndUser = true;
-                    break;
-                case FixedRole.OWNER:
-                    isOwner = false;
-                    break;
-                case FixedRole.ADMIN:
-                    if (!allowOverrides) {
-                        return aResponse.sendErrorClient("Please use a valid role name")
-                    }
-                    break;
-                default:
-                    return aResponse.sendErrorClient("Please use a valid role name");
+            case FixedRole.END_USER:
+                isEndUser = true;
+                break;
+            case FixedRole.OWNER:
+                isOwner = false;
+                break;
+            case FixedRole.ADMIN:
+                if (!allowOverrides) {
+                    return aResponse.sendErrorClient(
+                        "Please use a valid role name");
+                }
+                break;
+            default:
+                return aResponse.sendErrorClient(
+                    "Please use a valid role name");
             }
         } else {
             isEndUser = true;
         }
 
-        const { salt, key } = await IdentityService.deriveKeyFromPassword(body.password);
+        const { salt, key } = await IdentityService.deriveKeyFromPassword(
+            body.password);
         const user = {
             name: body.name,
             password: key.toString("hex"),
@@ -154,9 +162,7 @@ export async function updateOneUser(aRequest, aResponse) {
     }
 
     try {
-        // if (aRequest.you.cannotAs(Actions.MANAGE, Subjects.USER, { id: userId })) {
-        //     return aResponse.sendErrorForbidden();
-        // }
+        // FIXME: add ownership check.
 
         const userExists = await UserService.hasUserWithId(userId);
         if (!userExists) {
@@ -166,21 +172,25 @@ export async function updateOneUser(aRequest, aResponse) {
         let properties = {};
         const { body } = aRequest;
         if ("username" in body) {
-            return aResponse.sendErrorClient("Changing the username is not allowed");
+            return aResponse.sendErrorClient(
+                "Changing the username is not allowed");
         }
         if (hasValue(body, "email")) {
             const emailExists = await UserService.hasUserWithEmail(body.email);
             if (emailExists) {
-                return aResponse.sendErrorClient("Please use a different email address");
+                return aResponse.sendErrorClient(
+                    "Please use a different email address");
             }
             const emailInvalid = !emailValidator.validate(body.email);
             if (emailInvalid) {
-                return aResponse.sendErrorClient("Please use a valid email address");
+                return aResponse.sendErrorClient(
+                    "Please use a valid email address");
             }
             properties.email = body.email;
         }
         if (hasValue(body, "password")) {
-            const { salt, key } = await IdentityService.deriveKeyFromPassword(body.password);
+            const { salt, key } = await IdentityService.deriveKeyFromPassword(
+                body.password);
             properties.salt = salt.toString("hex");
             properties.password = key.toString("hex");
         }
@@ -214,9 +224,10 @@ export async function deleteOneUser(aRequest, aResponse) {
             return aResponse.sendErrorClient("User does not exist");
         }
 
-        // TODO: Delete food establishments, food items, and reviews associated with this account.
+        // TODO: Delete food establishments, food items, and reviews
+        //       associated with this account.
 
-        result = await UserService.deleteOneUser(userId);
+        const result = await UserService.deleteOneUser(userId);
         if (!result) {
             return aResponse.sendErrorServer("Failed to delete user");
         }
