@@ -23,9 +23,12 @@ export async function selectAll(
     aProperties,
     aUseOr = false,
     aAppend = null,
-    aOrderKeys = []
+    aOrderKeys = [],
+    aDistinct = false,
+    aFilter = "*"
 ) {
-    let query = `SELECT * FROM ${aTableName}`;
+    let distinct = aDistinct ? " DISTINCT" : "";
+    let query = `SELECT${distinct} ${aFilter} FROM ${aTableName}`;
     if (aAppend) {
         query += aAppend;
     }
@@ -105,10 +108,20 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
     return queryResults;
 }
 
-export async function insert(aTableName, aTuple) {
+export async function insert(aTableName, aTupleOrKeys, aValues = null) {
     let query = `INSERT INTO ${aTableName}`;
-    let keys = Object.keys(aTuple);
-    let values = Object.values(aTuple);
+
+    let keys = null;
+    let allValues = null;
+
+    if (Array.isArray(aTupleOrKeys) && Array.isArray(aValues)) {
+        keys = aTupleOrKeys;
+        allValues = aValues;
+    } else {
+        keys = Object.keys(aTupleOrKeys);
+        allValues = [Object.values(aTupleOrKeys)];
+    }
+
     if (keys.length == 0) {
         throw Error("Object is empty");
     }
@@ -119,17 +132,26 @@ export async function insert(aTableName, aTuple) {
             query += ", ";
         }
     }
-    query += ") VALUES (";
-    for (let i = 0; i < values.length; i++) {
-        query += "?";
-        if (i < values.length - 1) {
+    query += ") VALUES ";
+
+    for (let i = 0; i < allValues.length; i++) {
+        const values = allValues[i];
+        query += "(";
+        for (let j = 0; j < values.length; j++) {
+            query += "?";
+            if (j < values.length - 1) {
+                query += ", ";
+            }
+        }
+        query += ")";
+        if (i < allValues.length - 1) {
             query += ", ";
         }
     }
-    query += ")";
+
     const [queryResults] = await getPool().execute(
         query,
-        values
+        allValues.flat()
     );
     return queryResults;
 }
