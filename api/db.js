@@ -18,13 +18,20 @@ export function getPool() {
     return _pool;
 }
 
-export async function selectAll(aTableName, aProperties, aUseOr = false) {
+export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend = null) {
     let query = `SELECT * FROM ${aTableName}`;
+    if (aAppend) {
+        query += ` ${aAppend}`;
+    }
     let keys = Object.keys(aProperties);
     let values = Object.values(aProperties);
     if (keys.length > 0) {
         query += " WHERE";
         for (let i = 0; i < keys.length; i++) {
+            const colName = values[i]?.colName;
+            if (colName != null) {
+                keys[i] = colName;
+            }
             const operator = values[i]?.operator;
             if (operator != null) {
                 query += ` ${keys[i]} ${operator} ?`
