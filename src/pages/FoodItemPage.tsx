@@ -34,13 +34,13 @@ export function FoodItemPage() {
             <div className="card-body gap-0 pt-2">
               <FIMainPreview foodItem={foodItem} />
               {/* BOTTOM PANEL */}
-              <div className="card bg-white flex min-h-[60vh] w-full flex-row rounded-2xl shadow-lg mt-4 border-[0.1px] bbg-white">
-                <aside className="flex-1 border-r-[0.1px] p-4">
+              <div className=" flex min-h-[60vh] w-full flex-row rounded-2xl mt-4 gap-4">
+                <aside className="flex-1 ">
                   {/* SIDE SECTION */}
                   <FIFilterCard applyFoodReviewFilter={applyFoodReviewFilter} />
                 </aside>
                 {/* SECTION SHOWING REVIEW PREVIEW CARDS */}
-                <main className="flex flex-[2] flex-col gap-[.1rem]">
+                <main className="flex flex-[2] flex-col gap-[.1rem] bg-white card">
                   {foodItemReviews.map((review, index) => {
                     return <ReviewCard review={review} key={index} />;
                   })}

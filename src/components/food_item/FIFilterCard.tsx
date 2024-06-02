@@ -42,7 +42,7 @@ export function FIFilterCard({
           <div className="z-50 flex flex-col justify-between gap-3 p-6">
             <h2 className="text-elbitgreen w-full text-left text-2xl font-bold">
               <span className="flex flex-row items-center justify-start">
-                <span>Filter Reviews Items</span>
+                <span>Filter Reviews </span>
                 <span className="flex flex-1 flex-row justify-end">
                   <FiFilter className="text-2xl" />
                 </span>

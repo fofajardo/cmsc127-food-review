@@ -3,7 +3,7 @@ import { FoodItem } from "../../models/FoodItem";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 export function FIMainPreview({ foodItem }: { foodItem: FoodItem }) {
   return (
-    <div className="bounce-in flex flex-col card bg-white p-6 shadow-lg border-[0.1px]">
+    <div className="bounce-in flex flex-col card bg-white p-8 shadow-lg border-[0.1px]">
       {/* DETAILS OF THE FOOD ITEM */}
       <div className="flex flex-row justify-between">
         <h2 className="text-3xl font-bold">{foodItem.name}</h2>
