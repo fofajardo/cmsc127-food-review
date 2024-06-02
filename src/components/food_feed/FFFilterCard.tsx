@@ -6,34 +6,49 @@ export function FoodItemFeedFilterCard() {
   const applyFilter = useContext(FeedContext).applyFoodItemFilter;
   const handleFilterClick = () => {
     // get the values from the input fields
+    let establishmentId = (
+      document.getElementById("foodEstablishmentIDInput") as HTMLInputElement
+    ).value;
     let searchString = (
-      document.getElementById("foodSearchInput") as HTMLInputElement
+      document.getElementById("foodSearchNameInput") as HTMLInputElement
     ).value;
-    let rating = (
-      document.getElementById("foodRatingSelect") as HTMLSelectElement
+    let searchFoodType = (
+      document.getElementById("foodSearchTypeInput") as HTMLInputElement
     ).value;
+    let year = (document.getElementById("foodYearInput") as HTMLInputElement)
+      .value;
+    let month = (
+      document.getElementById("foodMonthSelect") as HTMLSelectElement
+    ).value;
+    // combine year and month into "YYYY-MM"
+    if (year && month) year = year + "-" + month;
     let sortInput = (
       document.getElementById("foodSortSelect") as HTMLSelectElement
     ).value;
     // if default, set to empty string
     if (sortInput === "Sort by") sortInput = "";
-    // process the rating input
-    if (rating === "All (0-5 stars)") rating = "0";
-    else if (rating === "High (4 stars or higher)") rating = "1";
+    // // process the rating input
+    // if (rating === "All (0-5 stars)") rating = "0";
+    // else if (rating === "High (4 stars or higher)") rating = "1";
+    applyFilter(establishmentId, searchString, searchFoodType, year, sortInput);
   };
   const handleClearClick = () => {
     // clear the input fields
     (document.getElementById(
       "foodEstablishmentIDInput"
     ) as HTMLInputElement)!.value = "";
-    (document.getElementById("foodSearchInput") as HTMLInputElement)!.value =
-      "";
+    (document.getElementById(
+      "foodSearchNameInput"
+    ) as HTMLInputElement)!.value = "";
+    (document.getElementById(
+      "foodSearchTypeInput"
+    ) as HTMLInputElement)!.value = "";
     (document.getElementById("foodYearInput") as HTMLInputElement)!.value = "";
     (document.getElementById("foodMonthSelect") as HTMLSelectElement)!.value =
       "Month";
     (document.getElementById("foodSortSelect") as HTMLSelectElement)!.value =
       "Sort by";
-    applyFilter("", "", "", "");
+    applyFilter("", "", "", "", "");
   };
 
   // upon load, check URL if there is provided establishment ID
@@ -71,10 +86,18 @@ export function FoodItemFeedFilterCard() {
             </label>
             <label className="input input-bordered flex items-center gap-2 bg-white">
               <input
-                id="foodSearchInput"
+                id="foodSearchNameInput"
                 type="text"
                 className="grow "
-                placeholder="Search"
+                placeholder="Search Name"
+              />
+            </label>
+            <label className="input input-bordered flex items-center gap-2 bg-white">
+              <input
+                id="foodSearchTypeInput"
+                type="text"
+                className="grow "
+                placeholder="Search Type"
               />
             </label>
             <div className="flex flex-row gap-2">
@@ -97,18 +120,18 @@ export function FoodItemFeedFilterCard() {
                 id="foodMonthSelect"
               >
                 <option disabled>Month</option>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
               </select>
             </div>
 

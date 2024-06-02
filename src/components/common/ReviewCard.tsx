@@ -1,11 +1,11 @@
 import React from "react";
-import { EstablishmentReview } from "../../models/Review";
+import { Review } from "../../models/Review";
 import { RatingStarIndicator } from "./RatingStarIndicator";
 
-export function EReviewCard({
-  establishmentReview,
+export function ReviewCard({
+  review: establishmentReview,
 }: {
-  establishmentReview: EstablishmentReview;
+  review: Review;
 }) {
   return (
     <div

@@ -26,8 +26,9 @@ export const FeedContext = React.createContext({
   ) => {},
   applyFoodItemFilter: (
     establishment: string,
-    search: string,
-    month: string,
+    searchName: string,
+    searchType: string,
+    month: string, // "YYYY-MM"
     sort: string
   ) => {},
 });
@@ -56,7 +57,8 @@ export function EstablishmentFeedPage() {
   // @TODO: implement filter logic
   const applyFoodItemFilter = (
     establishmentId: string,
-    search: string,
+    searchName: string,
+    searchType: string,
     month: string, // "YYYY-MM"
     sort: string // what kind of sort?
   ) => {

@@ -26,7 +26,7 @@ export function EFEstablishmentCard({
             (modal as HTMLDialogElement).showModal();
           }
         }}
-        className="bounce-in productCard card w-[20.5rem] border-0 bg-white text-left shadow-xl transition-all duration-300 hover:cursor-pointer xl:hover:-translate-y-2"
+        className="h-full bounce-in productCard card w-[20.5rem] border-0 bg-white text-left shadow-xl transition-all duration-300 hover:cursor-pointer xl:hover:-translate-y-2"
       >
         <figure>
           <div className="bg-primary-content w-full rounded-none flex flex-col justify-center items-center text-white py-4">

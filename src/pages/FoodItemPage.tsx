@@ -3,23 +3,23 @@ import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { RatingStarIndicator } from "../components/common/RatingStarIndicator.tsx";
 import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
+import { ReviewCard } from "../components/common/ReviewCard.tsx";
+import { sampleFoodItemReviews } from "../models/Review.ts";
 
 export function FoodItemPage() {
   const [foodItem, setFoodItem] = useState(sampleFoodItems[0]);
-  const [activeTab, setActiveTab] = useState(0); // 0: establishment reviews, 1: food items
+  const [foodItemReviews, setFoodItemReviews] = useState(sampleFoodItemReviews);
 
-  // upon render, fetch establishment details, all of its reviews, and food items
+  // upon render, fetch food item details and reviews
   useEffect(() => {
     //@TODO: implement this
 
-    // get the establishment ID from the query string
+    // get the food item ID from the query string
     const establishmentId = new URLSearchParams(window.location.search).get(
       "id"
     ); // use this to fetch food item details and reviews
   }, []);
 
-  // this is for keeping track of the copy id state
-  const [copied, setCopied] = React.useState(false);
   return (
     <>
       <div className="flex flex-col items-center bg-yellow-100">
@@ -31,7 +31,8 @@ export function FoodItemPage() {
                 {/* DETAILS OF THE FOOD ITEM */}
                 <div className="flex flex-row justify-between">
                   <h2 className="text-3xl font-bold">{foodItem.name}</h2>
-                  <div className="flex flex-col justify-between">
+                  <div className="flex-row items-center bg-yellow-50 p-2 px-4 shadow-md rounded-full flex">
+                    <p className="text-lg font-bold">Overall Average: </p>
                     <RatingStarIndicator rating={foodItem.average_rating} />
                   </div>
                 </div>
@@ -44,7 +45,7 @@ export function FoodItemPage() {
                       Food Item ID: {foodItem.food_item_id}
                     </span>
                   </div>
-                  <span className="text-right text-xs text-gray-400">
+                  <span className="text-right text-xs text-gray-400 mt-2">
                     Establishment ID: {foodItem.establishment_id}
                   </span>
                 </div>
@@ -73,7 +74,11 @@ export function FoodItemPage() {
                   {/* SIDE SECTION */}
                 </aside>
                 {/* SECTION SHOWING REVIEW PREVIEW CARDS */}
-                <main className="flex flex-[2] flex-col gap-[.1rem]"></main>
+                <main className="flex flex-[2] flex-col gap-[.1rem]">
+                  {foodItemReviews.map((review, index) => {
+                    return <ReviewCard review={review} key={index} />;
+                  })}
+                </main>
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { RatingStarIndicator } from "../components/common/RatingStarIndicator.tsx";
 import { sampleEstablishment } from "../models/Establishment.ts";
 import { MdCheckCircleOutline, MdOutlineContentCopy } from "react-icons/md";
-import { EReviewCard } from "../components/estab/EReviewCard.tsx";
+import { ReviewCard } from "../components/common/ReviewCard.tsx";
 import { sampleEstablishmentReviews } from "../models/Review.ts";
 import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EAddReviewModal } from "../components/estab/EAddReviewModal.tsx";
@@ -149,12 +149,7 @@ export function EstablishmentPage() {
                     <>
                       {/* ESTABLISHMENT REVIEW CARDS */}
                       {establishmentReviews.map((review, index) => {
-                        return (
-                          <EReviewCard
-                            key={index}
-                            establishmentReview={review}
-                          />
-                        );
+                        return <ReviewCard key={index} review={review} />;
                       })}
                       {establishmentReviews.length === 0 ? (
                         <div className="flex flex-row justify-center items-center text-gray-500 text-sm h-full">

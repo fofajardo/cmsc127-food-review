@@ -1,4 +1,4 @@
-abstract class Review {
+export class Review {
   review_id: string;
   notes: string;
   date_written: string;
@@ -121,5 +121,53 @@ export const sampleEstablishmentReviews: EstablishmentReview[] = [
     "234234",
     "JaneDoe",
     4.5,
+    "6"
+  )]
+
+export const sampleFoodItemReviews: FoodItemReview[] = [
+  sampleFoodItemReview,
+  new FoodItemReview(
+    "212355",
+    "The pizza was delicious and the service was quick. The restaurant was clean and the staff were friendly. Will definitely be back for more.",
+    "2024-06-01",
+    "234234",
+    "JaneDoe",
+    4,
+    "2"
+  ),
+  new FoodItemReview(
+    "212356",
+    "The burger was juicy and flavorful, and the fries were perfectly crispy. The portion size was generous and the price was reasonable. A great meal overall.",
+    "2024-05-30",
+    "321543",
+    "JamesDoe",
+    5,
+    "3"
+  ),
+  new FoodItemReview(
+    "212357",
+    "The pasta was overcooked and the sauce was bland. The garlic bread was burnt and the salad was wilted. A disappointing dining experience.",
+    "2024-05-28",
+    "143135",
+    "JohnDoe",
+    2,
+    "4"
+  ),
+  new FoodItemReview(
+    "212358",
+    "The sushi was fresh and the sashimi was melt-in-your-mouth delicious. The service was attentive and the ambiance was relaxing. A great place for a sushi fix.",
+    "2024-05-25",
+    "432154",
+    "JillDoe",
+    4.5,
+    "5"
+  ),
+  new FoodItemReview(
+    "212359",
+    "The coffee was bitter and the pastries were stale. The service was slow and the prices were high. Would not recommend this cafe to others.",
+    "2024-05-23",
+    "234234",
+    "JaneDoe",
+    2,
     "6"
   )]
