@@ -2,8 +2,12 @@ import React from "react";
 import { IoLocationSharp } from "react-icons/io5";
 import { FeedContext } from "../../pages/FeedPage.tsx";
 import { RatingStarIndicator } from "../common/RatingStarIndicator.tsx";
+import { MdOutlineContentCopy } from "react-icons/md";
+import { MdCheckCircleOutline } from "react-icons/md";
 
 export function EFExpandModal() {
+  // this is for keeping track of the copy id state
+  const [copied, setCopied] = React.useState(false);
   const context = React.useContext(FeedContext);
   return (
     <dialog className="modal border-0 " id="establishmentExpandModal">
@@ -43,8 +47,32 @@ export function EFExpandModal() {
           <p className="indent-8 pt-4 ">
             {context.modalEstablishment.description}
           </p>
+          <hr className="m-3" />
+          <p className="text-sm text-gray-500 inline-flex items-center justify-end px-4">
+            Establishment ID:{" "}
+            <span>{context.modalEstablishment.food_establishment_id}</span>
+            {/* render copy icon conditionally; initially a copy icon, then a checked icon upon clicking (for 5 seconds) */}
+            {copied ? (
+              <MdCheckCircleOutline className="ml-2  text-base" />
+            ) : (
+              <MdOutlineContentCopy
+                onClick={() => {
+                  // copy establishment id to clipboard
+                  navigator.clipboard.writeText(
+                    context.modalEstablishment.food_establishment_id
+                  );
+                  setCopied(true);
+                  // reset copy state after 5 seconds; change back to copy icon
+                  setTimeout(() => {
+                    setCopied(false);
+                  }, 5000);
+                }}
+                className="ml-2 hover:cursor-pointer text-base"
+              />
+            )}
+          </p>
 
-          <div className="flex flex-row justify-center pt-4">
+          <div className="flex flex-row justify-center pt-2">
             <button
               onClick={() => {}}
               className={
