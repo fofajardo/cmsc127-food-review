@@ -5,6 +5,7 @@ import { ResponseHelper } from "../middleware/responseHelper.js";
 
 import UserRouter from "./userRoutes.js";
 import AuthRouter from "./authRoutes.js";
+import FoodEstablishment from "./foodEstabRoutes.js";
 import FoodItemRouter from "./foodItemRoutes.js";
 
 function useFor(aServer) {
@@ -15,6 +16,7 @@ function useFor(aServer) {
 
     aServer.use("/api/users", UserRouter);
     aServer.use("/api/food-items", FoodItemRouter);
+    aServer.use("/api/food-establishments", FoodItemRouter);
     aServer.use("/api/auth", AuthRouter);
     aServer.use(CatchNotFound);
 }
