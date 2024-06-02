@@ -17,3 +17,116 @@ export function getPool() {
     }
     return _pool;
 }
+
+export async function selectAll(aTableName, aProperties, aUseOr = false) {
+    let query = `SELECT * FROM ${aTableName}`;
+    let keys = Object.keys(aProperties);
+    let values = Object.values(aProperties);
+    if (keys.length > 0) {
+        query += " WHERE";
+        for (let i = 0; i < keys.length; i++) {
+            if (values[i].useLike) {
+                query += ` ${keys[i]} LIKE ?`
+                values[i] = values[i].value;
+            } else {
+                query += ` ${keys[i]}=?`;
+            }
+            if (i < keys.length - 1) {
+                query += aUseOr ? " OR" : " AND";
+            }
+        }
+    }
+    const [queryResults] = await getPool().execute(query, values);
+    return queryResults;
+}
+
+export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
+    let query = `UPDATE ${aTableName}`;
+    // Prepare the update part of the query.
+    let updateKeys = Object.keys(aUpdate);
+    let updateValues = Object.values(aUpdate);
+    if (updateKeys.length == 0) {
+        return false;
+    }
+    query += " SET";
+    for (let i = 0; i < updateKeys.length; i++) {
+        query += ` ${updateKeys[i]}=?`;
+        if (i < updateKeys.length - 1) {
+            query += ",";
+        }
+    }
+    // Prepare the filter part of the query.
+    let filterKeys = Object.keys(aFilter);
+    let filterValues = Object.values(aFilter);
+    if (filterKeys.length > 0) {
+        query += " WHERE";
+        for (let i = 0; i < filterKeys.length; i++) {
+            if (filterValues[i].useLike) {
+                query += ` ${filterKeys[i]} LIKE ?`
+                filterValues[i] = filterValues[i].value;
+            } else {
+                query += ` ${filterKeys[i]}=?`;
+            }
+            if (i < filterKeys.length - 1) {
+                query += aUseOr ? " OR" : " AND";
+            }
+        }
+    }
+
+    const [queryResults] = await getPool().execute(
+        query,
+        [...updateValues, ...filterValues]
+    );
+    return queryResults;
+}
+
+export async function insert(aTableName, aTuple) {
+    let query = `INSERT INTO ${aTableName}`;
+    let keys = Object.keys(aTuple);
+    let values = Object.values(aTuple);
+    if (keys.length == 0) {
+        throw Error("Object is empty");
+    }
+    query += " (";
+    for (let i = 0; i < keys.length; i++) {
+        query += keys[i];
+        if (i < keys.length - 1) {
+            query += ", ";
+        }
+    }
+    query += ") VALUES (";
+    for (let i = 0; i < values.length; i++) {
+        query += "?";
+        if (i < values.length - 1) {
+            query += ", ";
+        }
+    }
+    query += ")";
+    const [queryResults] = await getPool().execute(
+        query,
+        values
+    );
+    return queryResults;
+}
+
+export async function deleteAll(aTableName, aProperties, aUseOr = false) {
+    let query = `DELETE FROM ${aTableName}`;
+    let keys = Object.keys(aProperties);
+    let values = Object.values(aProperties);
+    if (keys.length > 0) {
+        query += " WHERE";
+        for (let i = 0; i < keys.length; i++) {
+            if (values[i].useLike) {
+                query += ` ${keys[i]} LIKE ?`
+                values[i] = values[i].value;
+            } else {
+                query += ` ${keys[i]}=?`;
+            }
+            if (i < keys.length - 1) {
+                query += aUseOr ? " OR" : " AND";
+            }
+        }
+    }
+    const [queryResults] = await getPool().execute(query, values);
+    return queryResults;
+}
