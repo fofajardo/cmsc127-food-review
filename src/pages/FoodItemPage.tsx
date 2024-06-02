@@ -2,14 +2,24 @@ import { FIMainPreview } from "./../components/food_item/FIMainPreview";
 import React, { useEffect, useState } from "react";
 import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
-import { RatingStarIndicator } from "../components/common/RatingStarIndicator.tsx";
-import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
+import { sampleFoodItems } from "../models/FoodItem.ts";
 import { ReviewCard } from "../components/common/ReviewCard.tsx";
 import { sampleFoodItemReviews } from "../models/Review.ts";
+import { FIFilterCard } from "../components/food_item/FIFilterCard.tsx";
 
 export function FoodItemPage() {
   const [foodItem, setFoodItem] = useState(sampleFoodItems[0]);
   const [foodItemReviews, setFoodItemReviews] = useState(sampleFoodItemReviews);
+
+  const applyFilter = (
+    // no more establishmentID for this filter
+    searchString: string,
+    searchFoodType: string,
+    year: string,
+    sortInput: string
+  ) => {
+    //@TODO: implement this
+  };
 
   // upon render, fetch food item details and reviews
   useEffect(() => {
@@ -31,8 +41,9 @@ export function FoodItemPage() {
               <FIMainPreview foodItem={foodItem} />
               {/* BOTTOM PANEL */}
               <div className="card bg-white flex min-h-[60vh] w-full flex-row rounded-2xl shadow-lg mt-4 border-[0.1px] bbg-white">
-                <aside className="flex-1 border-r-[0.1px]">
+                <aside className="flex-1 border-r-[0.1px] p-4">
                   {/* SIDE SECTION */}
+                  <FIFilterCard applyFilter={applyFilter} />
                 </aside>
                 {/* SECTION SHOWING REVIEW PREVIEW CARDS */}
                 <main className="flex flex-[2] flex-col gap-[.1rem]">
