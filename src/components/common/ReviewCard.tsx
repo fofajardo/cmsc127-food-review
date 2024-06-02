@@ -1,6 +1,6 @@
 import React from "react";
 import { EstablishmentReview } from "../../models/Review";
-import { RatingStarIndicator } from "../common/RatingStarIndicator";
+import { RatingStarIndicator } from "./RatingStarIndicator";
 
 export function EReviewCard({
   establishmentReview,
