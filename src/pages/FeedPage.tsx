@@ -14,7 +14,6 @@ import {
 } from "../models/Establishment.ts";
 import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EFAddEstablishmentModal } from "../components/estab_feed/EFAddEstablishmentModal.tsx";
-import { UserContext } from "../App.tsx";
 
 export const FeedContext = React.createContext({
   modalEstablishment: sampleEstablishment,
@@ -37,16 +36,15 @@ export const FeedContext = React.createContext({
 export function EstablishmentFeedPage() {
   const [establishments, setEstablishments] = useState([] as Establishment[]);
   const [foodItems, setFoodItems] = useState([] as FoodItem[]);
-  const { user, setUser } = React.useContext(UserContext);
 
   // upon render, fetch establishments and food items
-  useEffect(() => {}, [
+  useEffect(() => {
     // @TODO: fetch establishments and food items; remove the timeout, this is just simulated delay hehe
     setTimeout(() => {
       setEstablishments(sampleEstablishments);
       setFoodItems(sampleFoodItems);
-    }, 500),
-  ]);
+    }, 500);
+  }, []);
 
   // @TODO: implement filter logic
   const applyEstablishmentFilter = (
@@ -205,7 +203,7 @@ export function EstablishmentFeedPage() {
                     >
                       Add establishment
                     </button>
-                    <p>Hello {user?.name}</p>
+                    <p>Hello {window.localStorage.getItem("userName")}</p>
                   </div>
                 </>
               )}

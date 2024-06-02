@@ -1,12 +1,10 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
 import { Establishment } from "../../models/Establishment";
-import { FaUserCheck } from "react-icons/fa";
 import { FeedContext } from "../../pages/FeedPage";
 import { IoLocationSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router-dom";
 import { YoursBadge } from "../common/YoursBadge";
-import { UserContext } from "../../App";
 
 // @todo: pass props to the component to display the establishment name, establishment rating, and food rating
 export function EFEstablishmentCard({
@@ -16,7 +14,6 @@ export function EFEstablishmentCard({
 }) {
   const context = React.useContext(FeedContext);
   const navigate = useNavigate();
-  const userContext = React.useContext(UserContext);
 
   return (
     <>
@@ -67,12 +64,12 @@ export function EFEstablishmentCard({
         <div
           className={
             "flex flex-row bg-amber-50 rounded-b-2xl p-4 " +
-            (userContext.user?.user_id === establishment.user_id
+            (window.localStorage.getItem("user_id") === establishment.user_id
               ? "justify-between"
               : "justify-end")
           }
         >
-          {userContext.user?.user_id === establishment.user_id ? (
+          {window.localStorage.getItem("user_id") === establishment.user_id ? (
             <YoursBadge />
           ) : null}
 

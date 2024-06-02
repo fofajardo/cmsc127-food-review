@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
-import { UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 export function HomePage() {
-  const userContext = useContext(UserContext);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center w-full">
@@ -15,7 +13,13 @@ export function HomePage() {
             FoodReview
           </div>
           {/* if user has logged in, redirect to feed */}
-          <a onClick={() => navigate(userContext.user ? "/feed" : "/login")}>
+          <a
+            onClick={() =>
+              navigate(
+                window.localStorage.getItem("user_id") ? "/feed" : "/login"
+              )
+            }
+          >
             Get Started
           </a>
         </div>

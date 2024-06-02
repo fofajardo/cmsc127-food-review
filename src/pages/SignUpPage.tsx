@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
-import { UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 interface FormData {
@@ -46,19 +45,18 @@ export function Signup() {
   };
 
   const handleSubmit = (e: FormEvent) => {
-    const userContext = useContext(UserContext);
     e.preventDefault();
     if (validate()) {
       console.log("Signup successful", formData);
       // @TODO: implement nio signup logic dito; siguro store nio yung username, name, email sa browser local storage or sa cookies
 
       // @TODO: replace this
-      userContext.setUser({
-        user_id: "1234567890",
-        email: formData.email,
-        name: "Juan Dela Cruz",
-        username: "juandelacruz",
-      });
+      // set user_id, name, username, email to local storage
+      localStorage.setItem("user_id", "1234567890");
+      localStorage.setItem("email", formData.email);
+      localStorage.setItem("name", "Juan Dela Cruz");
+      localStorage.setItem("username", "juandelacruz");
+
       // @TODO: after signup, call login method, then redirect to feed page
     }
   };

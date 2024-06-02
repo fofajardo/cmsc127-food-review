@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
-import { UserContext } from "../App.tsx";
 import { User } from "../models/User.ts";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +36,6 @@ export function Login() {
     return Object.keys(newErrors).length === 0;
   };
   const navigate = useNavigate();
-  const userContext = useContext(UserContext);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
@@ -45,9 +43,12 @@ export function Login() {
       // @TODO: implement nio login logic dito; siguro store nio yung username, name, email sa browser local storage or sa cookies
 
       // @TODO: replace this
-      userContext.setUser(
-        new User("1234567890", "Sample Name", "sample_username", "sample_email")
-      );
+      // set user_id, name, username, email to local storage
+      localStorage.setItem("user_id", "1234567890");
+      localStorage.setItem("email", formData.email);
+      localStorage.setItem("name", "Juan Dela Cruz");
+      localStorage.setItem("username", "juandelacruz");
+
       // navigate to feed page
       navigate("/feed");
     }
@@ -106,7 +107,6 @@ export function Login() {
                 Sign up
               </a>
             </div>
-            <p>Hello {userContext.user?.name}</p>
           </form>
         </div>
       </div>
