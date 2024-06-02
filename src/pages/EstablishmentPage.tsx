@@ -129,7 +129,12 @@ export function EstablishmentPage() {
                 )}
               </p>
               {/* Manage establishment section for Admin and Owner */}
-              <div className="card bg-accent w-full px-8 py-4 mt-4 shadow-lg flex flex-row items-center">
+              <div
+                className={
+                  "card bg-accent w-full px-8 py-4 mt-4 shadow-lg flex flex-row items-center " +
+                  (window.localStorage.getItem("is_admin") ? "" : "hidden")
+                }
+              >
                 <h2 className="text-2xl font-bold text-white flex-1">
                   Manage this Establishment
                 </h2>
