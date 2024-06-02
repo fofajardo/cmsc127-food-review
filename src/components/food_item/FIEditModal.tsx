@@ -141,10 +141,10 @@ export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
           <div className="flex flex-col items-center">
             <FaCheckCircle className="mb-4 text-6xl text-success" />
             <span className="text-xl font-bold text-success">
-              Submission complete!
+              Updated successfully!
             </span>
             <span className="text-lg font-normal">
-              Your food item has been added successfully.
+              Your changes have been saved.
             </span>
           </div>
           <form className="flex w-1/2" method="dialog">

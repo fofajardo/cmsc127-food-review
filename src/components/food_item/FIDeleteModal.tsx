@@ -54,7 +54,7 @@ export function FIDeleteModal({ foodItem }: { foodItem: FoodItem }) {
             <span className="text-xl font-bold text-error">
               Deleted successfully!
             </span>
-            <span className="text-lg font-normal">
+            <span className="text-lg font-normal text-center">
               {foodItem.name} removed permanently from the database.
             </span>
           </div>

@@ -133,10 +133,10 @@ export function EEditModal({
           <div className="flex flex-col items-center">
             <FaCheckCircle className="mb-4 text-6xl text-success" />
             <span className="text-xl font-bold text-success">
-              Submission complete!
+              Changes saved!
             </span>
             <span className="text-lg font-success">
-              Your establishment has been added successfully.
+              Establishment updated successfully.
             </span>
           </div>
           <form className="flex w-1/2" method="dialog">
