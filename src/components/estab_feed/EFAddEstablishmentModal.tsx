@@ -1,18 +1,20 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import { FaCheckCircle } from "react-icons/fa";
+import { apiUrls } from "../../apiHelper";
 
 export function EFAddEstablishmentModal() {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     location: "",
-    description: "",
+    // description: "",
   });
   const [errors, setErrors] = useState({
     name: "",
     location: "",
-    description: "",
+    // description: "",
   });
 
   const handleChange = (
@@ -32,20 +34,22 @@ export function EFAddEstablishmentModal() {
     const newErrors = {
       name: "",
       location: "",
-      description: "",
+      // description: "",
     };
     if (!formData.name) newErrors.name = "Name is required";
     if (!formData.location) newErrors.location = "Location is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
+    // if (!formData.description)
+    //   newErrors.description = "Description is required";
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      //@TODO: implement create establishment
-      setSubmitComplete(true); // kunware lang na-submit na
+      const response = await axios.post(apiUrls.foodEstablishments(), formData);
+      if (response.data.data) {
+        setSubmitComplete(true);
+      }
     }
   };
 
@@ -96,7 +100,7 @@ export function EFAddEstablishmentModal() {
             )}
           </div>
 
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             <textarea
               name="description"
               className="input input-bordered w-full resize-y pt-2"
@@ -107,7 +111,7 @@ export function EFAddEstablishmentModal() {
             {errors.description && (
               <span className="text-red-500 ml-2">{errors.description}</span>
             )}
-          </div>
+          </div> */}
 
           <button onClick={handleSubmit} className="btn btn-primary w-full">
             Submit
