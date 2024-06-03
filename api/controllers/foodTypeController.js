@@ -17,6 +17,12 @@ export async function getAllFoodTypes(aRequest, aResponse) {
         properties["fooditemid"] = foodItemId;
     }
 
+    const foodItemExists = await FoodItemService.hasFoodItemWithId(
+        foodItemId);
+    if (!foodItemExists) {
+        return aResponse.sendErrorClient("Food item does not exist");
+    }
+
     const {
         name, nameIsExact, sortCol, sortOrder
     } = aRequest.query;
