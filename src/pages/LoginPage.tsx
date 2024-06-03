@@ -2,20 +2,22 @@ import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
 import { User } from "../models/User.ts";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { apiUrls } from "../apiHelper.ts";
 
 interface LoginData {
-  email: string;
+  username: string;
   password: string;
 }
 
 interface LoginErrors {
-  email?: string;
+  username?: string;
   password?: string;
 }
 
 export function Login() {
   const [formData, setFormData] = useState<LoginData>({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -30,26 +32,19 @@ export function Login() {
 
   const validate = () => {
     const newErrors: LoginErrors = {};
-    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.username) newErrors.username = "Email is required";
     if (!formData.password) newErrors.password = "Password is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
   const navigate = useNavigate();
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Login successful", formData);
-      // @TODO: implement nio login logic dito; siguro store nio yung username, name, email sa browser local storage or sa cookies
-
-      // @TODO: replace this
-      // set user_id, name, username, email to local storage
-      localStorage.setItem("user_id", "1234567890");
-      localStorage.setItem("email", formData.email);
-      localStorage.setItem("name", "Juan Dela Cruz");
-      localStorage.setItem("username", "juandelacruz");
-      localStorage.setItem("is_admin", "true");
-
+      await axios.post(
+        apiUrls.auth("sign-in"),
+        formData
+      );
       // navigate to feed page
       navigate("/feed");
     }
@@ -66,18 +61,17 @@ export function Login() {
           <h2 className="text-3xl font-bold text-center w-full">Login</h2>
           <form onSubmit={handleSubmit} className="w-prose">
             <div className="form-control">
-              <label className="label" htmlFor="email">
-                Email
+              <label className="label" htmlFor="username">
+                Email or username
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                name="username"
+                value={formData.username}
                 onChange={handleChange}
                 className="input input-bordered w-full"
               />
-              {errors.email && (
-                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              {errors.username && (
+                <p className="text-red-500 text-xs mt-1">{errors.username}</p>
               )}
             </div>
             <div className="form-control mb-4">

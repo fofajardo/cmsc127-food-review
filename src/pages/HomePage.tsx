@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { useEffect } from "react";
 import { FaUtensils } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 export function HomePage() {
   const navigate = useNavigate();
+
   return (
     <div className="flex flex-col items-center w-full">
       <div className="flex flex-col items-center bg-neutral h-[100vh] w-full">
@@ -14,6 +16,7 @@ export function HomePage() {
           </div>
           {/* if user has logged in, redirect to feed */}
           <a
+            className="text-white text-center"
             onClick={() =>
               navigate(
                 window.localStorage.getItem("user_id") ? "/feed" : "/login"
