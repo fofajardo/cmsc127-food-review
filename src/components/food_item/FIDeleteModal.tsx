@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { FoodItem } from "../../models/FoodItem";
+import { FoodItem } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function FIDeleteModal({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    //@TODO: implement deletion of food item
-    setSubmitComplete(true); // simulate successful submission
+  const handleSubmit = async () => {
+    const response = await axios.delete(apiUrls.foodItems(foodItem.id.toString()));
+    if (response.data.data) {
+      setSubmitComplete(true);
+    }
   };
 
   return (
@@ -61,7 +65,7 @@ export function FIDeleteModal({ foodItem }: { foodItem: FoodItem }) {
           <form className="flex w-1/2" method="dialog">
             <button
               onClick={() => {
-                navigate("/establishment?id=" + foodItem.establishment_id);
+                navigate("/establishment?id=" + foodItem.foodEstablishmentId);
               }}
               className="btn btn-error w-full text-white"
             >

@@ -6,8 +6,6 @@ export function Review(aRow) {
     /** @type {String} */
     this.note = aRow.note;
     /** @type {String} */
-    this.username = aRow.username;
-    /** @type {String} */
     this.date = aRow.date;
     /** @type {Number} */
     this.rating = aRow.rating;
@@ -17,6 +15,14 @@ export function Review(aRow) {
     this.foodDestinationId = aRow.foodestid;
     /** @type {Number} */
     this.foodItemId = aRow.fooditemid;
+    if (aRow.name) {
+        /** @type {String} */
+        this.reviewerName = aRow.name;
+    }
+    if (aRow.username) {
+        /** @type {String} */
+        this.reviewerUsername = aRow.username;
+    }
 }
 
 Review.prototype.toValues = function() {
@@ -29,7 +35,6 @@ Review.prototype.toValues = function() {
         this.userId,
         this.foodDestinationId,
         this.foodItemId,
-        this.username
     ];
 };
 

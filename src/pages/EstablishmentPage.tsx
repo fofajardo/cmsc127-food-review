@@ -3,80 +3,42 @@ import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { IoLocationSharp } from "react-icons/io5";
 import { RatingStarIndicator } from "../components/common/RatingStarIndicator.tsx";
-import { sampleEstablishment } from "../models/Establishment.ts";
 import { MdCheckCircleOutline, MdOutlineContentCopy } from "react-icons/md";
 import { ReviewCard } from "../components/common/ReviewCard.tsx";
-import { sampleEstablishmentReviews } from "../models/Review.ts";
-// import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EAddReviewModal } from "../components/estab/EAddReviewModal.tsx";
 import { EFoodCard } from "../components/estab/EFoodCard.tsx";
 import { EAddFoodItemModal } from "../components/estab/EAddFoodItemModal.tsx";
 import { EDeleteModal } from "../components/estab/EDeleteModal.tsx";
 import { EEditModal } from "../components/estab/EEditModal.tsx";
-import { FoodEstablishment, Review, FoodItem } from "../../models/_models";
+import { FoodEstablishment, FoodItem, Review } from "../../models/_models.js";
 import axios from "axios";
+import { apiUrls } from "../apiHelper.ts";
 
 export function EstablishmentPage() {
-  const [establishment, setEstablishments] = useState({} as FoodEstablishment);
+  const [establishment, setEstablishment] = useState({} as FoodEstablishment);
   const [activeTab, setActiveTab] = useState(0); // 0: establishment reviews, 1: food items
-  const [establishmentReviews, setEstablishmentReviews] = useState([] as Review[]);
-  const [foodItems, setFoodItems] = useState([] as FoodItem[]);
-
-  const establishmentId = new URLSearchParams(window.location.search).get(
-    "id"
-  ); 
-
-  const fetchEstablishments = async () => {
-    try {
-      const response = await axios.get(`/api/food-establishments/${establishmentId}`)
-      setEstablishments(response.data.data);
-    } catch (error) {
-      //setEstablishments();
-      console.error("Error fetching establishments: ", error);
-    }
-  }
-
-  const fetchEstablishmentReviews = async () => {
-    try {
-      const response = await axios.get("/api/reviews", {
-        params: {
-          establishmentId: establishmentId,
-          type: 'food_establishment',
-        }
-      });
-      const reviewsData = response.data.data.map(review => new Review(review));
-      setEstablishmentReviews(reviewsData);
-    } catch (error) {
-      console.error("Error fetching establishment reviews: ", error);
-    }
-  };
-
-  const fetchFoodItems = async () => {
-    try {
-      const response = await axios.get("/api/food-items", {
-        params: {
-          establishmentId: establishmentId,
-        }
-      });
-      const foodItemsData = response.data.data.map(fooditems => new FoodItem(fooditems));
-      setFoodItems(foodItemsData);
-    } catch (error) {
-      console.error("Error fetching establishment reviews: ", error);
-    }
-  };
-
+  const [establishmentReviews, setEstablishmentReviews] = useState(
+    [] as Review[]
+  );
+  const [foodItems, setFoodItems] = useState(
+    [] as FoodItem[]
+  );
 
   // upon render, fetch establishment details, all of its reviews, and food items
   useEffect(() => {
-    //@TODO: implement this
-    // use setEstablishment, setEstablishmentReviews, and setFoodItems
-
     // get the establishment ID from the query string
-    // use this to fetch establishment details
-
-    fetchEstablishments();
-    fetchEstablishmentReviews();
-    fetchFoodItems();
+    const establishmentId = new URLSearchParams(window.location.search).get(
+      "id"
+    );
+    axios.get(apiUrls.foodEstablishments(`${establishmentId}?withRating=1`)).then(function(aResponse) {
+      setEstablishment(aResponse.data.data);
+    });
+    axios.get(apiUrls.reviews(`?establishmentId=${establishmentId}&type=food_establishment&full=1`)).then(function(aResponse) {
+      setEstablishmentReviews(aResponse.data.data);
+    });
+    axios.get(apiUrls.foodItems(`?establishmentId=${establishmentId}&full=1`)).then(function(aResponse) {
+      setFoodItems(aResponse.data.data);
+    });
   }, []);
 
   const [applyFilterEnabled, setApplyFilterEnabled] = useState(false);
@@ -100,7 +62,14 @@ export function EstablishmentPage() {
     const monthSelect = (
       document.getElementById("monthSelect") as HTMLSelectElement
     ).value;
-    // @TODO: implement filter logic with setEstablishmentReviews()
+    // combine year and month into "YYYY-MM"
+    let yearMonth = "";
+    if (yearInput && monthSelect) {
+      yearMonth = yearInput + "-" + monthSelect;
+    }
+    axios.get(apiUrls.reviews(`?establishmentId=${establishment.id}&yearMonth=${yearMonth}&type=food_establishment&full=1`)).then(function(aResponse) {
+      setEstablishmentReviews(aResponse.data.data);
+    });
   };
 
   const handleClear = () => {
@@ -109,7 +78,6 @@ export function EstablishmentPage() {
     (document.getElementById("monthSelect") as HTMLSelectElement).value =
       "Month";
     setApplyFilterEnabled(false);
-    // @TODO: implement filter logic with setEstablishmentReviews()
   };
 
   // this is for keeping track of the copy id state
@@ -118,7 +86,7 @@ export function EstablishmentPage() {
     <>
       {/* modals */}
       <EAddReviewModal establishment={establishment} />
-      <EAddFoodItemModal />
+      <EAddFoodItemModal establishment={establishment} />
       <EEditModal establishment={establishment} />
       <EDeleteModal establishment={establishment} />
       <div className="flex flex-col items-center bg-slate-100">
@@ -147,7 +115,7 @@ export function EstablishmentPage() {
                   </div>
                 </div>
               </div>
-              <p className="indent-8 pt-4">{establishment.description}</p>
+              {/* <p className="indent-8 pt-4">{establishment.description}</p> */}
 
               <p className="text-sm text-gray-500 inline-flex items-center justify-end">
                 Establishment ID:{" "}

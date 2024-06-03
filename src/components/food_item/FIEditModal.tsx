@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FoodItem } from "../../models/FoodItem";
+import { FoodItem } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper";
 
 export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
@@ -43,36 +45,33 @@ export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      // convert foodTypes to array
-      const foodTypesArray = formData.foodTypes
-        .split(",")
-        .map((item) => item.trim());
-      console.log({
-        ...formData,
-        foodTypes: foodTypesArray,
-      });
-      //@TODO: implement edit food item
-      setSubmitComplete(true); // simulate successful submission
+      let response = await axios.put(apiUrls.foodItems(foodItem.id.toString()), formData);
+      if (response.data.data) {
+        response = await axios.post(apiUrls.foodTypesOfFoodItem(foodItem.id.toString()), { names: formData.foodTypes });
+        if (response.data.data) {
+          setSubmitComplete(true);
+        }
+      }
     }
   };
 
   useEffect(() => {
     // set the food item data to the form data
     setFormData({
-      name: foodItem.name,
-      price: foodItem.price.toString(),
-      foodTypes: foodItem.food_types.join(", "),
+      name: foodItem?.name,
+      price: foodItem?.price?.toString(),
+      foodTypes: foodItem?.types,
     });
-  }, []);
+  }, [foodItem]);
 
   return (
     <dialog className="modal" id="editFoodItemModal">
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
           <h2 className="text-left text-2xl font-bold line-clamp-1">
-            Edit {foodItem.name}
+            Edit {foodItem?.name}
           </h2>
           <form method="dialog">
             <button

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Review } from "../../../models/_models";
+import { Review } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function DeleteReviewModal({
   review,
@@ -13,9 +15,11 @@ export function DeleteReviewModal({
   const [submitComplete, setSubmitComplete] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    //@TODO: implement deletion of review
-    setSubmitComplete(true); // simulate successful submission
+  const handleSubmit = async () => {
+    const response = await axios.delete(apiUrls.reviews(review.id.toString()));
+    if (response.data.data) {
+      setSubmitComplete(true);
+    }
   };
 
   return (

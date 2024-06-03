@@ -119,7 +119,7 @@ export async function createNewUser(aRequest, aResponse) {
                 isEndUser = true;
                 break;
             case FixedRole.OWNER:
-                isOwner = false;
+                isOwner = true;
                 break;
             case FixedRole.ADMIN:
                 if (!allowOverrides) {

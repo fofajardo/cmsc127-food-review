@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
+import axios from "axios";
+import { FoodEstablishment } from "../../../models/FoodEstablishment";
+import { apiUrls } from "../../apiHelper";
 
-export function EAddFoodItemModal() {
+export function EAddFoodItemModal({
+  establishment,
+}: {
+  establishment: FoodEstablishment;
+}) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     price: "",
     foodTypes: "",
+    foodEstablishmentId: "",
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -42,18 +50,16 @@ export function EAddFoodItemModal() {
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      // convert foodTypes to array
-      const foodTypesArray = formData.foodTypes
-        .split(",")
-        .map((item) => item.trim());
-      console.log({
-        ...formData,
-        foodTypes: foodTypesArray,
-      });
-      //@TODO: implement create food item
-      setSubmitComplete(true); // simulate successful submission
+      formData.foodEstablishmentId = establishment.id.toString();
+      let response = await axios.post(apiUrls.foodItems(), formData);
+      if (response.data.data) {
+        response = await axios.post(apiUrls.foodTypesOfFoodItem(response.data.data), { names: formData.foodTypes });
+        if (response.data.data) {
+          setSubmitComplete(true);
+        }
+      }
     }
   };
 

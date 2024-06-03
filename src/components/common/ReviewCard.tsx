@@ -1,5 +1,5 @@
 import React from "react";
-import { Review } from "../../../models/_models";
+import { Review } from "../../../models/_models.js";
 import { RatingStarIndicator } from "./RatingStarIndicator";
 import { DeleteReviewModal } from "./DeleteReviewModal";
 import { EditReviewModal } from "./EditReviewModal";
@@ -21,7 +21,7 @@ export function ReviewCard({
         }
       >
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl font-bold">@{establishmentReview.username}</h2>
+          <h2 className="text-xl font-bold">@{establishmentReview.reviewerUsername}</h2>
           <div className="flex flex-col justify-between">
             <RatingStarIndicator rating={establishmentReview.rating} />
           </div>
@@ -54,7 +54,7 @@ export function ReviewCard({
           className={
             "card bg-accent w-full px-8 py-2 mt-4 shadow-lg flex flex-row items-center " +
             (window.localStorage.getItem("user_id") ==
-              //establishmentReview.userId ||
+              establishmentReview.userId.toString() ||
             window.localStorage.getItem("is_admin")
               ? ""
               : "hidden")

@@ -8,7 +8,7 @@ import { Login } from "./pages/LoginPage.tsx";
 import { EstablishmentPage } from "./pages/EstablishmentPage.tsx";
 import { FoodItemPage } from "./pages/FoodItemPage.tsx";
 import { HomePage } from "./pages/HomePage.tsx";
-import { User } from "./models/User.ts";
+import { User } from "../models/_models.js";
 
 function App() {
   const [user, setUser] = React.useState<User | undefined>();

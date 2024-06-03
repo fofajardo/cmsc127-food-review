@@ -7,7 +7,7 @@ export async function getAllFoodItems(aProperties) {
     let append = "";
     let orderKeys = aProperties.sort;
     if (aProperties.establishmentName || aProperties.full) {
-        append += " NATURAL JOIN `foodestablishment`";
+        append += " INNER JOIN `foodestablishment` ON `fooditem`.foodestid=`foodestablishment`.foodestid";
     }
     if (aProperties.foodType || aProperties.full) {
         append += " NATURAL JOIN `foodtype`";
@@ -48,7 +48,8 @@ export async function hasFoodItemWithId(aId) {
 
 export async function createNewFoodItem(aFoodItem) {
     const queryResults = await insert(kTableName, aFoodItem);
-    return queryResults.affectedRows === 1;
+    const success = queryResults.affectedRows === 1;
+    return success ? queryResults.insertId : false;
 }
 
 export async function updateOneFoodItem(aId, aProperties) {

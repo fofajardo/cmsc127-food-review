@@ -10,7 +10,7 @@ import { hasValue } from "../utils.js";
 
 export async function getAllReviews(aRequest, aResponse) {
     const properties = {};
-    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, sortCol, sortOrder } = aRequest.query;
+    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, type, sortCol, sortOrder, yearMonth, full } = aRequest.query;
 
     if (userId && !validator.isNumeric(userId)) {
         return aResponse.sendErrorClient("User ID must be a number");
@@ -26,8 +26,8 @@ export async function getAllReviews(aRequest, aResponse) {
         if (sortOrder !== "ASC" && sortOrder !== "DESC") {
             return aResponse.sendErrorClient("Unknown sort order");
         }
-        if (sortOrder !== "rating" && sortOrder !== "date") {
-            return aResponse.sendErrorClient("Unknown sort order");
+        if (sortCol !== "rating" && sortCol !== "date") {
+            return aResponse.sendErrorClient("Unknown sort column");
         }
         properties.sort = [`${sortCol} ${sortOrder}`];
     }
@@ -42,6 +42,24 @@ export async function getAllReviews(aRequest, aResponse) {
         properties.fooditemname = {
             operator: "LIKE",
             value: `%${foodItemName}%`,
+        };
+    }
+    if (foodItemId) {
+        properties.fooditemid = foodItemId;
+    }
+    if (establishmentId) {
+        properties.foodestid = establishmentId;
+    }
+    if (full) {
+        properties.full = true;
+    }
+    if (type) {
+        properties.type = type;
+    }
+    if (yearMonth) {
+        properties.date = {
+            operator: "LIKE",
+            value: `${yearMonth}%`
         };
     }
 
@@ -83,7 +101,7 @@ export async function getOneReview(aRequest, aResponse) {
 export async function createNewReview(aRequest, aResponse) {
     const { body } = aRequest;
     const requiredProps = [
-        "type", "note", "date", "rating", "userId", "foodEstablishmentId", "foodItemId"
+        "type", "note", "date", "rating", "foodEstablishmentId"
     ];
     if (aResponse.sendErrorEmptyBody(requiredProps)) {
         return;
@@ -93,9 +111,6 @@ export async function createNewReview(aRequest, aResponse) {
         if (aRequest.you.cannot(Actions.CREATE, Subjects.REVIEW)) {
             return aResponse.sendErrorForbidden();
         }
-        if (!validator.isNumeric(body.rating)) {
-            return aResponse.sendErrorClient("Rating must be a number");
-        }
 
         const review = {
             type: body.type,
@@ -104,9 +119,9 @@ export async function createNewReview(aRequest, aResponse) {
             rating: body.rating,
             userid: aRequest?.user?.id,
             foodestid: body.foodEstablishmentId,
-            fooditemid: body.foodItemId,
-        }; 
-        
+            fooditemid: body?.foodItemId,
+        };
+
         const result = await ReviewService.createNewReview(review);
         if (result) {
             return aResponse.sendOk(result);
@@ -151,13 +166,10 @@ export async function updateOneReview(aRequest, aResponse) {
         if (aRequest.you.cannot(Actions.UPDATE, Subjects.REVIEW)) {
             return aResponse.sendErrorForbidden();
         }
-        if (hasValue(body, "type")) properties.type = body.type;
-        if (hasValue(body, "note")) properties.note = body.note;
-        if (hasValue(body, "date")) properties.date = body.date;
+        if (hasValue(body, "note")) {
+            properties.note = body.note;
+        }
         if (hasValue(body, "rating")) {
-            if (!validator.isNumeric(body.rating)) {
-                return aResponse.sendErrorClient("Rating must be a number");
-            }
             properties.rating = body.rating;
         }
 

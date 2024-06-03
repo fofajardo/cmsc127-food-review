@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FoodItem } from "../../models/FoodItem.ts";
+import { FoodItem } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
@@ -35,12 +37,19 @@ export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      //@TODO: implement add food item review
-      // use formData and starRating to get the review details
-      // use foodItem.food_item_id to get the food item id
-      setSubmitComplete(true); // simulate successful submission
+      const response = await axios.post(apiUrls.reviews(), {
+        type: "food_item",
+        note: formData.description,
+        date: new Date().toISOString().split("T")[0],
+        rating: starRating,
+        foodEstablishmentId: foodItem.foodEstablishmentId,
+        foodItemId: foodItem.id,
+      });
+      if (response.data.data) {
+        setSubmitComplete(true);
+      }
     }
   };
 

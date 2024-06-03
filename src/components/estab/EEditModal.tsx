@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FoodEstablishment } from "../../../models/_models";
 import { FaCheckCircle } from "react-icons/fa";
+import { FoodEstablishment } from "../../../models/_models.js";
 import axios from "axios";
-import { apiUrls } from "../../apiHelper.ts"; 
+import { apiUrls } from "../../apiHelper.js";
 
 export function EEditModal({
   establishment,
@@ -13,12 +13,12 @@ export function EEditModal({
   const [formData, setFormData] = useState({
     name: "",
     location: "",
-    description: "",
+    // description: "",
   });
   const [errors, setErrors] = useState({
     name: "",
     location: "",
-    description: "",
+    // description: "",
   });
 
   const handleChange = (
@@ -38,22 +38,23 @@ export function EEditModal({
     const newErrors = {
       name: "",
       location: "",
-      description: "",
+      // description: "",
     };
     if (!formData.name) newErrors.name = "Name is required";
     if (!formData.location) newErrors.location = "Location is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
+    // if (!formData.description)
+      // newErrors.description = "Description is required";
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      //@TODO: implement edit establishment
-      const establishmentId = establishment.id.toString();
-      axios.put(apiUrls.foodEstablishments(establishmentId),formData);
-      setSubmitComplete(true); // kunware lang na-submit na
+      const response = await axios.put(apiUrls.foodEstablishments(establishment.id.toString()), formData);
+      if (response.data.data) {
+        setSubmitComplete(true);
+      }
+      setSubmitComplete(true);
     }
   };
 
@@ -62,9 +63,9 @@ export function EEditModal({
     setFormData({
       name: establishment.name,
       location: establishment.location,
-      description: establishment.description,
+      // description: establishment.description,
     });
-  }, []);
+  }, [establishment]);
   return (
     <dialog className="modal" id="editEstablishmentModal">
       <div className="modal-box bg-base-100 p-0">
@@ -110,7 +111,7 @@ export function EEditModal({
             )}
           </div>
 
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             <textarea
               name="description"
               className="input input-bordered w-full resize-y pt-2"
@@ -121,7 +122,7 @@ export function EEditModal({
             {errors.description && (
               <span className="text-red-500 ml-2">{errors.description}</span>
             )}
-          </div>
+          </div> */}
 
           <button onClick={handleSubmit} className="btn btn-primary w-full">
             Save Changes

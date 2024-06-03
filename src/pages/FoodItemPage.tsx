@@ -2,28 +2,60 @@ import { FIMainPreview } from "./../components/food_item/FIMainPreview";
 import React, { useEffect, useState } from "react";
 import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
-import { sampleFoodItems } from "../models/FoodItem.ts";
 import { ReviewCard } from "../components/common/ReviewCard.tsx";
-import { sampleFoodItemReviews } from "../models/Review.ts";
 import { FIFilterCard } from "../components/food_item/FIFilterCard.tsx";
 import { FIAddReview } from "../components/food_item/FIAddReview.tsx";
+import { FoodItem, Review } from "../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../apiHelper.ts";
 
 export function FoodItemPage() {
-  const [foodItem, setFoodItem] = useState(sampleFoodItems[0]);
-  const [foodItemReviews, setFoodItemReviews] = useState(sampleFoodItemReviews);
+  const [foodItem, setFoodItem] = useState({} as FoodItem);
+  const [foodItemReviews, setFoodItemReviews] = useState([] as Review[]);
 
   const applyFoodReviewFilter = (month: string, sortInput: string) => {
-    //@TODO: implement this
+    // XXX(fofajardo): this should've been separated by col and order, NOT sort display string...
+    let sortCol = "date";
+    let sortOrder = "DESC";
+    switch (sortInput) {
+      case "Ascending Rating":
+        sortCol = "rating";
+        sortOrder = "ASC";
+        break;
+      case "Descending Rating":
+        sortCol = "rating";
+        sortOrder = "DESC";
+        break;
+      case "Newest":
+        sortCol = "date";
+        sortOrder = "DESC";
+        break;
+      case "Oldest":
+        sortCol = "date";
+        sortOrder = "ASC";
+        break;
+      default:
+        break;
+    }
+    axios.get(apiUrls.reviews(`?foodItemId=${foodItem.id}&yearMonth=${month}&sortCol=${sortCol}&sortOrder=${sortOrder}&full=1`)).then(function(aResponse) {
+      setFoodItemReviews(aResponse.data.data);
+    });
   };
 
   // upon render, fetch food item details and reviews
   useEffect(() => {
-    //@TODO: implement this
-
     // get the food item ID from the query string
-    const establishmentId = new URLSearchParams(window.location.search).get(
+    const foodItemId = new URLSearchParams(window.location.search).get(
       "id"
-    ); // use this to fetch food item details and reviews
+    );
+    axios.get(apiUrls.foodItems(`?id=${foodItemId}&full=1`)).then(function(aResponse) {
+      if (aResponse.data.data?.length > 0) {
+        setFoodItem(aResponse.data.data[0]);
+      }
+    });
+    axios.get(apiUrls.reviews(`?foodItemId=${foodItemId}&full=1`)).then(function(aResponse) {
+      setFoodItemReviews(aResponse.data.data);
+    });
   }, []);
 
   return (

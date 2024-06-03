@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi";
 import { FaUtensils } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper";
 
 export const openShoppingCartModal = () => {
   const dialog = document.getElementById("shoppingCartModal");
@@ -34,8 +36,11 @@ export function NavigationBar() {
     };
   }, []);
 
-  // @TODO: implement logout
-  const handleLogOut = () => {};
+  const handleLogOut = async () => {
+    await axios.post(apiUrls.auth("sign-out"));
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
     <>

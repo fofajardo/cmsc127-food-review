@@ -76,13 +76,16 @@ export async function getAllFoodItems(aRequest, aResponse) {
             return aResponse.sendErrorClient(
                 "Food establishment ID must be a number");
         }
-        properties.foodestid = establishmentId;
+        properties.establishmentId = {
+            value: establishmentId,
+            colName: "`fooditem`.foodestid",
+        };
     }
     if (sortCol) {
         if (sortOrder != "ASC" && sortOrder != "DESC") {
             return aResponse.sendErrorClient("Unknown sort order");
         }
-        if (sortCol != "name" && sortCol != "price") {
+        if (sortCol != "fooditemname" && sortCol != "price") {
             return aResponse.sendErrorClient("Unknown sort column");
         }
         properties.sort = [`${sortCol} ${sortOrder}`];

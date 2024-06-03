@@ -40,19 +40,19 @@ export function EFExpandModal() {
             <div className="flex flex-col justify-between">
               <div className="card-actions flex-col">
                 <RatingStarIndicator
-                  rating={context.modalEstablishment.average_rating}
+                  rating={context.modalEstablishment.averageRating}
                 />
               </div>
             </div>
           </div>
 
-          <p className="indent-8 pt-4 ">
+          {/* <p className="indent-8 pt-4 ">
             {context.modalEstablishment.description}
-          </p>
+          </p> */}
           <hr className="m-3" />
           <p className="text-sm text-gray-500 inline-flex items-center justify-end px-4">
             Establishment ID:{" "}
-            <span>{context.modalEstablishment.food_establishment_id}</span>
+            <span>{context.modalEstablishment.id}</span>
             {/* render copy icon conditionally; initially a copy icon, then a checked icon upon clicking (for 5 seconds) */}
             {copied ? (
               <MdCheckCircleOutline className="ml-2  text-base" />
@@ -61,7 +61,7 @@ export function EFExpandModal() {
                 onClick={() => {
                   // copy establishment id to clipboard
                   navigator.clipboard.writeText(
-                    context.modalEstablishment.food_establishment_id
+                    context.modalEstablishment.id.toString()
                   );
                   setCopied(true);
                   // reset copy state after 5 seconds; change back to copy icon
@@ -80,7 +80,7 @@ export function EFExpandModal() {
                 e.preventDefault();
                 navigate(
                   "/establishment?id=" +
-                    context.modalEstablishment.food_establishment_id
+                    context.modalEstablishment.id
                 );
               }}
               className={

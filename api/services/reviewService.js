@@ -4,7 +4,16 @@ import { selectAll, insert, updateAll, deleteAll } from "../db.js";
 const kTableName = "`review`";
 
 export async function getAllReviews(aProperties) {
-    const queryResults = await selectAll(kTableName, aProperties);
+    let append = "";
+    let orderKeys = aProperties.sort;
+    if (aProperties.full) {
+        append += " NATURAL JOIN `user`";
+        delete aProperties.full;
+    }
+    if (orderKeys != null) {
+        delete aProperties.sort;
+    }
+    const queryResults = await selectAll(kTableName, aProperties, false, append, orderKeys);
     return Review.fromRows(queryResults);
 }
 
@@ -22,7 +31,7 @@ export async function hasReviewWithId(aId) {
 }
 
 export async function createNewReview(aReview) {
-    const queryResults = await insert(kTableName, aReview.toValues());
+    const queryResults = await insert(kTableName, aReview);
     return queryResults.affectedRows === 1;
 }
 

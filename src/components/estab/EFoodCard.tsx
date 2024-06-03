@@ -1,7 +1,7 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
-import { FoodItem } from "../../../models/_models";
 import { useNavigate } from "react-router-dom";
+import { FoodItem } from "../../../models/_models.js";
 
 export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
   const navigate = useNavigate();
@@ -14,15 +14,14 @@ export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
     >
       <div className="flex flex-row justify-between">
         <h2 className="text-xl font-bold">{foodItem.name}</h2>
-        <div className="flex flex-col justify-between">
-          {/* @TODO: modify */}
-          {/* <RatingStarIndicator rating={foodItem.rating} />  */}
-        </div>
+        {/* <div className="flex flex-col justify-between">
+          <RatingStarIndicator rating={foodItem.average_rating} />
+        </div> */}
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
           <p className="text-sm text-secondary line-clamp-1">
-            From {foodItem.foodEstablishmentId}
+            From {foodItem.foodEstablishment.name}
           </p>
           <span className="font-normal text-xs text-gray-400">
             Food Item ID: {foodItem.id}
@@ -34,7 +33,7 @@ export function EFoodCard({ foodItem }: { foodItem: FoodItem }) {
       </div>
       <div className="flex flex-row justify-between items-end">
         <div className="flex flex-row flex-wrap">
-          {foodItem?.types?.split(",")?.map((tag, index) => (
+          {foodItem.types.split(",").map((tag, index) => (
             <p
               key={index + tag}
               className="text-xs text-primary-content bg-primary px-2 py-1 rounded-full mr-2"

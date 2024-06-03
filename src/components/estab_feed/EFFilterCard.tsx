@@ -65,6 +65,8 @@ export function EstablishmentFeedFilterCard() {
               id="sortSelect"
             >
               <option disabled>Sort by</option>
+              <option>Ascending Rating</option>
+              <option>Descending Rating</option>
               <option>Alphabetical A-Z</option>
               <option>Alphabetical Z-A</option>
             </select>
