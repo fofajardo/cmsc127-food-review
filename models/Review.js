@@ -6,6 +6,8 @@ export function Review(aRow) {
     /** @type {String} */
     this.note = aRow.note;
     /** @type {String} */
+    this.username = aRow.username;
+    /** @type {String} */
     this.date = aRow.date;
     /** @type {Number} */
     this.rating = aRow.rating;
@@ -27,6 +29,7 @@ Review.prototype.toValues = function() {
         this.userId,
         this.foodDestinationId,
         this.foodItemId,
+        this.username
     ];
 };
 

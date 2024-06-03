@@ -9,6 +9,8 @@ export function FoodEstablishment(aRow) {
     this.location = aRow.location;
     /** @type {Number} */
     this.averageRating = aRow.average_rating;
+    /** @type {String} */
+    this.description = aRow.description;
 }
 
 FoodEstablishment.prototype.toValues = function() {
@@ -17,6 +19,7 @@ FoodEstablishment.prototype.toValues = function() {
         this.userId,
         this.name,
         this.location,
+        this.description,
     ];
 };
 
