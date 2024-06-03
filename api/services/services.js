@@ -5,5 +5,5 @@ import * as FoodItemService from "./foodItemService.js";
 import * as FoodTypeService from "./foodTypeService.js";
 
 export {
-    IdentityService, UserService, FoodItemService, FoodTypeService,
+    IdentityService, UserService, FoodEstablishmentService, FoodItemService, FoodTypeService,
 };
