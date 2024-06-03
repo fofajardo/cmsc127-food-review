@@ -9,7 +9,7 @@ export async function getAllEstablishments(aProperties) {
 }
 
 export async function getOneEstablishment(aId) {
-    const queryResults = await selectAll(kTableName, { establishmentid: aId });
+    const queryResults = await selectAll(kTableName, { foodestid: aId });
     if (queryResults.length === 0) {
         return null;
     }
@@ -17,12 +17,12 @@ export async function getOneEstablishment(aId) {
 }
 
 export async function hasEstablishmentWithId(aId) {
-    const queryResults = await selectAll(kTableName, { establishmentid: aId });
+    const queryResults = await selectAll(kTableName, { foodestid: aId });
     return queryResults.length > 0;
 }
 
 export async function hasEstablishmentWithName(aName) {
-    const queryResults = await selectAll(kTableName, { name: aName });
+    const queryResults = await selectAll(kTableName, { foodestname: aName });
     return queryResults.length > 0;
 }
 
@@ -32,7 +32,7 @@ export async function createNewEstablishment(aEstablishment) {
 }
 
 export async function updateOneEstablishment(aId, aProperties) {
-    const queryResults = await updateAll(kTableName, aProperties, { establishmentid: aId });
+    const queryResults = await updateAll(kTableName, aProperties, { foodestid: aId });
     return queryResults.affectedRows > 0;
 }
 
@@ -46,6 +46,6 @@ export async function deleteAllFoodEstablishments(aProperties) {
 }
 
 export async function deleteOneEstablishment(aId) {
-    const queryResults = await deleteAll(kTableName, { establishmentid: aId });
+    const queryResults = await deleteAll(kTableName, { foodestid: aId });
     return queryResults.affectedRows === 1;
 }
