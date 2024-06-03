@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FoodEstablishment } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function EDeleteModal({
   establishment,
@@ -11,9 +13,11 @@ export function EDeleteModal({
   const [submitComplete, setSubmitComplete] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    //@TODO: implement deletion of establishment
-    setSubmitComplete(true); // simulate successful submission
+  const handleSubmit = async () => {
+    const response = await axios.delete(apiUrls.foodEstablishments(establishment.id.toString()));
+    if (response.data.data) {
+      setSubmitComplete(true);
+    }
   };
 
   return (

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FeedContext } from "../../pages/FeedPage.tsx";
 import { FoodEstablishment } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function EAddReviewModal({
   establishment,
@@ -41,12 +43,19 @@ export function EAddReviewModal({
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      //@TODO: implement add establishment review
-      // id from establishment.food_establishment_id
-      // use formData and starRating to get the review details
-      setSubmitComplete(true); // simulate successful submission
+      const response = await axios.post(apiUrls.reviews(), {
+        type: "food_establishment",
+        note: formData.description,
+        date: new Date().toISOString().split("T")[0],
+        rating: starRating,
+        foodEstablishmentId: establishment.id,
+        foodItemId: null,
+      });
+      if (response.data.data) {
+        setSubmitComplete(true);
+      }
     }
   };
 

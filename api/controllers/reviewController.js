@@ -101,7 +101,7 @@ export async function getOneReview(aRequest, aResponse) {
 export async function createNewReview(aRequest, aResponse) {
     const { body } = aRequest;
     const requiredProps = [
-        "type", "note", "date", "rating", "foodEstablishmentId", "foodItemId"
+        "type", "note", "date", "rating", "foodEstablishmentId"
     ];
     if (aResponse.sendErrorEmptyBody(requiredProps)) {
         return;
@@ -119,7 +119,7 @@ export async function createNewReview(aRequest, aResponse) {
             rating: body.rating,
             userid: aRequest?.user?.id,
             foodestid: body.foodEstablishmentId,
-            fooditemid: body.foodItemId,
+            fooditemid: body?.foodItemId,
         };
 
         const result = await ReviewService.createNewReview(review);
@@ -166,13 +166,10 @@ export async function updateOneReview(aRequest, aResponse) {
         if (aRequest.you.cannot(Actions.UPDATE, Subjects.REVIEW)) {
             return aResponse.sendErrorForbidden();
         }
-        if (hasValue(body, "type")) properties.type = body.type;
-        if (hasValue(body, "note")) properties.note = body.note;
-        if (hasValue(body, "date")) properties.date = body.date;
+        if (hasValue(body, "note")) {
+            properties.note = body.note;
+        }
         if (hasValue(body, "rating")) {
-            if (!validator.isNumeric(body.rating)) {
-                return aResponse.sendErrorClient("Rating must be a number");
-            }
             properties.rating = body.rating;
         }
 

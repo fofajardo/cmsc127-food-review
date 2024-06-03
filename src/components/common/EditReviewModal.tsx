@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Review } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function EditReviewModal({
   review,
@@ -41,13 +43,15 @@ export function EditReviewModal({
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      //@TODO: implement edit review
-      // same delete review for establishment and food item?
-      // use formData and starRating to get the review details
-      // use review.review_id to get the review id
-      setSubmitComplete(true); // simulate successful submission
+      const response = await axios.put(apiUrls.reviews(review.id.toString()), {
+        note: formData.description,
+        rating: starRating,
+      });
+      if (response.data.data) {
+        setSubmitComplete(true);
+      }
     }
   };
 
@@ -57,7 +61,7 @@ export function EditReviewModal({
       description: review.note,
     });
     setStarRating(review.rating);
-  }, []);
+  }, [review]);
 
   return (
     <dialog className="modal" id={modalID}>
