@@ -13,8 +13,8 @@ export async function getAllEstablishments(aProperties) {
     return FoodEstablishment.fromRows(queryResults);
 }
 
-export async function getOneEstablishment(aId) {
-    const queryResults = await selectAll(kTableName, { foodestid: aId });
+export async function getOneEstablishment(aId, withRating = false) {
+    const queryResults = await selectAll(withRating ? kTableNameWithRating : kTableName, { foodestid: aId });
     if (queryResults.length === 0) {
         return null;
     }

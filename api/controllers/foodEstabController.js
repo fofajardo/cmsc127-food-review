@@ -55,9 +55,10 @@ export async function getOneEstablishment(aRequest, aResponse) {
     if (!validator.isNumeric(establishmentId)) {
         return aResponse.sendErrorClient("Only numbers are allowed in the food establishment ID parameter");
     }
+    const { withRating } = aRequest.query;
 
     try {
-        const result = await FoodEstablishmentService.getOneEstablishment(establishmentId);
+        const result = await FoodEstablishmentService.getOneEstablishment(establishmentId, withRating);
         if (aRequest.you.cannot(Actions.READ, result)) {
             return aResponse.sendErrorForbidden();
         }

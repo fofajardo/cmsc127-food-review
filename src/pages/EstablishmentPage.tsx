@@ -33,7 +33,7 @@ export function EstablishmentPage() {
     const establishmentId = new URLSearchParams(window.location.search).get(
       "id"
     );
-    axios.get(apiUrls.foodEstablishments(establishmentId?.toString())).then(function(aResponse) {
+    axios.get(apiUrls.foodEstablishments(`${establishmentId}?withRating=1`)).then(function(aResponse) {
       setEstablishment(aResponse.data.data);
     });
     axios.get(apiUrls.reviews(`?establishmentId=${establishmentId}&full=1`)).then(function(aResponse) {
