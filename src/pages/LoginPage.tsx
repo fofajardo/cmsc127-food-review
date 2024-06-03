@@ -3,6 +3,7 @@ import { FaUtensils } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrls } from "../apiHelper.ts";
+import { User } from "../../models/User.js";
 
 interface LoginData {
   username: string;
@@ -40,12 +41,22 @@ export function Login() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      await axios.post(
+      const response = await axios.post(
         apiUrls.auth("sign-in"),
         formData
       );
-      // navigate to feed page
-      navigate("/feed");
+      if (!response.data.error) {
+        const user = response.data.data as User;
+        localStorage.setItem("user_id", user.id.toString());
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("username", user.username);
+        if (!user.isEndUser && !user.isOwner) {
+          localStorage.setItem("is_admin", "true");
+        }
+        // navigate to feed page
+        navigate("/feed");
+      }
     }
   };
 

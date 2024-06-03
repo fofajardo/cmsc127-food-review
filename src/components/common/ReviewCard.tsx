@@ -53,8 +53,8 @@ export function ReviewCard({
         <div
           className={
             "card bg-accent w-full px-8 py-2 mt-4 shadow-lg flex flex-row items-center " +
-            (/*window.localStorage.getItem("user_id") ==
-              establishmentReview.userId ||*/
+            (window.localStorage.getItem("user_id") ==
+              establishmentReview.userId.toString() ||
             window.localStorage.getItem("is_admin")
               ? ""
               : "hidden")

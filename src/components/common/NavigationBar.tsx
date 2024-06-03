@@ -38,6 +38,7 @@ export function NavigationBar() {
 
   const handleLogOut = async () => {
     await axios.post(apiUrls.auth("sign-out"));
+    localStorage.clear();
     navigate("/login");
   };
 
