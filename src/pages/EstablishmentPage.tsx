@@ -80,7 +80,7 @@ export function EstablishmentPage() {
     <>
       {/* modals */}
       <EAddReviewModal establishment={establishment} />
-      <EAddFoodItemModal />
+      <EAddFoodItemModal establishment={establishment} />
       <EEditModal establishment={establishment} />
       <EDeleteModal establishment={establishment} />
       <div className="flex flex-col items-center bg-slate-100">
