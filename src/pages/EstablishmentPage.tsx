@@ -62,7 +62,14 @@ export function EstablishmentPage() {
     const monthSelect = (
       document.getElementById("monthSelect") as HTMLSelectElement
     ).value;
-    // @TODO: implement filter logic with setEstablishmentReviews()
+    // combine year and month into "YYYY-MM"
+    let yearMonth = "";
+    if (yearInput && monthSelect) {
+      yearMonth = yearInput + "-" + monthSelect;
+    }
+    axios.get(apiUrls.reviews(`?establishmentId=${establishment.id}&yearMonth=${yearMonth}&type=food_establishment&full=1`)).then(function(aResponse) {
+      setEstablishmentReviews(aResponse.data.data);
+    });
   };
 
   const handleClear = () => {
@@ -71,7 +78,6 @@ export function EstablishmentPage() {
     (document.getElementById("monthSelect") as HTMLSelectElement).value =
       "Month";
     setApplyFilterEnabled(false);
-    // @TODO: implement filter logic with setEstablishmentReviews()
   };
 
   // this is for keeping track of the copy id state
