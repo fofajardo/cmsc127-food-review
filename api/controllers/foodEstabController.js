@@ -34,7 +34,7 @@ export async function getAllEstablishments(aRequest, aResponse) {
         if (aRequest.you.cannot(Actions.READ, Subjects.FOOD_ESTABLISHMENT)) {
             return aResponse.sendErrorForbidden();
         }
-        const result = await EstablishmentService.getAllEstablishments(properties);
+        const result = await FoodEstablishmentService.getAllEstablishments(properties);
         return aResponse.sendOk(result);
     } catch (e) {
         return aResponse.sendErrorServer(e);
@@ -51,7 +51,7 @@ export async function getOneEstablishment(aRequest, aResponse) {
     }
 
     try {
-        const result = await EstablishmentService.getOneEstablishment(establishmentId);
+        const result = await FoodEstablishmentService.getOneEstablishment(establishmentId);
         if (aRequest.you.cannot(Actions.READ, result)) {
             return aResponse.sendErrorForbidden();
         }
@@ -77,7 +77,7 @@ export async function createNewEstablishment(aRequest, aResponse) {
             return aResponse.sendErrorClient("Only alphanumeric characters are allowed in the name field");
         }
 
-        const establishmentExists = await EstablishmentService.hasEstablishmentWithName(body.name);
+        const establishmentExists = await FoodEstablishmentService.hasEstablishmentWithName(body.name);
         if (establishmentExists) {
             return aResponse.sendErrorClient("Please use a different name");
         }
@@ -88,7 +88,7 @@ export async function createNewEstablishment(aRequest, aResponse) {
             userid: aRequest?.user?.id
         };
 
-        const result = await EstablishmentService.createNewEstablishment(foodEstablishment);
+        const result = await FoodEstablishmentService.createNewEstablishment(foodEstablishment);
         if (result) {
             return aResponse.sendOk(result);
         }
@@ -109,7 +109,7 @@ export async function updateOneEstablishment(aRequest, aResponse) {
     }
 
     try {
-        const establishmentExists = await EstablishmentService.hasEstablishmentWithId(establishmentId);
+        const establishmentExists = await FoodEstablishmentService.hasEstablishmentWithId(establishmentId);
         if (!establishmentExists) {
             return aResponse.sendErrorClient("Establishment does not exist");
         }
@@ -129,7 +129,7 @@ export async function updateOneEstablishment(aRequest, aResponse) {
             properties.location = body.location;
         }
 
-        const result = await EstablishmentService.updateOneEstablishment(establishmentId, properties);
+        const result = await FoodEstablishmentService.updateOneEstablishment(establishmentId, properties);
         if (result) {
             return aResponse.sendOk(result);
         }
@@ -153,12 +153,12 @@ export async function deleteOneEstablishment(aRequest, aResponse) {
             return aResponse.sendErrorForbidden();
         }
 
-        const establishmentExists = await EstablishmentService.hasEstablishmentWithId(establishmentId);
+        const establishmentExists = await FoodEstablishmentService.hasEstablishmentWithId(establishmentId);
         if (!establishmentExists) {
             return aResponse.sendErrorClient("Establishment does not exist");
         }
 
-        const result = await EstablishmentService.deleteOneEstablishment(establishmentId);
+        const result = await FoodEstablishmentService.deleteOneEstablishment(establishmentId);
         if (!result) {
             return aResponse.sendErrorServer("Failed to delete establishment");
         }
