@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FoodEstablishment } from "../../../models/_models";
 import { FaCheckCircle } from "react-icons/fa";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.ts"; 
 
 export function EEditModal({
   establishment,
@@ -49,6 +51,8 @@ export function EEditModal({
   const handleSubmit = () => {
     if (validate()) {
       //@TODO: implement edit establishment
+      const establishmentId = establishment.id.toString();
+      axios.put(apiUrls.foodEstablishments(establishmentId),formData);
       setSubmitComplete(true); // kunware lang na-submit na
     }
   };

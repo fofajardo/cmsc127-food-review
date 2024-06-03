@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.ts";
 
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -45,7 +47,23 @@ export function EFAddEstablishmentModal() {
   const handleSubmit = () => {
     if (validate()) {
       //@TODO: implement create establishment
-      setSubmitComplete(true); // kunware lang na-submit na
+      axios.post(apiUrls.foodEstablishments(), formData);
+      setSubmitComplete(true);
+    //   try {
+    //     const response = await axios.post(apiUrls.foodEstablishments(), {
+    //       name: formData.name,
+    //       location: formData.location,
+    //       description: formData.description
+    //     });
+
+    //     if (response.status === 200) {
+    //       setSubmitComplete(true);
+    //     } else {
+    //       console.error("Failed to create establishment:", response);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error creating establishment:", error);
+    //   }
     }
   };
 
