@@ -1,4 +1,4 @@
-import { User } from "../models/_models.js";
+import { User } from "../../models/_models.js";
 import { selectAll, updateAll, insert, deleteAll } from "../db.js";
 
 const kTableName = "`user`";

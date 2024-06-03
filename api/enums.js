@@ -52,7 +52,7 @@ const ReviewType = Object.freeze({
     },
 });
 
-// XXX: This should be kept in sync with model names in /api/_models.js.
+// XXX: This should be kept in sync with model names in /models.
 // I'm not exactly sure if there's a proper way to do this, but this
 // is much better than typing the model names manually, which can be
 // prone to typos and similar mistakes.

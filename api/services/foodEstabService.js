@@ -1,4 +1,4 @@
-import { FoodEstablishment } from "../models/_models.js";
+import { FoodEstablishment } from "../../models/_models.js";
 import { selectAll, insert, updateAll, deleteAll } from "../db.js";
 
 const kTableName = "`foodestablishment`";
