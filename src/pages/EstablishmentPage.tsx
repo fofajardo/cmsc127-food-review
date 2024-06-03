@@ -26,9 +26,6 @@ export function EstablishmentPage() {
 
   // upon render, fetch establishment details, all of its reviews, and food items
   useEffect(() => {
-    //@TODO: implement this
-    // use setEstablishment, setEstablishmentReviews, and setFoodItems
-
     // get the establishment ID from the query string
     const establishmentId = new URLSearchParams(window.location.search).get(
       "id"
@@ -36,7 +33,7 @@ export function EstablishmentPage() {
     axios.get(apiUrls.foodEstablishments(`${establishmentId}?withRating=1`)).then(function(aResponse) {
       setEstablishment(aResponse.data.data);
     });
-    axios.get(apiUrls.reviews(`?establishmentId=${establishmentId}&full=1`)).then(function(aResponse) {
+    axios.get(apiUrls.reviews(`?establishmentId=${establishmentId}&type=food_establishment&full=1`)).then(function(aResponse) {
       setEstablishmentReviews(aResponse.data.data);
     });
     axios.get(apiUrls.foodItems(`?establishmentId=${establishmentId}&full=1`)).then(function(aResponse) {

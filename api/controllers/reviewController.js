@@ -10,7 +10,7 @@ import { hasValue } from "../utils.js";
 
 export async function getAllReviews(aRequest, aResponse) {
     const properties = {};
-    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, sortCol, sortOrder, full } = aRequest.query;
+    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, type, sortCol, sortOrder, full } = aRequest.query;
 
     if (userId && !validator.isNumeric(userId)) {
         return aResponse.sendErrorClient("User ID must be a number");
@@ -52,6 +52,9 @@ export async function getAllReviews(aRequest, aResponse) {
     }
     if (full) {
         properties.full = true;
+    }
+    if (type) {
+        properties.type = type;
     }
 
     try {
