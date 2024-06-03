@@ -15,6 +15,14 @@ export function Review(aRow) {
     this.foodDestinationId = aRow.foodestid;
     /** @type {Number} */
     this.foodItemId = aRow.fooditemid;
+    if (aRow.name) {
+        /** @type {String} */
+        this.reviewerName = aRow.name;
+    }
+    if (aRow.username) {
+        /** @type {String} */
+        this.reviewerUsername = aRow.username;
+    }
 }
 
 Review.prototype.toValues = function() {

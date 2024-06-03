@@ -1,6 +1,6 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
-import { FoodEstablishment } from "../../../models/_models";
+import { FoodEstablishment } from "../../../models/_models.js";
 import { FeedContext } from "../../pages/FeedPage";
 import { IoLocationSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ export function EFEstablishmentCard({
         onClick={() => {
           //open establishment modal
           const modal = document.getElementById("establishmentExpandModal");
+          console.log(establishment);
           if (modal) {
             context.setModalEstablishment(establishment);
             (modal as HTMLDialogElement).showModal();
@@ -31,7 +32,7 @@ export function EFEstablishmentCard({
         <figure>
           <div className="bg-primary-content w-full rounded-none flex flex-col justify-center items-center text-white py-4">
             <div className="flex flex-row w-full px-6 font-bold text-xl">
-              <p className="line-clamp-1">{establishment.name}</p>
+              <p className="line-clamp-1">{establishment?.name}</p>
             </div>
           </div>
         </figure>
@@ -40,7 +41,7 @@ export function EFEstablishmentCard({
             <span className="rounded-lg text-gray-600">
               Establishment Rating
             </span>
-            <RatingStarIndicator rating={establishment.averageRating} />
+            <RatingStarIndicator rating={establishment?.averageRating} />
           </p>
           <hr className="p-1 mt-1" />
 
@@ -49,7 +50,7 @@ export function EFEstablishmentCard({
             onClick={(e) => {
               e.stopPropagation();
               navigate(
-                `/feed?establishmentid=${establishment.id}`
+                `/feed?establishmentid=${establishment?.id}`
               ); // update URL with new "id"
               context.setToggle(true);
             }}
@@ -73,7 +74,7 @@ export function EFEstablishmentCard({
 
           <div className="flex-row flex items-center text-lg gap-1 text-primary-content badge-primary rounded-full px-2 py-1 w-max">
             <IoLocationSharp className="text-sm" />
-            <p className="text-sm line-clamp-1">{establishment.location}</p>
+            <p className="text-sm line-clamp-1">{establishment?.location}</p>
           </div>
         </div>
       </div>

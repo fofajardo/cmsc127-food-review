@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FoodItem } from "../../models/FoodItem";
+import { FoodItem } from "../../../models/_models.js";
 
 export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
@@ -61,9 +61,9 @@ export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
   useEffect(() => {
     // set the food item data to the form data
     setFormData({
-      name: foodItem.name,
-      price: foodItem.price.toString(),
-      foodTypes: foodItem.food_types.join(", "),
+      name: foodItem?.name,
+      price: foodItem?.price?.toString(),
+      foodTypes: foodItem?.types,
     });
   }, []);
 
@@ -72,7 +72,7 @@ export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
           <h2 className="text-left text-2xl font-bold line-clamp-1">
-            Edit {foodItem.name}
+            Edit {foodItem?.name}
           </h2>
           <form method="dialog">
             <button

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FoodItem } from "../../models/FoodItem.ts";
+import { FoodItem } from "../../../models/_models.js";
 
 export function FIAddReview({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);

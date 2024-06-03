@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
-import { User } from "../models/User.ts";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiUrls } from "../apiHelper.ts";

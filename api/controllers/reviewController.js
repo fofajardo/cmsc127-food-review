@@ -10,7 +10,7 @@ import { hasValue } from "../utils.js";
 
 export async function getAllReviews(aRequest, aResponse) {
     const properties = {};
-    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, sortCol, sortOrder } = aRequest.query;
+    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, sortCol, sortOrder, full } = aRequest.query;
 
     if (userId && !validator.isNumeric(userId)) {
         return aResponse.sendErrorClient("User ID must be a number");
@@ -43,6 +43,15 @@ export async function getAllReviews(aRequest, aResponse) {
             operator: "LIKE",
             value: `%${foodItemName}%`,
         };
+    }
+    if (foodItemId) {
+        properties.fooditemid = foodItemId;
+    }
+    if (establishmentId) {
+        properties.foodestid = establishmentId;
+    }
+    if (full) {
+        properties.full = true;
     }
 
     try {
@@ -105,8 +114,8 @@ export async function createNewReview(aRequest, aResponse) {
             userid: aRequest?.user?.id,
             foodestid: body.foodEstablishmentId,
             fooditemid: body.foodItemId,
-        }; 
-        
+        };
+
         const result = await ReviewService.createNewReview(review);
         if (result) {
             return aResponse.sendOk(result);

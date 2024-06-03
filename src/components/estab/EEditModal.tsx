@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Establishment } from "../../models/Establishment";
 import { FaCheckCircle } from "react-icons/fa";
+import { FoodEstablishment } from "../../../models/_models.js";
 
 export function EEditModal({
   establishment,
 }: {
-  establishment: Establishment;
+  establishment: FoodEstablishment;
 }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     location: "",
-    description: "",
+    // description: "",
   });
   const [errors, setErrors] = useState({
     name: "",
     location: "",
-    description: "",
+    // description: "",
   });
 
   const handleChange = (
@@ -36,12 +36,12 @@ export function EEditModal({
     const newErrors = {
       name: "",
       location: "",
-      description: "",
+      // description: "",
     };
     if (!formData.name) newErrors.name = "Name is required";
     if (!formData.location) newErrors.location = "Location is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
+    // if (!formData.description)
+      // newErrors.description = "Description is required";
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => error === "");
   };
@@ -58,7 +58,7 @@ export function EEditModal({
     setFormData({
       name: establishment.name,
       location: establishment.location,
-      description: establishment.description,
+      // description: establishment.description,
     });
   }, []);
   return (
@@ -106,7 +106,7 @@ export function EEditModal({
             )}
           </div>
 
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             <textarea
               name="description"
               className="input input-bordered w-full resize-y pt-2"
@@ -117,7 +117,7 @@ export function EEditModal({
             {errors.description && (
               <span className="text-red-500 ml-2">{errors.description}</span>
             )}
-          </div>
+          </div> */}
 
           <button onClick={handleSubmit} className="btn btn-primary w-full">
             Save Changes

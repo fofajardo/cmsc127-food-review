@@ -1,5 +1,5 @@
 import React from "react";
-import { Review } from "../../models/Review";
+import { Review } from "../../../models/_models.js";
 import { RatingStarIndicator } from "./RatingStarIndicator";
 import { DeleteReviewModal } from "./DeleteReviewModal";
 import { EditReviewModal } from "./EditReviewModal";
@@ -9,8 +9,8 @@ export function ReviewCard({
 }: {
   review: Review;
 }) {
-  const deleteModalID = `deleteReviewModal${establishmentReview.review_id}`;
-  const editModalID = `editReviewModal${establishmentReview.review_id}`;
+  const deleteModalID = `deleteReviewModal${establishmentReview.id}`;
+  const editModalID = `editReviewModal${establishmentReview.id}`;
   return (
     <>
       <DeleteReviewModal review={establishmentReview} modalID={deleteModalID} />
@@ -21,16 +21,16 @@ export function ReviewCard({
         }
       >
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl font-bold">@{establishmentReview.username}</h2>
+          <h2 className="text-xl font-bold">@{establishmentReview.reviewerUsername}</h2>
           <div className="flex flex-col justify-between">
             <RatingStarIndicator rating={establishmentReview.rating} />
           </div>
         </div>
         <div className="flex flex-row justify-between">
           <span className="font-normal text-xs text-gray-400">
-            Review ID: {establishmentReview.review_id} |{" "}
+            Review ID: {establishmentReview.id} |{" "}
             {/* format date into Month 00, 0000 */}
-            {new Date(establishmentReview.date_written).toLocaleDateString(
+            {new Date(establishmentReview.date).toLocaleDateString(
               "en-US",
               {
                 year: "numeric",
@@ -40,21 +40,21 @@ export function ReviewCard({
             )}
           </span>
           <span className="text-right text-xs text-gray-400">
-            User ID: {establishmentReview.user_id}
+            User ID: {establishmentReview.userId}
           </span>
         </div>
         <p
           className="text-clamp-1 w-min- w-min-10 text-sm text-gray-600 mt-2
           "
         >
-          {establishmentReview.notes}
+          {establishmentReview.note}
         </p>
         {/* Manage establishment section for Admin and Owner */}
         <div
           className={
             "card bg-accent w-full px-8 py-2 mt-4 shadow-lg flex flex-row items-center " +
-            (window.localStorage.getItem("user_id") ==
-              establishmentReview.user_id ||
+            (/*window.localStorage.getItem("user_id") ==
+              establishmentReview.userId ||*/
             window.localStorage.getItem("is_admin")
               ? ""
               : "hidden")

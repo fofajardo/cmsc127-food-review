@@ -13,7 +13,7 @@ import axios from "axios";
 import { apiUrls } from "../apiHelper.ts";
 
 export const FeedContext = React.createContext({
-  modalEstablishment: {},
+  modalEstablishment: {} as FoodEstablishment,
   setModalEstablishment: (establishment: FoodEstablishment) => {},
   setToggle: (toggle: boolean) => {},
   applyEstablishmentFilter: (

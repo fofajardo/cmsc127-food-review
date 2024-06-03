@@ -3,24 +3,26 @@ import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
 import { IoLocationSharp } from "react-icons/io5";
 import { RatingStarIndicator } from "../components/common/RatingStarIndicator.tsx";
-import { sampleEstablishment } from "../models/Establishment.ts";
 import { MdCheckCircleOutline, MdOutlineContentCopy } from "react-icons/md";
 import { ReviewCard } from "../components/common/ReviewCard.tsx";
-import { sampleEstablishmentReviews } from "../models/Review.ts";
-import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
 import { EAddReviewModal } from "../components/estab/EAddReviewModal.tsx";
 import { EFoodCard } from "../components/estab/EFoodCard.tsx";
 import { EAddFoodItemModal } from "../components/estab/EAddFoodItemModal.tsx";
 import { EDeleteModal } from "../components/estab/EDeleteModal.tsx";
 import { EEditModal } from "../components/estab/EEditModal.tsx";
+import { FoodEstablishment, FoodItem, Review } from "../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../apiHelper.ts";
 
 export function EstablishmentPage() {
-  const [establishment, setEstablishments] = useState(sampleEstablishment);
+  const [establishment, setEstablishment] = useState({} as FoodEstablishment);
   const [activeTab, setActiveTab] = useState(0); // 0: establishment reviews, 1: food items
   const [establishmentReviews, setEstablishmentReviews] = useState(
-    sampleEstablishmentReviews
+    [] as Review[]
   );
-  const [foodItems, setFoodItems] = useState(sampleFoodItems);
+  const [foodItems, setFoodItems] = useState(
+    [] as FoodItem[]
+  );
 
   // upon render, fetch establishment details, all of its reviews, and food items
   useEffect(() => {
@@ -30,7 +32,16 @@ export function EstablishmentPage() {
     // get the establishment ID from the query string
     const establishmentId = new URLSearchParams(window.location.search).get(
       "id"
-    ); // use this to fetch establishment details
+    );
+    axios.get(apiUrls.foodEstablishments(establishmentId?.toString())).then(function(aResponse) {
+      setEstablishment(aResponse.data.data);
+    });
+    axios.get(apiUrls.reviews(`?establishmentId=${establishmentId}&full=1`)).then(function(aResponse) {
+      setEstablishmentReviews(aResponse.data.data);
+    });
+    axios.get(apiUrls.foodItems(`?establishmentId=${establishmentId}&full=1`)).then(function(aResponse) {
+      setFoodItems(aResponse.data.data);
+    });
   }, []);
 
   const [applyFilterEnabled, setApplyFilterEnabled] = useState(false);
@@ -96,17 +107,17 @@ export function EstablishmentPage() {
                   <div className="card-actions flex-row items-center">
                     <p className="text-lg font-bold">Overall Average: </p>
                     <RatingStarIndicator
-                      rating={establishment.average_rating}
+                      rating={establishment.averageRating}
                     />
                   </div>
                 </div>
               </div>
-              <p className="indent-8 pt-4">{establishment.description}</p>
+              {/* <p className="indent-8 pt-4">{establishment.description}</p> */}
 
               <p className="text-sm text-gray-500 inline-flex items-center justify-end">
                 Establishment ID:{" "}
                 <span className="ml-1">
-                  {establishment.food_establishment_id}
+                  {establishment.id}
                 </span>
                 {/* render copy icon conditionally; initially a copy icon, then a checked icon upon clicking (for 5 seconds) */}
                 {copied ? (
@@ -116,7 +127,7 @@ export function EstablishmentPage() {
                     onClick={() => {
                       // copy establishment id to clipboard
                       navigator.clipboard.writeText(
-                        establishment.food_establishment_id
+                        establishment.id.toString()
                       );
                       setCopied(true);
                       // reset copy state after 5 seconds; change back to copy icon
@@ -314,7 +325,7 @@ export function EstablishmentPage() {
                         return (
                           <EFoodCard
                             foodItem={foodItem}
-                            key={foodItem.food_item_id + index.toString()}
+                            key={foodItem.id + index.toString()}
                           />
                         );
                       })}

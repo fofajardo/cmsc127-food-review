@@ -4,7 +4,12 @@ import { selectAll, insert, updateAll, deleteAll } from "../db.js";
 const kTableName = "`review`";
 
 export async function getAllReviews(aProperties) {
-    const queryResults = await selectAll(kTableName, aProperties);
+    let append = "";
+    if (aProperties.full) {
+        append += " NATURAL JOIN `user`";
+        delete aProperties.full;
+    }
+    const queryResults = await selectAll(kTableName, aProperties, false, append);
     return Review.fromRows(queryResults);
 }
 

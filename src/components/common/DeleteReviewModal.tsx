@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Review } from "../../models/Review";
+import { Review } from "../../../models/_models.js";
 
 export function DeleteReviewModal({
   review,
@@ -39,7 +39,7 @@ export function DeleteReviewModal({
         >
           <p>
             Are you sure you want to delete{" "}
-            <span className="font-bold">{review.review_id}</span> ?
+            <span className="font-bold">{review.id}</span> ?
           </p>
           <button
             onClick={handleSubmit}
@@ -61,7 +61,7 @@ export function DeleteReviewModal({
               Deleted successfully!
             </span>
             <span className="text-lg font-normal text-center">
-              Review {review.review_id} removed permanently from the database.
+              Review {review.id} removed permanently from the database.
             </span>
           </div>
           <form className="flex w-1/2" method="dialog">

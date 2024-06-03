@@ -2,15 +2,16 @@ import { FIMainPreview } from "./../components/food_item/FIMainPreview";
 import React, { useEffect, useState } from "react";
 import { NavigationBar } from "../components/common/NavigationBar.tsx";
 import { Footer } from "../components/common/Footer.tsx";
-import { sampleFoodItems } from "../models/FoodItem.ts";
 import { ReviewCard } from "../components/common/ReviewCard.tsx";
-import { sampleFoodItemReviews } from "../models/Review.ts";
 import { FIFilterCard } from "../components/food_item/FIFilterCard.tsx";
 import { FIAddReview } from "../components/food_item/FIAddReview.tsx";
+import { FoodItem, Review } from "../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../apiHelper.ts";
 
 export function FoodItemPage() {
-  const [foodItem, setFoodItem] = useState(sampleFoodItems[0]);
-  const [foodItemReviews, setFoodItemReviews] = useState(sampleFoodItemReviews);
+  const [foodItem, setFoodItem] = useState({} as FoodItem);
+  const [foodItemReviews, setFoodItemReviews] = useState([] as Review[]);
 
   const applyFoodReviewFilter = (month: string, sortInput: string) => {
     //@TODO: implement this
@@ -18,12 +19,19 @@ export function FoodItemPage() {
 
   // upon render, fetch food item details and reviews
   useEffect(() => {
-    //@TODO: implement this
-
     // get the food item ID from the query string
-    const establishmentId = new URLSearchParams(window.location.search).get(
+    const foodItemId = new URLSearchParams(window.location.search).get(
       "id"
-    ); // use this to fetch food item details and reviews
+    );
+    axios.get(apiUrls.foodItems(`?id=${foodItemId}&full=1`)).then(function(aResponse) {
+      if (aResponse.data.data?.length > 0) {
+        setFoodItem(aResponse.data.data[0]);
+      }
+    });
+    axios.get(apiUrls.reviews(`?foodItemId=${foodItemId}&full=1`)).then(function(aResponse) {
+      console.log(aResponse.data.data);
+      setFoodItemReviews(aResponse.data.data);
+    });
   }, []);
 
   return (

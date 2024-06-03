@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { Review } from "../../models/Review";
+import { Review } from "../../../models/_models.js";
 
 export function EditReviewModal({
   review,
@@ -54,7 +54,7 @@ export function EditReviewModal({
   useEffect(() => {
     // set the review data to the form data
     setFormData({
-      description: review.notes,
+      description: review.note,
     });
     setStarRating(review.rating);
   }, []);
@@ -64,7 +64,7 @@ export function EditReviewModal({
       <div className="modal-box bg-base-100 p-0">
         <div className="sticky top-0 z-50 flex flex-row justify-between bg-base-100 px-6 pb-3 pt-6 shadow-lg">
           <h2 className="text-left text-2xl font-bold line-clamp-1">
-            Edit Review {review.review_id}
+            Edit Review {review.id}
           </h2>
           <form method="dialog">
             <button
