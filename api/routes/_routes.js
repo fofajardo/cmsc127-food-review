@@ -8,6 +8,7 @@ import AuthRouter from "./authRoutes.js";
 import FoodEstablishmentRouter from "./foodEstabRoutes.js";
 import FoodItemRouter from "./foodItemRoutes.js";
 import FoodTypeRouter from "./foodTypeRoutes.js"
+import ReviewRouter from "./reviewRoutes.js";
 
 function useFor(aServer) {
     registerStrategies();
@@ -20,6 +21,7 @@ function useFor(aServer) {
     aServer.use("/api/food-types", FoodTypeRouter);
     aServer.use("/api/food-establisments", FoodEstablishmentRouter);
     aServer.use("/api/auth", AuthRouter);
+    aServer.use("/api/reviews", ReviewRouter);
     aServer.use(CatchNotFound);
 }
 
