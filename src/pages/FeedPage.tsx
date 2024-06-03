@@ -7,17 +7,14 @@ import { EFEstablishmentCard } from "../components/estab_feed/EFEstablishmentCar
 import { FoodItemFeedFilterCard } from "../components/food_feed/FFFilterCard.tsx";
 import { FFFoodCard } from "../components/food_feed/FFFoodCard.tsx";
 import { EFExpandModal } from "../components/estab_feed/EFExpandModal.tsx";
-import {
-  Establishment,
-  sampleEstablishment,
-  sampleEstablishments,
-} from "../models/Establishment.ts";
-import { FoodItem, sampleFoodItems } from "../models/FoodItem.ts";
+import { FoodEstablishment, FoodItem } from "../../models/_models.js";
 import { EFAddEstablishmentModal } from "../components/estab_feed/EFAddEstablishmentModal.tsx";
+import axios from "axios";
+import { apiUrls } from "../apiHelper.ts";
 
 export const FeedContext = React.createContext({
-  modalEstablishment: sampleEstablishment,
-  setModalEstablishment: (establishment: Establishment) => {},
+  modalEstablishment: {},
+  setModalEstablishment: (establishment: FoodEstablishment) => {},
   setToggle: (toggle: boolean) => {},
   applyEstablishmentFilter: (
     search: string,
@@ -34,16 +31,17 @@ export const FeedContext = React.createContext({
 });
 
 export function EstablishmentFeedPage() {
-  const [establishments, setEstablishments] = useState([] as Establishment[]);
+  const [establishments, setEstablishments] = useState([] as FoodEstablishment[]);
   const [foodItems, setFoodItems] = useState([] as FoodItem[]);
 
   // upon render, fetch establishments and food items
   useEffect(() => {
-    // @TODO: fetch establishments and food items; remove the timeout, this is just simulated delay hehe
-    setTimeout(() => {
-      setEstablishments(sampleEstablishments);
-      setFoodItems(sampleFoodItems);
-    }, 500);
+    axios.get(apiUrls.foodEstablishments("?withRating=1")).then(function(aResponse) {
+      setEstablishments(aResponse.data.data);
+    });
+    axios.get(apiUrls.foodItems("?full=1")).then(function(aResponse) {
+      setFoodItems(aResponse.data.data);
+    });
   }, []);
 
   // @TODO: implement filter logic
@@ -70,7 +68,7 @@ export function EstablishmentFeedPage() {
 
   // state to store the establishment to be displayed in the modal
   const [modalEstablishment, setModalEstablishment] =
-    useState(sampleEstablishment); // temporary
+    useState({} as FoodEstablishment); // temporary
 
   return (
     <FeedContext.Provider

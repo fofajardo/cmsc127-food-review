@@ -1,6 +1,6 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
-import { FoodItem } from "../../models/FoodItem";
+import { FoodItem } from "../../../models/_models.js";
 import { useNavigate } from "react-router-dom";
 import { YoursBadge } from "../common/YoursBadge";
 
@@ -10,7 +10,7 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
     <a
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`/fooditem?id=${foodItem.food_item_id}`);
+        navigate(`/fooditem?id=${foodItem.id}`);
       }}
     >
       <div className="bounce-in productCard h-full card w-[20.5rem] border-0 bg-white text-left shadow-xl transition-all duration-300 hover:cursor-pointer xl:hover:-translate-y-2">
@@ -21,11 +21,11 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
           <a
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/establishment?id=${foodItem.establishment_id}`);
+              navigate(`/establishment?id=${foodItem.foodEstablishmentId}`);
             }}
             className="text-white px-6 line-clamp-1 underline"
           >
-            by: {foodItem.establishment_name}
+            by: {foodItem?.foodEstablishment?.name}
           </a>
         </div>
 
@@ -44,11 +44,12 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
           {/* Food type tags */}
           <div className="card-actions justify-end">
             <div className="flex h-full flex-1 flex-row justify-end flex-wrap px-2 pb-1">
-              {foodItem.food_types.map((foodType, index) => {
+              {foodItem?.types?.split(",")?.map((foodType, index) => {
                 return (
                   <div
                     className="badge badge-primary p-3 m-1 ml-0"
-                    id={foodItem.food_item_id + index.toString()}
+                    id={foodItem.id + index.toString()}
+                    key={index + foodType}
                   >
                     {foodType}
                   </div>

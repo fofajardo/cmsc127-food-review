@@ -1,6 +1,6 @@
 import React from "react";
 import { RatingStarIndicator } from "../common/RatingStarIndicator";
-import { Establishment } from "../../models/Establishment";
+import { FoodEstablishment } from "../../../models/_models";
 import { FeedContext } from "../../pages/FeedPage";
 import { IoLocationSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { YoursBadge } from "../common/YoursBadge";
 export function EFEstablishmentCard({
   establishment,
 }: {
-  establishment: Establishment;
+  establishment: FoodEstablishment;
 }) {
   const context = React.useContext(FeedContext);
   const navigate = useNavigate();
@@ -40,20 +40,16 @@ export function EFEstablishmentCard({
             <span className="rounded-lg text-gray-600">
               Establishment Rating
             </span>
-            <RatingStarIndicator rating={establishment.average_rating} />
+            <RatingStarIndicator rating={establishment.averageRating} />
           </p>
           <hr className="p-1 mt-1" />
-
-          <p className="line-clamp-3 text-gray-600">
-            {establishment.description}
-          </p>
 
           <button
             className="mt-2 btn rounded-lg font-normal"
             onClick={(e) => {
               e.stopPropagation();
               navigate(
-                `/feed?establishmentid=${establishment.food_establishment_id}`
+                `/feed?establishmentid=${establishment.id}`
               ); // update URL with new "id"
               context.setToggle(true);
             }}
@@ -64,13 +60,13 @@ export function EFEstablishmentCard({
         <div
           className={
             "flex flex-row bg-amber-50 rounded-b-2xl p-4 " +
-            (window.localStorage.getItem("user_id") === establishment.user_id ||
+            (window.localStorage.getItem("user_id") === "0" /*establishment.user_id*/ ||
             window.localStorage.getItem("is_admin")
               ? "justify-between"
               : "justify-end")
           }
         >
-          {window.localStorage.getItem("user_id") === establishment.user_id ||
+          {window.localStorage.getItem("user_id") === "0" /*establishment.user_id*/ ||
           window.localStorage.getItem("is_admin") ? (
             <YoursBadge />
           ) : null}
