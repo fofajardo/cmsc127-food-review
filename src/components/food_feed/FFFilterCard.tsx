@@ -100,7 +100,7 @@ export function FoodItemFeedFilterCard() {
                 placeholder="Search Type"
               />
             </label>
-            <div className="flex flex-row gap-2">
+            {/* <div className="flex flex-row gap-2">
               <label className="input input-bordered flex items-center bg-white">
                 <input
                   id="foodYearInput"
@@ -133,7 +133,7 @@ export function FoodItemFeedFilterCard() {
                 <option value="11">November</option>
                 <option value="12">December</option>
               </select>
-            </div>
+            </div> */}
 
             {/* <select
               defaultValue={"Sort by"}

@@ -60,6 +60,34 @@ export function EstablishmentFeedPage() {
     month: string, // "YYYY-MM"
     sort: string // what kind of sort?
   ) => {
+    // XXX(fofajardo): this should've been separated by col and order, NOT sort display string...
+    let sortCol = "name";
+    let sortOrder = "ASC";
+    switch (sort) {
+      case "Ascending Price":
+        sortCol = "price";
+        sortOrder = "ASC";
+        break;
+      case "Descending Price":
+        sortCol = "price";
+        sortOrder = "DESC";
+        break;
+      case "Alphabetical A-Z":
+        sortCol = "fooditemname";
+        sortOrder = "ASC";
+        break;
+      case "Alphabetical Z-A":
+        sortCol = "fooditemname";
+        sortOrder = "DESC";
+        break;
+      default:
+        break;
+    }
+
+    axios.get(apiUrls.foodItems(
+      `?establishmentId=${establishmentId}&name=${searchName}&foodType=${searchType}&sortCol=${sortCol}&sortOrder=${sortOrder}&full=1`)).then(function(aResponse) {
+      setFoodItems(aResponse.data.data);
+    });
     // use setFoodItems()
   };
 

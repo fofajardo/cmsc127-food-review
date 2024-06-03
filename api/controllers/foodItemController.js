@@ -82,7 +82,7 @@ export async function getAllFoodItems(aRequest, aResponse) {
         if (sortOrder != "ASC" && sortOrder != "DESC") {
             return aResponse.sendErrorClient("Unknown sort order");
         }
-        if (sortCol != "name" && sortCol != "price") {
+        if (sortCol != "fooditemname" && sortCol != "price") {
             return aResponse.sendErrorClient("Unknown sort column");
         }
         properties.sort = [`${sortCol} ${sortOrder}`];
