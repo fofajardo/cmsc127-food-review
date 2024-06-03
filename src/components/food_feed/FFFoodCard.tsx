@@ -31,7 +31,7 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
 
         <div className="card-body gap-1 p-8 py-4 text-sm">
           {/* Food rating indicator */}
-          <div className="card-actions flex-row justify-end">
+          {/* <div className="card-actions flex-row justify-end">
             <p className="flex h-full flex-1 flex-col justify-center ">
               <span className="rounded-lg text-gray-600">Food Rating</span>
 
@@ -40,7 +40,7 @@ export function FFFoodCard({ foodItem }: { foodItem: FoodItem }) {
               </div>
             </p>
           </div>
-          <hr className="py-1 mt-1" />
+          <hr className="py-1 mt-1" /> */}
           {/* Food type tags */}
           <div className="card-actions justify-end">
             <div className="flex h-full flex-1 flex-row justify-end flex-wrap px-2 pb-1">
