@@ -229,7 +229,7 @@ export function EstablishmentFeedPage() {
                     >
                       Add establishment
                     </button>
-                    <p>Hello {window.localStorage.getItem("userName")}</p>
+                    <p>Hello {window.localStorage.getItem("name")}</p>
                   </div>
                 </>
               )}
