@@ -14,7 +14,32 @@ export function FoodItemPage() {
   const [foodItemReviews, setFoodItemReviews] = useState([] as Review[]);
 
   const applyFoodReviewFilter = (month: string, sortInput: string) => {
-    //@TODO: implement this
+    // XXX(fofajardo): this should've been separated by col and order, NOT sort display string...
+    let sortCol = "date";
+    let sortOrder = "DESC";
+    switch (sortInput) {
+      case "Ascending Rating":
+        sortCol = "rating";
+        sortOrder = "ASC";
+        break;
+      case "Descending Rating":
+        sortCol = "rating";
+        sortOrder = "DESC";
+        break;
+      case "Newest":
+        sortCol = "date";
+        sortOrder = "DESC";
+        break;
+      case "Oldest":
+        sortCol = "date";
+        sortOrder = "ASC";
+        break;
+      default:
+        break;
+    }
+    axios.get(apiUrls.reviews(`?foodItemId=${foodItem.id}&yearMonth=${month}&sortCol=${sortCol}&sortOrder=${sortOrder}&full=1`)).then(function(aResponse) {
+      setFoodItemReviews(aResponse.data.data);
+    });
   };
 
   // upon render, fetch food item details and reviews
@@ -29,7 +54,6 @@ export function FoodItemPage() {
       }
     });
     axios.get(apiUrls.reviews(`?foodItemId=${foodItemId}&full=1`)).then(function(aResponse) {
-      console.log(aResponse.data.data);
       setFoodItemReviews(aResponse.data.data);
     });
   }, []);

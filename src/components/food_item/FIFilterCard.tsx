@@ -99,10 +99,10 @@ export function FIFilterCard({
               id="foodSortSelect"
             >
               <option disabled>Sort by</option>
-              <option>Ascending Price</option>
-              <option>Descending Price</option>
-              <option>Alphabetical A-Z</option>
-              <option>Alphabetical Z-A</option>
+              <option>Ascending Rating</option>
+              <option>Descending Rating</option>
+              <option>Newest</option>
+              <option>Oldest</option>
             </select>
             <div className="card-actions mt-2 flex w-full flex-row justify-center">
               <button

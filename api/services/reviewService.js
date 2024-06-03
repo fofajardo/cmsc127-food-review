@@ -5,11 +5,15 @@ const kTableName = "`review`";
 
 export async function getAllReviews(aProperties) {
     let append = "";
+    let orderKeys = aProperties.sort;
     if (aProperties.full) {
         append += " NATURAL JOIN `user`";
         delete aProperties.full;
     }
-    const queryResults = await selectAll(kTableName, aProperties, false, append);
+    if (orderKeys != null) {
+        delete aProperties.sort;
+    }
+    const queryResults = await selectAll(kTableName, aProperties, false, append, orderKeys);
     return Review.fromRows(queryResults);
 }
 

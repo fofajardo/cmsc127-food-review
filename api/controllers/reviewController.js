@@ -10,7 +10,7 @@ import { hasValue } from "../utils.js";
 
 export async function getAllReviews(aRequest, aResponse) {
     const properties = {};
-    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, type, sortCol, sortOrder, full } = aRequest.query;
+    const { userId, establishmentId, foodItemId, establishmentName, foodItemName, type, sortCol, sortOrder, yearMonth, full } = aRequest.query;
 
     if (userId && !validator.isNumeric(userId)) {
         return aResponse.sendErrorClient("User ID must be a number");
@@ -26,8 +26,8 @@ export async function getAllReviews(aRequest, aResponse) {
         if (sortOrder !== "ASC" && sortOrder !== "DESC") {
             return aResponse.sendErrorClient("Unknown sort order");
         }
-        if (sortOrder !== "rating" && sortOrder !== "date") {
-            return aResponse.sendErrorClient("Unknown sort order");
+        if (sortCol !== "rating" && sortCol !== "date") {
+            return aResponse.sendErrorClient("Unknown sort column");
         }
         properties.sort = [`${sortCol} ${sortOrder}`];
     }
@@ -55,6 +55,12 @@ export async function getAllReviews(aRequest, aResponse) {
     }
     if (type) {
         properties.type = type;
+    }
+    if (yearMonth) {
+        properties.date = {
+            operator: "LIKE",
+            value: `${yearMonth}%`
+        };
     }
 
     try {
