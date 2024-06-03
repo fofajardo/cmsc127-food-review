@@ -35,11 +35,11 @@ export async function getAllFoodTypes(aRequest, aResponse) {
         if (sortOrder != "ASC" && sortOrder != "DESC") {
             return aResponse.sendErrorClient("Unknown sort order");
         }
-        }
         if (sortCol != "type") {
             return aResponse.sendErrorClient("Unknown sort column");
         }
         properties.sort = [`${sortCol} ${sortOrder}`];
+    }
 
     try {
         if (aRequest.you.cannot(Actions.READ, Subjects.FOOD_TYPE)) {
@@ -155,7 +155,9 @@ export async function deleteAllFoodTypes(aRequest, aResponse) {
             return aResponse.sendErrorClient("Food item does not exist");
         }
 
-        const result = await FoodTypeService.deleteAllFoodTypes(foodItemId);
+        const result = await FoodTypeService.deleteAllFoodTypes({
+            fooditemid: foodItemId
+        });
         if (!result) {
             return aResponse.sendErrorServer("Failed to delete food type");
         }

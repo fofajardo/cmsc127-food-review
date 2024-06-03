@@ -18,6 +18,44 @@ export function getPool() {
     return _pool;
 }
 
+function _buildFilter(aKeys, aValues, aUseOr) {
+    let query = "";
+    for (let i = 0; i < aKeys.length; i++) {
+        const realValue = aValues[i].value;
+
+        const colName = aValues[i]?.colName;
+        if (colName != null) {
+            aKeys[i] = colName;
+        }
+
+        const operator = aValues[i]?.operator;
+        if (operator != null) {
+            const isMultiple = operator == "IN";
+            let parameter = "";
+            if (isMultiple && Array.isArray(realValue)) {
+                parameter += "(";
+                const parameterList = Array(realValue.length).fill("?", 0);
+                parameter += parameterList.join(", ");
+                parameter += ")";
+            } else {
+                parameter = "?";
+            }
+            query += ` ${aKeys[i]} ${operator} ${parameter}`;
+        } else {
+            query += ` ${aKeys[i]}=?`;
+        }
+
+        if (realValue != null) {
+            aValues[i] = realValue;
+        }
+
+        if (i < aKeys.length - 1) {
+            query += aUseOr ? " OR" : " AND";
+        }
+    }
+    return query;
+}
+
 export async function selectAll(
     aTableName,
     aProperties,
@@ -36,31 +74,16 @@ export async function selectAll(
     let values = Object.values(aProperties);
     if (keys.length > 0) {
         query += " WHERE";
-        for (let i = 0; i < keys.length; i++) {
-            const colName = values[i]?.colName;
-            if (colName != null) {
-                keys[i] = colName;
-            }
-            const operator = values[i]?.operator;
-            if (operator != null) {
-                query += ` ${keys[i]} ${operator} ?`;
-            } else {
-                query += ` ${keys[i]}=?`;
-            }
-            const realValue = values[i].value;
-            if (realValue != null) {
-                values[i] = values[i].value;
-            }
-            if (i < keys.length - 1) {
-                query += aUseOr ? " OR" : " AND";
-            }
-        }
+        query += _buildFilter(keys, values, aUseOr);
     }
     if (aOrderKeys.length > 0) {
         query += " ORDER BY ";
         query += aOrderKeys.join(", ");
     }
-    const [queryResults] = await getPool().execute(query, values);
+    const [queryResults] = await getPool().execute(
+        query,
+        values.flat()
+    );
     return queryResults;
 }
 
@@ -84,26 +107,12 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
     let filterValues = Object.values(aFilter);
     if (filterKeys.length > 0) {
         query += " WHERE";
-        for (let i = 0; i < filterKeys.length; i++) {
-            const operator = filterValues[i]?.operator;
-            if (operator != null) {
-                query += ` ${filterKeys[i]} ${operator} ?`;
-            } else {
-                query += ` ${filterKeys[i]}=?`;
-            }
-            const realValue = filterValues[i].value;
-            if (realValue != null) {
-                filterValues[i] = filterValues[i].value;
-            }
-            if (i < filterKeys.length - 1) {
-                query += aUseOr ? " OR" : " AND";
-            }
-        }
+        query += _buildFilter(filterKeys, filterValues, aUseOr);
     }
 
     const [queryResults] = await getPool().execute(
         query,
-        [...updateValues, ...filterValues]
+        [...updateValues, ...filterValues.flat()]
     );
     return queryResults;
 }
@@ -126,12 +135,7 @@ export async function insert(aTableName, aTupleOrKeys, aValues = null) {
         throw Error("Object is empty");
     }
     query += " (";
-    for (let i = 0; i < keys.length; i++) {
-        query += keys[i];
-        if (i < keys.length - 1) {
-            query += ", ";
-        }
-    }
+    query += keys.join(", ");
     query += ") VALUES ";
 
     for (let i = 0; i < allValues.length; i++) {
@@ -162,22 +166,11 @@ export async function deleteAll(aTableName, aProperties, aUseOr = false) {
     let values = Object.values(aProperties);
     if (keys.length > 0) {
         query += " WHERE";
-        for (let i = 0; i < keys.length; i++) {
-            const operator = values[i]?.operator;
-            if (operator != null) {
-                query += ` ${keys[i]} ${operator} ?`;
-            } else {
-                query += ` ${keys[i]}=?`;
-            }
-            const realValue = values[i].value;
-            if (realValue != null) {
-                values[i] = values[i].value;
-            }
-            if (i < keys.length - 1) {
-                query += aUseOr ? " OR" : " AND";
-            }
-        }
+        query += _buildFilter(keys, values, aUseOr);
     }
-    const [queryResults] = await getPool().execute(query, values);
+    const [queryResults] = await getPool().execute(
+        query,
+        values.flat()
+    );
     return queryResults;
 }

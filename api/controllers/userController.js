@@ -5,7 +5,10 @@ import {
     Actions, FixedRole, Subjects,
 } from "../enums.js";
 import {
-    IdentityService, UserService,
+    FoodEstablishmentService,
+    FoodItemService,
+    FoodTypeService,
+    IdentityService, ReviewService, UserService,
 } from "../services/services.js";
 import { hasValue } from "../utils.js";
 
@@ -224,8 +227,45 @@ export async function deleteOneUser(aRequest, aResponse) {
             return aResponse.sendErrorClient("User does not exist");
         }
 
-        // TODO: Delete food establishments, food items, and reviews
-        //       associated with this account.
+        const userIdProperty = { userid: userId };
+        const reviewPersonalDeleteResult = await ReviewService.deleteAllReviews(
+            userIdProperty);
+        if (!reviewPersonalDeleteResult) {
+            return aResponse.sendErrorServer("Failed to delete reviews");
+        }
+
+        const foodEstablishments = await FoodEstablishmentService.getAllEstablishments(
+            userIdProperty);
+        if (foodEstablishments.length > 0) {
+            const foodEstablishmentIds = foodEstablishments.map(function(aValue) {
+                return aValue.id;
+            });
+            const reviewEstablishmentDeleteResult = await ReviewService.deleteAllReviews({
+                foodestid: {
+                    operator: "IN",
+                    value: foodEstablishmentIds,
+                },
+            });
+            if (!reviewEstablishmentDeleteResult) {
+                return aResponse.sendErrorServer("Failed to delete reviews for owned establishments");
+            }
+        }
+
+        const foodTypeDeleteResult = await FoodTypeService.deleteAllFoodTypes(
+            userIdProperty);
+        if (!foodTypeDeleteResult) {
+            return aResponse.sendErrorServer("Failed to delete food types");
+        }
+        const foodItemDeleteResult = await FoodItemService.deleteAllFoodItems(
+            userIdProperty);
+        if (!foodItemDeleteResult) {
+            return aResponse.sendErrorServer("Failed to delete reviews");
+        }
+        const foodEstablishmentDeleteResult = await FoodEstablishmentService
+            .deleteAllFoodEstablishments(userIdProperty);
+        if (!foodEstablishmentDeleteResult) {
+            return aResponse.sendErrorServer("Failed to delete food establishments");
+        }
 
         const result = await UserService.deleteOneUser(userId);
         if (!result) {

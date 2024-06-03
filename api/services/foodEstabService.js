@@ -1,7 +1,7 @@
 import { FoodEstablishment } from "../models/_models.js";
 import { selectAll, insert, updateAll, deleteAll } from "../db.js";
 
-const kTableName = "`establishment`";
+const kTableName = "`foodestablishment`";
 
 export async function getAllEstablishments(aProperties) {
     const queryResults = await selectAll(kTableName, aProperties);
@@ -34,6 +34,15 @@ export async function createNewEstablishment(aEstablishment) {
 export async function updateOneEstablishment(aId, aProperties) {
     const queryResults = await updateAll(kTableName, aProperties, { establishmentid: aId });
     return queryResults.affectedRows > 0;
+}
+
+export async function deleteAllFoodEstablishments(aProperties) {
+    const selectResults = await selectAll(kTableName, aProperties);
+    if (selectResults.length == 0) {
+        return true;
+    }
+    const queryResults = await deleteAll(kTableName, aProperties);
+    return queryResults.affectedRows == selectResults.length;
 }
 
 export async function deleteOneEstablishment(aId) {

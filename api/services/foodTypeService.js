@@ -36,20 +36,44 @@ export async function deleteOneFoodType(aId, aType) {
     return queryResults.affectedRows === 1;
 }
 
-export async function deleteAllFoodTypes(aId) {
-    const properties = {
-        fooditemid: aId
-    };
-    const selectResults = await selectAll(kTableName, properties);
+export async function deleteAllFoodTypes(aProperties) {
+    let append = null;
+    let customFilter = aProperties.userid || aProperties.foodestid;
+    if (customFilter) {
+        append = " NATURAL JOIN `fooditem`";
+    }
+    let selectResults = await selectAll(
+        kTableName,
+        aProperties,
+        false,
+        append,
+        [],
+        customFilter,
+        customFilter ? "fooditemid" : "*"
+    );
     if (selectResults.length == 0) {
         return true;
     }
-    const queryResults = await deleteAll(kTableName, properties);
+    let deleteProperties = aProperties;
+    if (customFilter) {
+        deleteProperties = {};
+        const foodItemIds = selectResults.map(function(value) {
+            return value.fooditemid;
+        });
+        deleteProperties.fooditemid = {
+            operator: "IN",
+            value: foodItemIds,
+        };
+        selectResults = await selectAll(kTableName, deleteProperties);
+    }
+    const queryResults = await deleteAll(kTableName, deleteProperties);
     return queryResults.affectedRows == selectResults.length;
 }
 
 export async function replaceAllFoodTypesForItem(aId, aTypes) {
-    const isCleared = await deleteAllFoodTypes(aId);
+    const isCleared = await deleteAllFoodTypes({
+        fooditemid: aId
+    });
     if (isCleared) {
         const queryResults = await insert(kTableName,
             ["fooditemid", "type"],

@@ -4,7 +4,10 @@ import {
     Actions, Subjects,
 } from "../enums.js";
 import {
-    FoodEstablishmentService
+    FoodEstablishmentService,
+    FoodItemService,
+    FoodTypeService,
+    ReviewService
 } from "../services/services.js";
 import { hasValue } from "../utils.js";
 
@@ -18,7 +21,7 @@ export async function getAllEstablishments(aRequest, aResponse) {
         properties.fooditemid = id;
     }
     if (name) {
-        properties.name = {
+        properties.foodestname = {
             operator: "LIKE",
             value: `%${name}%`,
         };
@@ -73,10 +76,6 @@ export async function createNewEstablishment(aRequest, aResponse) {
     }
 
     try {
-        if (!validator.isAlphanumeric(body.name)) {
-            return aResponse.sendErrorClient("Only alphanumeric characters are allowed in the name field");
-        }
-
         const establishmentExists = await FoodEstablishmentService.hasEstablishmentWithName(body.name);
         if (establishmentExists) {
             return aResponse.sendErrorClient("Please use a different name");
@@ -120,10 +119,7 @@ export async function updateOneEstablishment(aRequest, aResponse) {
             return aResponse.sendErrorClient("Changing the user is not allowed");
         }
         if (hasValue(body, "name")) {
-            if (!validator.isAlphanumeric(body.name)) {
-                return aResponse.sendErrorClient("Only alphanumeric characters are allowed in the name field");
-            }
-            properties.name = body.name;
+            properties.foodestname = body.name;
         }
         if (hasValue(body, "location")) {
             properties.location = body.location;
@@ -156,6 +152,23 @@ export async function deleteOneEstablishment(aRequest, aResponse) {
         const establishmentExists = await FoodEstablishmentService.hasEstablishmentWithId(establishmentId);
         if (!establishmentExists) {
             return aResponse.sendErrorClient("Establishment does not exist");
+        }
+
+        const establishmentIdProperty = { foodestid: establishmentId };
+        const reviewDeleteResult = await ReviewService.deleteAllReviews(
+            establishmentIdProperty);
+        if (!reviewDeleteResult) {
+            return aResponse.sendErrorClient("Failed to delete reviews");
+        }
+        const foodTypeDeleteResult = await FoodTypeService.deleteAllFoodTypes(
+            establishmentIdProperty);
+        if (!foodTypeDeleteResult) {
+            return aResponse.sendErrorServer("Failed to delete food types");
+        }
+        const foodItemDeleteResult = await FoodItemService.deleteAllFoodItems(
+            establishmentIdProperty);
+        if (!foodItemDeleteResult) {
+            return aResponse.sendErrorServer("Failed to delete reviews");
         }
 
         const result = await FoodEstablishmentService.deleteOneEstablishment(establishmentId);

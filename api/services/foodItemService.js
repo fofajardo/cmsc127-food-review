@@ -53,6 +53,15 @@ export async function updateOneFoodItem(aId, aProperties) {
     return queryResults.affectedRows > 0;
 }
 
+export async function deleteAllFoodItems(aProperties) {
+    const selectResults = await selectAll(kTableName, aProperties);
+    if (selectResults.length == 0) {
+        return true;
+    }
+    const queryResults = await deleteAll(kTableName, aProperties);
+    return queryResults.affectedRows == selectResults.length;
+}
+
 export async function deleteOneFoodItem(aId) {
     const queryResults = await deleteAll(kTableName, {
         fooditemid: aId

@@ -4,7 +4,9 @@ import {
     Actions, Subjects,
 } from "../enums.js";
 import {
-    FoodItemService
+    FoodItemService,
+    FoodTypeService,
+    ReviewService
 } from "../services/services.js";
 import { hasValue, parseBool } from "../utils.js";
 
@@ -67,7 +69,7 @@ export async function getAllFoodItems(aRequest, aResponse) {
         };
     }
     if (establishmentId) {
-        if (!validator.isNumeric(id)) {
+        if (!validator.isNumeric(establishmentId)) {
             return aResponse.sendErrorClient(
                 "Food establishment ID must be a number");
         }
@@ -229,12 +231,23 @@ export async function deleteOneFoodItem(aRequest, aResponse) {
             return aResponse.sendErrorForbidden();
         }
 
-        // TODO: delete food types.
-
         const foodItemExists = await FoodItemService.hasFoodItemWithId(
             foodItemId);
         if (!foodItemExists) {
             return aResponse.sendErrorClient("Food item does not exist");
+        }
+
+        const foodTypeDeleteResult = await FoodTypeService.deleteAllFoodTypes({
+            fooditemid: foodItemId
+        });
+        if (!foodTypeDeleteResult) {
+            return aResponse.sendErrorClient("Failed to delete food types");
+        }
+        const reviewDeleteResult = await ReviewService.deleteAllReviews({
+            fooditemid: foodItemId
+        });
+        if (!reviewDeleteResult) {
+            return aResponse.sendErrorClient("Failed to delete reviews");
         }
 
         const result = await FoodItemService.deleteOneFoodItem(foodItemId);
