@@ -19,7 +19,7 @@ function useFor(aServer) {
     aServer.use("/api/users", UserRouter);
     aServer.use("/api/food-items", FoodItemRouter);
     aServer.use("/api/food-types", FoodTypeRouter);
-    aServer.use("/api/food-establisments", FoodEstablishmentRouter);
+    aServer.use("/api/food-establishments", FoodEstablishmentRouter);
     aServer.use("/api/auth", AuthRouter);
     aServer.use("/api/reviews", ReviewRouter);
     aServer.use(CatchNotFound);
