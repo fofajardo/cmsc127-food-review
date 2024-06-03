@@ -4,7 +4,7 @@ import {
     Actions, Subjects,
 } from "../enums.js";
 import {
-    EstablishmentService
+    FoodEstablishmentService
 } from "../services/services.js";
 import { hasValue } from "../utils.js";
 
