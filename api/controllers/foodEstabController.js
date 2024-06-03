@@ -13,7 +13,7 @@ import { hasValue } from "../utils.js";
 
 export async function getAllEstablishments(aRequest, aResponse) {
     const properties = {};
-    const { id, name, location } = aRequest.query;
+    const { id, name, location, withRating } = aRequest.query;
     if (id) {
         if (!validator.isNumeric(id)) {
             return aResponse.sendErrorClient("ID must be a number");
@@ -31,6 +31,9 @@ export async function getAllEstablishments(aRequest, aResponse) {
             operator: "LIKE",
             value: `%${location}%`,
         };
+    }
+    if (withRating) {
+        properties.withRating = true;
     }
 
     try {

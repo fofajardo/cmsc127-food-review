@@ -4,19 +4,26 @@ import { selectAll, insert, updateAll, deleteAll } from "../db.js";
 const kTableName = "`fooditem`";
 
 export async function getAllFoodItems(aProperties) {
-    let append = null;
+    let append = "";
     let orderKeys = aProperties.sort;
-    if (aProperties.establishmentName) {
-        append = " NATURAL JOIN `foodestablishment`";
+    if (aProperties.establishmentName || aProperties.full) {
+        append += " NATURAL JOIN `foodestablishment`";
     }
-    if (aProperties.foodType) {
-        append = " NATURAL JOIN `foodtype`";
+    if (aProperties.foodType || aProperties.full) {
+        append += " NATURAL JOIN `foodtype`";
     }
     if (orderKeys != null) {
         delete aProperties.sort;
     }
+    let filter = "*";
+    let groupBy = [];
+    if (aProperties.full) {
+        filter += ", GROUP_CONCAT(type) as types";
+        groupBy.push("fooditemid");
+        delete aProperties.full;
+    }
     const queryResults = await selectAll(
-        kTableName, aProperties, false, append, orderKeys);
+        kTableName, aProperties, false, append, orderKeys, false, filter, groupBy);
     const result = FoodItem.fromRows(queryResults);
     return result;
 }

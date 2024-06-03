@@ -13,14 +13,17 @@ import { hasValue, parseBool } from "../utils.js";
 export async function getAllFoodItems(aRequest, aResponse) {
     const properties = {};
     const {
-        id, priceMin, priceMax, establishmentName, establishmentId, name,
-        foodType, foodTypeIsExact, sortCol, sortOrder
+        id, full, priceMin, priceMax, establishmentName, establishmentId,
+        name, foodType, foodTypeIsExact, sortCol, sortOrder
     } = aRequest.query;
     if (id) {
         if (!validator.isNumeric(id)) {
             return aResponse.sendErrorClient("ID must be a number");
         }
         properties.fooditemid = id;
+    }
+    if (full) {
+        properties.full = true;
     }
     if (priceMin) {
         if (!validator.isNumeric(priceMin)) {

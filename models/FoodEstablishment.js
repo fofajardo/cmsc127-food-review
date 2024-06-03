@@ -7,6 +7,8 @@ export function FoodEstablishment(aRow) {
     this.name = aRow.foodestname;
     /** @type {String} */
     this.location = aRow.location;
+    /** @type {Number} */
+    this.averageRating = aRow.average_rating;
 }
 
 FoodEstablishment.prototype.toValues = function() {

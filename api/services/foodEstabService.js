@@ -2,9 +2,14 @@ import { FoodEstablishment } from "../../models/_models.js";
 import { selectAll, insert, updateAll, deleteAll } from "../db.js";
 
 const kTableName = "`foodestablishment`";
+const kTableNameWithRating = "`ratedfoodestablishment`";
 
 export async function getAllEstablishments(aProperties) {
-    const queryResults = await selectAll(kTableName, aProperties);
+    const withRating = aProperties.withRating ?? false;
+    if (aProperties.withRating) {
+        delete aProperties.withRating;
+    }
+    const queryResults = await selectAll(withRating ? kTableNameWithRating : kTableName, aProperties);
     return FoodEstablishment.fromRows(queryResults);
 }
 

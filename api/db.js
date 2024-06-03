@@ -63,11 +63,12 @@ export async function selectAll(
     aAppend = null,
     aOrderKeys = [],
     aDistinct = false,
-    aFilter = "*"
+    aFilter = "*",
+    aGroupBy = null,
 ) {
     let distinct = aDistinct ? " DISTINCT" : "";
     let query = `SELECT${distinct} ${aFilter} FROM ${aTableName}`;
-    if (aAppend) {
+    if (aAppend && aAppend?.trim() != "") {
         query += aAppend;
     }
     let keys = Object.keys(aProperties);
@@ -75,6 +76,10 @@ export async function selectAll(
     if (keys.length > 0) {
         query += " WHERE";
         query += _buildFilter(keys, values, aUseOr);
+    }
+    if (Array.isArray(aGroupBy) && aGroupBy?.length > 0) {
+        query += " GROUP BY ";
+        query += aGroupBy.join(", ");
     }
     if (aOrderKeys.length > 0) {
         query += " ORDER BY ";
