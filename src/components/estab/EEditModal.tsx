@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FoodEstablishment } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper.js";
 
 export function EEditModal({
   establishment,
@@ -46,10 +48,13 @@ export function EEditModal({
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      //@TODO: implement edit establishment
-      setSubmitComplete(true); // kunware lang na-submit na
+      const response = await axios.put(apiUrls.foodEstablishments(establishment.id.toString()), formData);
+      if (response.data.data) {
+        setSubmitComplete(true);
+      }
+      setSubmitComplete(true);
     }
   };
 
@@ -60,7 +65,7 @@ export function EEditModal({
       location: establishment.location,
       // description: establishment.description,
     });
-  }, []);
+  }, [establishment]);
   return (
     <dialog className="modal" id="editEstablishmentModal">
       <div className="modal-box bg-base-100 p-0">

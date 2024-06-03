@@ -6,7 +6,6 @@ import { IoLocationSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router-dom";
 import { YoursBadge } from "../common/YoursBadge";
 
-// @todo: pass props to the component to display the establishment name, establishment rating, and food rating
 export function EFEstablishmentCard({
   establishment,
 }: {
