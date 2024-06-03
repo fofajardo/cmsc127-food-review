@@ -70,11 +70,11 @@ CREATE VIEW ratedfoodestablishment (foodestid, location, name, userid, average_r
 
 -- Create users
 INSERT INTO user (name, password, salt, username, email, is_owner, is_end_user) VALUES
-    ("Jose P. Rizal",       "password1234", "", "jpr1890",     "jpr@mudspring.uplb.edu.ph", 0, 1),
-    ("Frank O. Wilco",      "password1234", "", "frankwilco",  "fow@mudspring.uplb.edu.ph", 1, 0),
-    ("Saysay F. Ramon",     "password1234", "", "ramonsf",     "sfr@mudspring.uplb.edu.ph", 0, 1),
-    ("William M. Saunders", "password1234", "", "williams21",  "wms@mudspring.uplb.edu.ph", 1, 0),
-    ("Jane L. Ryan",        "password1234", "", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
+    ("Jose P. Rizal",       "371cfd814ec934afec4fe961cc4662f9535a4220cfb3fdcba8f9439d806fb3c5", "f93368ce62deb074f2793e951858b77a", "jpr1890",     "jpr@mudspring.uplb.edu.ph", 0, 1),
+    ("Frank O. Wilco",      "371cfd814ec934afec4fe961cc4662f9535a4220cfb3fdcba8f9439d806fb3c5", "f93368ce62deb074f2793e951858b77a", "frankwilco",  "fow@mudspring.uplb.edu.ph", 1, 0),
+    ("Saysay F. Ramon",     "371cfd814ec934afec4fe961cc4662f9535a4220cfb3fdcba8f9439d806fb3c5", "f93368ce62deb074f2793e951858b77a", "ramonsf",     "sfr@mudspring.uplb.edu.ph", 0, 1),
+    ("William M. Saunders", "371cfd814ec934afec4fe961cc4662f9535a4220cfb3fdcba8f9439d806fb3c5", "f93368ce62deb074f2793e951858b77a", "williams21",  "wms@mudspring.uplb.edu.ph", 1, 0),
+    ("Jane L. Ryan",        "371cfd814ec934afec4fe961cc4662f9535a4220cfb3fdcba8f9439d806fb3c5", "f93368ce62deb074f2793e951858b77a", "janeryan",    "jlr@mudspring.uplb.edu.ph", 0, 1);
 
 -- Create food establishments
 INSERT INTO foodestablishment (location, foodestname, userid)  VALUES
