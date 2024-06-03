@@ -101,7 +101,7 @@ export async function getOneReview(aRequest, aResponse) {
 export async function createNewReview(aRequest, aResponse) {
     const { body } = aRequest;
     const requiredProps = [
-        "type", "note", "date", "rating", "userId", "foodEstablishmentId", "foodItemId"
+        "type", "note", "date", "rating", "foodEstablishmentId", "foodItemId"
     ];
     if (aResponse.sendErrorEmptyBody(requiredProps)) {
         return;
@@ -110,9 +110,6 @@ export async function createNewReview(aRequest, aResponse) {
     try {
         if (aRequest.you.cannot(Actions.CREATE, Subjects.REVIEW)) {
             return aResponse.sendErrorForbidden();
-        }
-        if (!validator.isNumeric(body.rating)) {
-            return aResponse.sendErrorClient("Rating must be a number");
         }
 
         const review = {

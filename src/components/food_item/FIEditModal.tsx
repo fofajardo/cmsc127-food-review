@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FoodItem } from "../../../models/_models.js";
+import axios from "axios";
+import { apiUrls } from "../../apiHelper";
 
 export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
   const [submitComplete, setSubmitComplete] = useState(false);
@@ -43,18 +45,15 @@ export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      // convert foodTypes to array
-      const foodTypesArray = formData.foodTypes
-        .split(",")
-        .map((item) => item.trim());
-      console.log({
-        ...formData,
-        foodTypes: foodTypesArray,
-      });
-      //@TODO: implement edit food item
-      setSubmitComplete(true); // simulate successful submission
+      let response = await axios.put(apiUrls.foodItems(foodItem.id.toString()), formData);
+      if (response.data.data) {
+        response = await axios.post(apiUrls.foodTypesOfFoodItem(foodItem.id.toString()), { names: formData.foodTypes });
+        if (response.data.data) {
+          setSubmitComplete(true);
+        }
+      }
     }
   };
 
@@ -65,7 +64,7 @@ export function FIEditModal({ foodItem }: { foodItem: FoodItem }) {
       price: foodItem?.price?.toString(),
       foodTypes: foodItem?.types,
     });
-  }, []);
+  }, [foodItem]);
 
   return (
     <dialog className="modal" id="editFoodItemModal">

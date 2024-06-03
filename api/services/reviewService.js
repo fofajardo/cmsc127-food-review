@@ -31,7 +31,7 @@ export async function hasReviewWithId(aId) {
 }
 
 export async function createNewReview(aReview) {
-    const queryResults = await insert(kTableName, aReview.toValues());
+    const queryResults = await insert(kTableName, aReview);
     return queryResults.affectedRows === 1;
 }
 

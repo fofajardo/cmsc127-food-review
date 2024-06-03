@@ -3,7 +3,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import axios from "axios";
 import { FoodEstablishment } from "../../../models/FoodEstablishment";
 import { apiUrls } from "../../apiHelper";
-import { FoodItem } from "../../../models/FoodItem";
 
 export function EAddFoodItemModal({
   establishment,
