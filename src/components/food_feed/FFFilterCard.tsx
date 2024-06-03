@@ -15,13 +15,13 @@ export function FoodItemFeedFilterCard() {
     let searchFoodType = (
       document.getElementById("foodSearchTypeInput") as HTMLInputElement
     ).value;
-    let year = (document.getElementById("foodYearInput") as HTMLInputElement)
-      .value;
-    let month = (
-      document.getElementById("foodMonthSelect") as HTMLSelectElement
-    ).value;
+    // let year = (document.getElementById("foodYearInput") as HTMLInputElement)
+    //   .value;
+    // let month = (
+    //   document.getElementById("foodMonthSelect") as HTMLSelectElement
+    // ).value;
     // combine year and month into "YYYY-MM"
-    if (year && month) year = year + "-" + month;
+    // if (year && month) year = year + "-" + month;
     let sortInput = (
       document.getElementById("foodSortSelect") as HTMLSelectElement
     ).value;
@@ -30,7 +30,7 @@ export function FoodItemFeedFilterCard() {
     // // process the rating input
     // if (rating === "All (0-5 stars)") rating = "0";
     // else if (rating === "High (4 stars or higher)") rating = "1";
-    applyFilter(establishmentId, searchString, searchFoodType, year, sortInput);
+    applyFilter(establishmentId, searchString, searchFoodType, "" /*year*/, sortInput);
   };
   const handleClearClick = () => {
     // clear the input fields
@@ -43,9 +43,9 @@ export function FoodItemFeedFilterCard() {
     (document.getElementById(
       "foodSearchTypeInput"
     ) as HTMLInputElement)!.value = "";
-    (document.getElementById("foodYearInput") as HTMLInputElement)!.value = "";
-    (document.getElementById("foodMonthSelect") as HTMLSelectElement)!.value =
-      "Month";
+    // (document.getElementById("foodYearInput") as HTMLInputElement)!.value = "";
+    // (document.getElementById("foodMonthSelect") as HTMLSelectElement)!.value =
+    //   "Month";
     (document.getElementById("foodSortSelect") as HTMLSelectElement)!.value =
       "Sort by";
     applyFilter("", "", "", "", "");

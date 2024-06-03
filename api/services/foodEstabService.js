@@ -5,11 +5,15 @@ const kTableName = "`foodestablishment`";
 const kTableNameWithRating = "`ratedfoodestablishment`";
 
 export async function getAllEstablishments(aProperties) {
+    let orderKeys = aProperties.sort;
     const withRating = aProperties.withRating ?? false;
     if (aProperties.withRating) {
         delete aProperties.withRating;
     }
-    const queryResults = await selectAll(withRating ? kTableNameWithRating : kTableName, aProperties);
+    if (orderKeys != null) {
+        delete aProperties.sort;
+    }
+    const queryResults = await selectAll(withRating ? kTableNameWithRating : kTableName, aProperties, false, null, orderKeys);
     return FoodEstablishment.fromRows(queryResults);
 }
 

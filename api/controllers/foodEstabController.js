@@ -13,12 +13,21 @@ import { hasValue } from "../utils.js";
 
 export async function getAllEstablishments(aRequest, aResponse) {
     const properties = {};
-    const { id, name, location, withRating } = aRequest.query;
+    const { id, name, location, withRating, highRatingOnly, sortCol, sortOrder } = aRequest.query;
     if (id) {
         if (!validator.isNumeric(id)) {
             return aResponse.sendErrorClient("ID must be a number");
         }
         properties.fooditemid = id;
+    }
+    if (sortCol) {
+        if (sortOrder !== "ASC" && sortOrder !== "DESC") {
+            return aResponse.sendErrorClient("Unknown sort order");
+        }
+        if (sortCol !== "average_rating" && sortCol !== "foodestname") {
+            return aResponse.sendErrorClient("Unknown sort column");
+        }
+        properties.sort = [`${sortCol} ${sortOrder}`];
     }
     if (name) {
         properties.foodestname = {
@@ -32,8 +41,15 @@ export async function getAllEstablishments(aRequest, aResponse) {
             value: `%${location}%`,
         };
     }
-    if (withRating) {
+    if (withRating || highRatingOnly) {
         properties.withRating = true;
+    }
+    if (highRatingOnly) {
+        properties.rating = {
+            operator: ">=",
+            value: "4",
+            colName: "average_rating",
+        };
     }
 
     try {

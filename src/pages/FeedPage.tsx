@@ -44,15 +44,40 @@ export function EstablishmentFeedPage() {
     });
   }, []);
 
-  // @TODO: implement filter logic
   const applyEstablishmentFilter = (
     search: string,
     rating: number, // 0:all or 1:high rating (4 above)
     sort: string // what kind of sort?
   ) => {
-    // use setEstablishments()
+    // XXX(fofajardo): this should've been separated by col and order, NOT sort display string...
+    let sortCol = "foodestname";
+    let sortOrder = "ASC";
+    switch (sort) {
+      case "Ascending Rating":
+        sortCol = "average_rating";
+        sortOrder = "ASC";
+        break;
+      case "Descending Rating":
+        sortCol = "average_rating";
+        sortOrder = "DESC";
+        break;
+      case "Alphabetical A-Z":
+        sortCol = "foodestname";
+        sortOrder = "ASC";
+        break;
+      case "Alphabetical Z-A":
+        sortCol = "foodestname";
+        sortOrder = "DESC";
+        break;
+      default:
+        break;
+    }
+    let ratingArg = (rating == 1) ? "1" : "";
+    axios.get(apiUrls.foodEstablishments(`?name=${search}&highRatingOnly=${ratingArg}&sortCol=${sortCol}&sortOrder=${sortOrder}&withRating=1`)).then(function(aResponse) {
+      setEstablishments(aResponse.data.data);
+    });
   };
-  // @TODO: implement filter logic
+
   const applyFoodItemFilter = (
     establishmentId: string,
     searchName: string,
@@ -60,8 +85,9 @@ export function EstablishmentFeedPage() {
     month: string, // "YYYY-MM"
     sort: string // what kind of sort?
   ) => {
+    console.log("Test");
     // XXX(fofajardo): this should've been separated by col and order, NOT sort display string...
-    let sortCol = "name";
+    let sortCol = "fooditemname";
     let sortOrder = "ASC";
     switch (sort) {
       case "Ascending Price":
@@ -88,7 +114,6 @@ export function EstablishmentFeedPage() {
       `?establishmentId=${establishmentId}&name=${searchName}&foodType=${searchType}&sortCol=${sortCol}&sortOrder=${sortOrder}&full=1`)).then(function(aResponse) {
       setFoodItems(aResponse.data.data);
     });
-    // use setFoodItems()
   };
 
   // toggle for showing establishment (false) or food items (true)
