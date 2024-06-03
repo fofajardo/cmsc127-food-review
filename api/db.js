@@ -18,10 +18,19 @@ export function getPool() {
     return _pool;
 }
 
-export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend = null) {
-    let query = `SELECT * FROM ${aTableName}`;
+export async function selectAll(
+    aTableName,
+    aProperties,
+    aUseOr = false,
+    aAppend = null,
+    aOrderKeys = [],
+    aDistinct = false,
+    aFilter = "*"
+) {
+    let distinct = aDistinct ? " DISTINCT" : "";
+    let query = `SELECT${distinct} ${aFilter} FROM ${aTableName}`;
     if (aAppend) {
-        query += ` ${aAppend}`;
+        query += aAppend;
     }
     let keys = Object.keys(aProperties);
     let values = Object.values(aProperties);
@@ -34,7 +43,7 @@ export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend
             }
             const operator = values[i]?.operator;
             if (operator != null) {
-                query += ` ${keys[i]} ${operator} ?`
+                query += ` ${keys[i]} ${operator} ?`;
             } else {
                 query += ` ${keys[i]}=?`;
             }
@@ -46,6 +55,10 @@ export async function selectAll(aTableName, aProperties, aUseOr = false, aAppend
                 query += aUseOr ? " OR" : " AND";
             }
         }
+    }
+    if (aOrderKeys.length > 0) {
+        query += " ORDER BY ";
+        query += aOrderKeys.join(", ");
     }
     const [queryResults] = await getPool().execute(query, values);
     return queryResults;
@@ -74,7 +87,7 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
         for (let i = 0; i < filterKeys.length; i++) {
             const operator = filterValues[i]?.operator;
             if (operator != null) {
-                query += ` ${filterKeys[i]} ${operator} ?`
+                query += ` ${filterKeys[i]} ${operator} ?`;
             } else {
                 query += ` ${filterKeys[i]}=?`;
             }
@@ -95,10 +108,20 @@ export async function updateAll(aTableName, aUpdate, aFilter, aUseOr = false) {
     return queryResults;
 }
 
-export async function insert(aTableName, aTuple) {
+export async function insert(aTableName, aTupleOrKeys, aValues = null) {
     let query = `INSERT INTO ${aTableName}`;
-    let keys = Object.keys(aTuple);
-    let values = Object.values(aTuple);
+
+    let keys = null;
+    let allValues = null;
+
+    if (Array.isArray(aTupleOrKeys) && Array.isArray(aValues)) {
+        keys = aTupleOrKeys;
+        allValues = aValues;
+    } else {
+        keys = Object.keys(aTupleOrKeys);
+        allValues = [Object.values(aTupleOrKeys)];
+    }
+
     if (keys.length == 0) {
         throw Error("Object is empty");
     }
@@ -109,17 +132,26 @@ export async function insert(aTableName, aTuple) {
             query += ", ";
         }
     }
-    query += ") VALUES (";
-    for (let i = 0; i < values.length; i++) {
-        query += "?";
-        if (i < values.length - 1) {
+    query += ") VALUES ";
+
+    for (let i = 0; i < allValues.length; i++) {
+        const values = allValues[i];
+        query += "(";
+        for (let j = 0; j < values.length; j++) {
+            query += "?";
+            if (j < values.length - 1) {
+                query += ", ";
+            }
+        }
+        query += ")";
+        if (i < allValues.length - 1) {
             query += ", ";
         }
     }
-    query += ")";
+
     const [queryResults] = await getPool().execute(
         query,
-        values
+        allValues.flat()
     );
     return queryResults;
 }
@@ -133,7 +165,7 @@ export async function deleteAll(aTableName, aProperties, aUseOr = false) {
         for (let i = 0; i < keys.length; i++) {
             const operator = values[i]?.operator;
             if (operator != null) {
-                query += ` ${keys[i]} ${operator} ?`
+                query += ` ${keys[i]} ${operator} ?`;
             } else {
                 query += ` ${keys[i]}=?`;
             }

@@ -25,7 +25,8 @@ export function ResponseHelper(aRequest, aResponse, aNext) {
             FILTER.some(keyword => aRequest.originalUrl?.includes(keyword));
         if (LOG && passedFilter) {
             console.log("");
-            console.log(`${aRequest.method} (${aStatusCode}) ${aRequest.originalUrl}`);
+            console.log(
+                `${aRequest.method} (${aStatusCode}) ${aRequest.originalUrl}`);
             if (aRequest.hasSpecialPowers) {
                 console.log("<request has special powers>");
             }
@@ -33,10 +34,14 @@ export function ResponseHelper(aRequest, aResponse, aNext) {
             console.log(inspect(body, false, null, true));
         }
         let traceReason = null;
-        if ((TRACE_SERVER_ERROR && aStatusCode == StatusCodes.INTERNAL_SERVER_ERROR) ||
-            (TRACE_UNAUTHORIZED && aStatusCode == StatusCodes.UNAUTHORIZED) ||
-            (TRACE_BAD_REQUEST && aStatusCode == StatusCodes.BAD_REQUEST) ||
-            (TRACE_FORBIDDEN && aStatusCode == StatusCodes.FORBIDDEN) ||
+        if ((TRACE_SERVER_ERROR &&
+                aStatusCode == StatusCodes.INTERNAL_SERVER_ERROR) ||
+            (TRACE_UNAUTHORIZED &&
+                aStatusCode == StatusCodes.UNAUTHORIZED) ||
+            (TRACE_BAD_REQUEST &&
+                aStatusCode == StatusCodes.BAD_REQUEST) ||
+            (TRACE_FORBIDDEN &&
+                aStatusCode == StatusCodes.FORBIDDEN) ||
             (TRACE_ALL)) {
             traceReason = aStatusCode;
         }
