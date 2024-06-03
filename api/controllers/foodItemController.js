@@ -76,7 +76,10 @@ export async function getAllFoodItems(aRequest, aResponse) {
             return aResponse.sendErrorClient(
                 "Food establishment ID must be a number");
         }
-        properties.foodestid = establishmentId;
+        properties.establishmentId = {
+            value: establishmentId,
+            colName: "`fooditem`.foodestid",
+        };
     }
     if (sortCol) {
         if (sortOrder != "ASC" && sortOrder != "DESC") {
