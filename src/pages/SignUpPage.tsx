@@ -1,12 +1,17 @@
 import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
 import { FaUtensils } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { apiUrls } from "../apiHelper";
+import axios from "axios";
+import { User } from "../../models/_models.js";
 
 interface FormData {
   name: string;
   username: string;
   email: string;
   password: string;
+  isOwner: boolean;
+  roleName: string,
 }
 
 interface Errors {
@@ -23,6 +28,8 @@ export function Signup() {
     username: "",
     email: "",
     password: "",
+    isOwner: false,
+    roleName: "end_user"
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -30,7 +37,7 @@ export function Signup() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.type == "checkbox" ? e.target.checked : e.target.value,
     });
   };
 
@@ -44,20 +51,30 @@ export function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Signup successful", formData);
-      // @TODO: implement nio signup logic dito; siguro store nio yung username, name, email sa browser local storage or sa cookies
-
-      // @TODO: replace this
-      // set user_id, name, username, email to local storage
-      localStorage.setItem("user_id", "1234567890");
-      localStorage.setItem("email", formData.email);
-      localStorage.setItem("name", "Juan Dela Cruz");
-      localStorage.setItem("username", "juandelacruz");
-
-      // @TODO: after signup, call login method, then redirect to feed page
+      formData.roleName = formData.isOwner ? "owner" : "end_user";
+      const response = await axios.post(
+        apiUrls.auth("sign-up"),
+        formData
+      );
+      if (!response.data.error) {
+        const response = await axios.post(
+          apiUrls.auth("sign-in"),
+          { username: formData.username, password: formData.password }
+        );
+        const user = response.data.data as User;
+        localStorage.setItem("user_id", user.id.toString());
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("username", user.username);
+        if (!user.isEndUser && !user.isOwner) {
+          localStorage.setItem("is_admin", "true");
+        }
+        // navigate to feed page
+        navigate("/feed");
+      }
     }
   };
 
@@ -116,7 +133,7 @@ export function Signup() {
                 <p className="text-red-500 text-xs mt-1">{errors.email}</p>
               )}
             </div>
-            <div className="form-control mb-4">
+            <div className="form-control">
               <label className="label" htmlFor="password">
                 Password
               </label>
@@ -131,8 +148,20 @@ export function Signup() {
                 <p className="text-red-500 text-xs mt-1">{errors.password}</p>
               )}
             </div>
+            <div className="form-control mb-4">
+              <label className="label">
+              <span className="label-text">I am an establishment owner</span>
+                <input
+                  type="checkbox"
+                  name="isOwner"
+                  value="isOwner"
+                  onChange={handleChange}
+                  className="checkbox"
+                />
+              </label>
+            </div>
             <button type="submit" className="btn btn-primary w-full">
-              Signup
+              Sign Up
             </button>
             <div className="flex flex-row gap-2 text-gray-600 mt-2 justify-end">
               <p>Already have an account?</p>
