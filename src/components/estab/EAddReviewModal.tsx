@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FeedContext } from "../../pages/FeedPage.tsx";
-import { Establishment } from "../../models/Establishment.ts";
+import { FoodEstablishment } from "../../../models/_models";
 
 export function EAddReviewModal({
   establishment,
 }: {
-  establishment: Establishment;
+  establishment: FoodEstablishment;
 }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [starRating, setStarRating] = useState(5);

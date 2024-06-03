@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { Establishment } from "../../models/Establishment";
+import { FoodEstablishment } from "../../../models/_models";
 import { useNavigate } from "react-router-dom";
 
 export function EDeleteModal({
   establishment,
 }: {
-  establishment: Establishment;
+  establishment: FoodEstablishment;
 }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const navigate = useNavigate();

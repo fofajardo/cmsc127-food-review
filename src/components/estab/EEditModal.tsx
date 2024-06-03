@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Establishment } from "../../models/Establishment";
+import { FoodEstablishment } from "../../../models/_models";
 import { FaCheckCircle } from "react-icons/fa";
 
 export function EEditModal({
   establishment,
 }: {
-  establishment: Establishment;
+  establishment: FoodEstablishment;
 }) {
   const [submitComplete, setSubmitComplete] = useState(false);
   const [formData, setFormData] = useState({
