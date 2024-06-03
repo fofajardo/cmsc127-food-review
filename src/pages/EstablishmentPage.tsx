@@ -14,6 +14,7 @@ import { EAddFoodItemModal } from "../components/estab/EAddFoodItemModal.tsx";
 import { EDeleteModal } from "../components/estab/EDeleteModal.tsx";
 import { EEditModal } from "../components/estab/EEditModal.tsx";
 import { FoodEstablishment, Review, FoodItem } from "../../models/_models";
+import axios from "axios";
 
 export function EstablishmentPage() {
   const [establishment, setEstablishments] = useState({} as FoodEstablishment);
@@ -21,15 +22,61 @@ export function EstablishmentPage() {
   const [establishmentReviews, setEstablishmentReviews] = useState([] as Review[]);
   const [foodItems, setFoodItems] = useState([] as FoodItem[]);
 
+  const establishmentId = new URLSearchParams(window.location.search).get(
+    "id"
+  ); 
+
+  const fetchEstablishments = async () => {
+    try {
+      const response = await axios.get(`/api/food-establishments/${establishmentId}`)
+      setEstablishments(response.data.data);
+    } catch (error) {
+      //setEstablishments();
+      console.error("Error fetching establishments: ", error);
+    }
+  }
+
+  const fetchEstablishmentReviews = async () => {
+    try {
+      const response = await axios.get("/api/reviews", {
+        params: {
+          establishmentId: establishmentId,
+          type: 'food_establishment',
+        }
+      });
+      const reviewsData = response.data.data.map(review => new Review(review));
+      setEstablishmentReviews(reviewsData);
+    } catch (error) {
+      console.error("Error fetching establishment reviews: ", error);
+    }
+  };
+
+  const fetchFoodItems = async () => {
+    try {
+      const response = await axios.get("/api/food-items", {
+        params: {
+          establishmentId: establishmentId,
+        }
+      });
+      const foodItemsData = response.data.data.map(fooditems => new FoodItem(fooditems));
+      setFoodItems(foodItemsData);
+    } catch (error) {
+      console.error("Error fetching establishment reviews: ", error);
+    }
+  };
+
+
   // upon render, fetch establishment details, all of its reviews, and food items
   useEffect(() => {
     //@TODO: implement this
     // use setEstablishment, setEstablishmentReviews, and setFoodItems
 
     // get the establishment ID from the query string
-    const establishmentId = new URLSearchParams(window.location.search).get(
-      "id"
-    ); // use this to fetch establishment details
+    // use this to fetch establishment details
+
+    fetchEstablishments();
+    fetchEstablishmentReviews();
+    fetchFoodItems();
   }, []);
 
   const [applyFilterEnabled, setApplyFilterEnabled] = useState(false);
